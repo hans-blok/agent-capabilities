@@ -169,9 +169,9 @@ Elke agent moet volledig gedocumenteerd zijn:
 - **Minimaal één werkend voorbeeld**: Praktijkscenario met verwacht resultaat
 
 **Bestandsnaamgeving**:
-- Agent-beschrijving: `<prefix>-<taaknaam>.md` (bijv. `C.01-conceptueel-datamodel.md`)
-- Agent-definitie: `<taaknaam>.agent.md` (bijv. `conceptueel-datamodel.agent.md`)
-- Prompt-bestand: `<taaknaam>.prompt.md` (bijv. `conceptueel-datamodel.prompt.md`)
+- Agent-beschrijving: `<PREFIX>-<taaknaam>.md` (bijv. `D.01-service-architect.md`)
+- Agent-definitie: `<taaknaam>.agent.md` (bijv. `service-architect.agent.md`)
+- Prompt-bestand: `<stream>.<taaknaam>.prompt.md` (bijv. `d.service-architect.prompt.md`)
 
 ### 3.2 Herbruikbaarheid
 Agents moeten **domeinonafhankelijk** zijn:
@@ -200,21 +200,35 @@ Agent-gedrag moet **consistent en reproduceerbaar** zijn:
    - Bestaat er al een vergelijkbare agent?
    - Is de agent herbruikbaar in meerdere projecten?
    - **In welke DVS-stream hoort deze agent thuis?**
+   - **Bestaat er een charter voor deze agent in de standards repository?**
 
-2. **Ontwerp de agent**
-   - Definieer doel en scope
+2. **Charter Verificatie** (VERPLICHT)
+   - **Agents mogen ALLEEN worden aangemaakt als een geldig charter bestaat**
+   - Charter repository: **https://github.com/hans-blok/standard**
+   - Charter locatie: `charters.agents/<stream>/<stream-folder>/std.agent.charter.<stream>.<taaknaam>.md`
+   - Voorbeelden:
+     - `charters.agents/d.ontwerp/std.agent.charter.d.service-architect.md`
+     - `charters.agents/c.specificatie/std.agent.charter.c.requirements.md`
+   - GitHub URL voorbeeld: `https://github.com/hans-blok/standard/blob/main/charters.agents/d.ontwerp/std.agent.charter.d.service-architect.md`
+   - Als charter niet bestaat: maak eerst charter in standards repository voordat agent wordt aangemaakt
+   - Agent MOET werken volgens de principes en regels in het charter
+   - Charter bevat: rol-definitie, verantwoordelijkheden, kwaliteitscriteria, werk-principes
+
+3. **Ontwerp de agent**
+   - Definieer doel en scope (conform charter)
    - Bepaal input en output formaten
    - Identificeer afhankelijkheden en beperkingen
    - **Bepaal DVS-positie** (stream A-G)
 
-3. **Creëer de agent via agnt-cap.moeder**
+4. **Creëer de agent via agnt-cap.moeder**
    - Gebruik `@github /agnt-cap.moeder` om de agent te creëren
-   - Geef aan: domein, taaknaam, context, **en gewenste DVS-stream**
+   - Geef aan: taaknaam, context, **en gewenste DVS-stream**
+   - Moeder-agent verifieert charter bestaat voordat agent wordt aangemaakt
    - Moeder-agent bepaalt definitieve positie en prefix
    - Bij twijfel vraagt moeder-agent om verduidelijking
    - Volg de workflow van de moeder-agent
 
-4. **Test de agent**
+5. **Test de agent**
    - Test met minimaal één praktijkvoorbeeld
    - Valideer output
    - Documenteer resultaten
@@ -323,30 +337,99 @@ Verantwoordelijk voor:
 
 **DVS Prefix Systeem**:
 - Elke agent krijgt een prefix die zijn positie in de Development Value Stream aangeeft
-- Format: `<STREAM>.<VOLGNUMMER>` (bijv. `C.01`, `D.05`, `F.03`)
+- Format: `<STREAM>.<VOLGNUMMER>` (bijv. `C.01`, `D.05`, `F.03`) - **hoofdletters** voor documentatie
 - Streams: A=Trigger, B=Architectuur, C=Specificeren, D=Ontwerp, E=Bouw, F=Valideren, G=Deploy
 - Volgnummers: 01-99 (per stream)
 
-**Agent-namen**: kebab-case (bijv. `conceptueel-datamodel`, `md-to-docx`)
+**Agent-namen**: kebab-case (bijv. `service-architect`, `md-to-docx`)
+
+**Folder Structuur** (kleine letters met beschrijvende namen):
+- Stream A → `a.trigger`
+- Stream B → `b.architectuur`
+- Stream C → `c.specificatie`
+- Stream D → `d.solution-design`
+- Stream E → `e.bouw`
+- Stream F → `f.validatie`
+- Stream G → `g.deployment`
 
 **Bestanden**:
-- Agent-definitie: `.github/agents/<stream>/<taaknaam>.agent.md`
-- Prompt-bestand: `.github/prompts/<stream>/<taaknaam>.prompt.md`
-- Agent-beschrijving: `desc-agents/<stream>/<PREFIX>-<taaknaam>.md` (bijv. `C.01-conceptueel-datamodel.md`)
-- Scripts: `agnt-cap-kit/scripts/<stream>.<taaknaam>.ps1` (bijv. `C.md-to-docx.ps1`)
+- Agent-definitie: `.github/agents/<stream-folder>/<taaknaam>.agent.md`
+  - Voorbeeld: `.github/agents/d.solution-design/service-architect.agent.md`
+- Prompt-bestand: `.github/prompts/<stream>.<taaknaam>.prompt.md` (kleine letter, in root voor Copilot)
+  - Voorbeeld: `.github/prompts/d.service-architect.prompt.md`
+- Agent-beschrijving: `desc-agents/<stream-folder>/<PREFIX>-<taaknaam>.md`
+  - Voorbeeld: `desc-agents/d.solution-design/D.01-service-architect.md`
+- Scripts: `agnt-cap-kit/scripts/<stream>.<taaknaam>.ps1` (kleine letter)
+  - Voorbeeld: `agnt-cap-kit/scripts/d.service-architect.ps1`
+
+**Opmerking**: Prompt bestanden staan in de root van `.github/prompts/` zodat ze beschikbaar zijn via `@github /<stream>.<taaknaam>` (kleine letter). Agents en beschrijvingen zijn georganiseerd in subfolders met beschrijvende namen.
+
+**Activatie voorbeelden**:
+- `@github /d.service-architect` - Stream D: Solution Design
+- `@github /c.datamodel` - Stream C: Specificatie
+- `@github /f.test-generator` - Stream F: Validatie
+- `@github /u.md-to-docx` - Utility agent
+
+### 8.2 PowerShell Scripts (Voor File-Genererende Agents)
+
+**Wanneer is een PowerShell script verplicht?**
+
+Een PowerShell script is **verplicht** voor agents die:
+- **Bestanden genereren** (conversie, transformatie, creatie)
+- **Output schrijven** naar het bestandssysteem
+- **Herhaalde uitvoering** vereisen zonder AI-interactie
+
+**Wanneer is een script optioneel?**
+
+Een PowerShell script is **optioneel** voor agents die:
+- Alleen **analyseren** zonder output bestanden te maken
+- **Valideren** met true/false resultaat
+- **Orchestreren** (coördinatie tussen andere agents)
+
+**Script Vereisten**:
+
+1. **Naamgeving**:
+   - DVS-agents: `<stream>.<taaknaam>.ps1` (bijv. `C.datamodel.ps1`)
+   - Utility agents: `u.<taaknaam>.ps1` (bijv. `u.md-to-docx.ps1`)
+
+2. **Locatie**:
+   - `agnt-cap-kit/scripts/`
+
+3. **Features** (verplicht):
+   - Parameter validatie met `[Parameter(Mandatory=$true)]`
+   - Error handling met try/catch
+   - Progress reporting (Write-Host met kleuren)
+   - Exit codes (0 = success, 1+ = error)
+
+4. **Documentatie** (verplicht):
+   - Comment-based help met `.SYNOPSIS`, `.DESCRIPTION`
+   - `.PARAMETER` voor elke parameter
+   - `.EXAMPLE` met minimaal 2 voorbeelden
+   - `.NOTES` met agent naam en versie
 
 **Voorbeelden**:
-- `C.01-conceptueel-datamodel.md` - Eerste agent in Specificeren stream
-- `D.05-api-specificatie.md` - Vijfde agent in Ontwerp stream
-- `F.02-test-data-generator.md` - Tweede agent in Valideren stream
 
-### 8.2 Documentatie Niveau
+**File-genererende agent (script verplicht)**:
+- `u.md-to-docx` - Genereert DOCX bestand → Script: `u.md-to-docx.ps1` ✓
+- `u.md-to-dsl` - Genereert DSL bestand → Script: `u.md-to-dsl.ps1` ✓
+- `C.datamodel` - Genereert ERD diagram → Script: `C.datamodel.ps1` ✓
+
+**Analyse/validatie agent (script optioneel)**:
+- `F.yaml-validator` - Valideert YAML → Script optioneel
+- `F.code-quality` - Analyseert code → Script optioneel
+
+**Rationale**:
+- Scripts maken agents **automation-ready**
+- Hergebruik zonder AI versnelt workflows
+- Consistency tussen agent en script output
+
+### 8.3 Documentatie Niveau
 
 - Alle documentatie op **B1-niveau** (begrijpelijk voor niet-technische lezers)
 - Formeel, duidelijk en eenvoudig
 - Geen jargon zonder uitleg
 
-### 8.3 Versiebeheer
+### 8.4 Versiebeheer
 
 - Gebruik van Git voor versiebeheer
 - Duidelijke commit messages
@@ -392,6 +475,15 @@ Op basis van praktijkervaring kunnen nieuwe categorieën worden toegevoegd:
 ### 10.3 Integratie met Standards Repository
 
 Agents kunnen normen en standaarden uit de Standards repository toepassen bij hun werk.
+
+**Standards Repository**: https://github.com/hans-blok/standard
+
+**Charters Locatie**: `charters.agents/` met subfolders per DVS-stream
+
+**Toegang**:
+- Agents verwijzen naar charter via GitHub URL of relatief pad
+- Charter wordt gelezen tijdens agent creatie
+- Agent-definitie bevat verwijzing naar charter locatie
 
 ---
 

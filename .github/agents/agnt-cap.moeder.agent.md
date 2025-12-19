@@ -41,6 +41,14 @@ De moeder-agent mag NIET verder gaan voordat deze informatie volledig is verstre
    - Input en output formaten
    - In welke fase van softwareontwikkeling wordt deze agent ingezet?
 
+4. **Charter Verificatie** (verplicht)
+   - **Agents mogen ALLEEN worden aangemaakt als een geldig charter bestaat**
+   - Charter repository: **https://github.com/hans-blok/standard**
+   - Charter locatie: `charters.agents/<stream-folder>/std.agent.charter.<stream>.<taaknaam>.md`
+   - Voorbeeld: `charters.agents/d.ontwerp/std.agent.charter.d.service-architect.md`
+   - **STOP-REGEL**: Als charter niet bestaat, mag agent NIET worden aangemaakt
+   - Bij ontbrekend charter: informeer gebruiker en vraag om charter aan te maken in standards repository
+
 **Agent-naam formaat**: `<stream-letter>.<taaknaam>` (voor activatie)
 
 **Voorbeelden**:
@@ -63,7 +71,10 @@ De moeder-agent mag NIET verder gaan voordat deze informatie volledig is verstre
 - Afhankelijkheden van tools of bibliotheken
 - Voorkeur voor specifieke DVS-stream (als gebruiker dit weet)
 
-**STOP-REGEL**: Als taaknaam of context ontbreekt, stopt de moeder-agent en vraagt om de ontbrekende informatie. DVS-stream mag door moeder-agent worden bepaald op basis van context.
+**STOP-REGEL**: 
+- Als taaknaam of context ontbreekt, stopt de moeder-agent en vraagt om de ontbrekende informatie
+- Als charter niet bestaat in `C:\gitrepo\standards\charters.agents\`, stopt de moeder-agent en mag agent NIET worden aangemaakt
+- DVS-stream mag door moeder-agent worden bepaald op basis van context
 
 ## Verantwoordelijkheden
 
@@ -95,6 +106,23 @@ De moeder-agent mag NIET verder gaan voordat deze informatie volledig is verstre
 **STOP als één van deze ontbreekt**:
 - [ ] Taaknaam is opgegeven (bijv. md-to-docx, conceptueel-datamodel)
 - [ ] Context is opgegeven (wat doet de agent, input/output, ontwikkelfase)
+- [ ] **Charter bestaat** in standards repository: `https://github.com/hans-blok/standard/tree/main/charters.agents/<stream-folder>/std.agent.charter.<stream>.<taaknaam>.md`
+
+**Charter Verificatie** (KRITISCH):
+1. Bepaal eerst de DVS-stream op basis van context
+2. Construeer verwacht charter pad: `charters.agents/<stream-folder>/std.agent.charter.<stream>.<taaknaam>.md`
+3. Verifieer dat charter bestand bestaat in GitHub repository: https://github.com/hans-blok/standard
+4. **Als charter NIET bestaat**: STOP en informeer gebruiker dat agent niet kan worden aangemaakt
+5. **Als charter bestaat**: Referentie charter in agent-definitie en werk volgens charter principes
+
+**Stream Folder Mapping**:
+- Stream A → `a.trigger`
+- Stream B → `b.architectuur`  
+- Stream C → `c.specificatie`
+- Stream D → `d.solution-design`
+- Stream E → `e.bouw`
+- Stream F → `f.validatie`
+- Stream G → `g.deployment`
 
 **DVS-Stream Bepaling**:
 - Analyseer de context om de juiste DVS-stream te bepalen
@@ -132,12 +160,18 @@ De moeder-agent mag NIET verder gaan voordat deze informatie volledig is verstre
 
 **Actie**: Maak compacte agent-definitie in `.github/agents/<stream>/<taaknaam>.agent.md`
 
-**Voorbeelden**: 
-- `.github/agents/C/conceptueel-datamodel.agent.md` (Stream C = Specificeren)
-- `.github/agents/D/api-spec.agent.md` (Stream D = Ontwerp)
-- `.github/agents/F/schema-validator.agent.md` (Stream F = Valideren)
+**BELANGRIJK**: Agent-definitie MOET charter integreren:
+- Verwijs naar charter in GitHub repository: https://github.com/hans-blok/standard
+- Neem charter principes en regels op in de agent-definitie
+- Verwijs naar charter locatie in agent-definitie (GitHub URL)
+- Agent MOET werken volgens charter
 
-**Folder structuur**: Agents worden georganiseerd per DVS-stream (A, B, C, D, E, F, G) in subfolders
+**Voorbeelden**: 
+- `.github/agents/c.specificatie/datamodel.agent.md` (Stream C = Specificeren)
+- `.github/agents/d.solution-design/api-spec.agent.md` (Stream D = Ontwerp)
+- `.github/agents/f.validatie/schema-validator.agent.md` (Stream F = Valideren)
+
+**Folder structuur**: Agents worden georganiseerd per DVS-stream in subfolders met beschrijvende namen (kleine letters)
 
 **Validatie**:
 - [ ] Definitie is compact en gericht op uitvoering
@@ -148,13 +182,13 @@ De moeder-agent mag NIET verder gaan voordat deze informatie volledig is verstre
 
 ### Stap 4: Prompt-Bestand Creëren
 
-**Actie**: Maak prompt-bestand in `.github/prompts/<stream>/<taaknaam>.prompt.md`
+**Actie**: Maak prompt-bestand in `.github/prompts/<stream>.<taaknaam>.prompt.md` (kleine letter, in root)
 
 **Voorbeelden**: 
-- `.github/prompts/C/conceptueel-datamodel.prompt.md`
-- `.github/prompts/D/api-spec.prompt.md`
+- `.github/prompts/c.datamodel.prompt.md`
+- `.github/prompts/d.api-spec.prompt.md`
 
-**Folder structuur**: Prompts worden georganiseerd per DVS-stream in subfolders
+**Naamgeving**: Prompts gebruiken kleine letter voor stream (bijv. `d.service-architect.prompt.md`)
 
 **Validatie**:
 - [ ] Bevat alleen YAML frontmatter
@@ -163,14 +197,14 @@ De moeder-agent mag NIET verder gaan voordat deze informatie volledig is verstre
 
 ### Stap 5: Uitgebreide Documentatie
 
-**Actie**: Maak agent-beschrijving in `desc-agents/<stream>/<PREFIX>-<taaknaam>.md`
+**Actie**: Maak agent-beschrijving in `desc-agents/<stream-folder>/<PREFIX>-<taaknaam>.md`
 
 **Voorbeelden**: 
-- `desc-agents/C/C.01-conceptueel-datamodel.md` (Stream C, volgnummer 01)
-- `desc-agents/D/D.05-api-spec.md` (Stream D, volgnummer 05)
-- `desc-agents/F/F.02-schema-validator.md` (Stream F, volgnummer 02)
+- `desc-agents/c.specificatie/C.01-datamodel.md` (Stream C, volgnummer 01)
+- `desc-agents/d.solution-design/D.05-api-spec.md` (Stream D, volgnummer 05)
+- `desc-agents/f.validatie/F.02-schema-validator.md` (Stream F, volgnummer 02)
 
-**Folder structuur**: Beschrijvingen worden georganiseerd per DVS-stream in subfolders
+**Folder structuur**: Beschrijvingen worden georganiseerd per DVS-stream in subfolders met beschrijvende namen
 
 **Prefix Format**: `<STREAM>.<VOLGNUMMER>` waarbij:
 - STREAM = A, B, C, D, E, F, of G
@@ -186,14 +220,14 @@ De moeder-agent mag NIET verder gaan voordat deze informatie volledig is verstre
 
 ### Stap 6: Script Genereren (indien van toepassing)
 
-**Actie**: Genereer PowerShell script in `agnt-cap-kit/scripts/<stream>.<taaknaam>.ps1`
+**Actie**: Genereer PowerShell script in `agnt-cap-kit/scripts/<stream>.<taaknaam>.ps1` (kleine letter)
 
 **Voorbeelden**: 
-- `agnt-cap-kit/scripts/C.md-to-docx.ps1` (Stream C)
-- `agnt-cap-kit/scripts/D.api-spec.ps1` (Stream D)
-- `agnt-cap-kit/scripts/F.schema-validator.ps1` (Stream F)
+- `agnt-cap-kit/scripts/c.md-to-docx.ps1` (Stream C)
+- `agnt-cap-kit/scripts/d.api-spec.ps1` (Stream D)
+- `agnt-cap-kit/scripts/f.schema-validator.ps1` (Stream F)
 
-**Opmerking**: Scripts blijven in de root scripts folder (niet per stream georganiseerd), maar krijgen wel stream-prefix in naam
+**Opmerking**: Scripts blijven in de root scripts folder (niet per stream georganiseerd), maar krijgen stream-prefix in kleine letter
 
 **Validatie**:
 - [ ] Script automatiseert agent-taken
@@ -233,18 +267,18 @@ De moeder-agent mag NIET verder gaan voordat deze informatie volledig is verstre
 Deze agent levert de volgende artefacten op:
 
 **Per nieuwe agent**:
-- `.github/agents/<stream>/<taaknaam>.agent.md` - Compacte definitie
-- `.github/prompts/<stream>/<taaknaam>.prompt.md` - Prompt bestand
-- `desc-agents/<stream>/<PREFIX>-<taaknaam>.md` - Uitgebreide documentatie
-- `agnt-cap-kit/scripts/<stream>.<taaknaam>.ps1` - Script (optioneel)
+- `.github/agents/<stream-folder>/<taaknaam>.agent.md` - Compacte definitie
+- `.github/prompts/<stream>.<taaknaam>.prompt.md` - Prompt bestand (root, kleine letter)
+- `desc-agents/<stream-folder>/<PREFIX>-<taaknaam>.md` - Uitgebreide documentatie
+- `agnt-cap-kit/scripts/<stream>.<taaknaam>.ps1` - Script (optioneel, kleine letter)
 
-**Voorbeeld voor C.01-conceptueel-datamodel**:
-- `.github/agents/C/conceptueel-datamodel.agent.md`
-- `.github/prompts/C/conceptueel-datamodel.prompt.md`
-- `desc-agents/C/C.01-conceptueel-datamodel.md`
-- `agnt-cap-kit/scripts/C.conceptueel-datamodel.ps1`
+**Voorbeeld voor D.01-service-architect**:
+- `.github/agents/d.solution-design/service-architect.agent.md`
+- `.github/prompts/d.service-architect.prompt.md`
+- `desc-agents/d.solution-design/D.01-service-architect.md`
+- `agnt-cap-kit/scripts/d.service-architect.ps1`
 
-**Folder structuur**: Agents, prompts en beschrijvingen zijn georganiseerd per DVS-stream (A-G)
+**Folder structuur**: Agents en beschrijvingen zijn georganiseerd in subfolders met beschrijvende namen (kleine letters). Prompts staan in root van `.github/prompts/` met kleine letter prefix.
 
 **Overzichtsdocumentatie**:
 - Bijgewerkte catalogus van alle agents per DVS-stream
@@ -262,15 +296,15 @@ Deze agent levert de volgende artefacten op:
 ## Volgende Stap
 
 Na creatie van een nieuwe agent:
-- Gebruik `@github /<stream>.<taaknaam>` om de nieuwe agent te activeren
+- Gebruik `@github /<stream>.<taaknaam>` om de nieuwe agent te activeren (kleine letter)
 - Voorbeelden: 
-  - `@github /C.conceptueel-datamodel` (Stream C: Specificeren)
-  - `@github /D.api-spec` (Stream D: Ontwerp)
-  - `@github /F.schema-validator` (Stream F: Valideren)
+  - `@github /c.datamodel` (Stream C: Specificeren)
+  - `@github /d.service-architect` (Stream D: Ontwerp)
+  - `@github /f.schema-validator` (Stream F: Valideren)
 - Test de agent met een praktijkvoorbeeld
 - Documenteer ervaringen en verbeteringen
 
-**Opmerking**: De agent-naam voor activatie is `<stream>.<taaknaam>`, ondanks de folder structuur
+**Opmerking**: De agent-naam voor activatie gebruikt kleine letter voor stream prefix
 
 Voor gebruik in projecten:
 - Kopieer de agent-definitie naar het project

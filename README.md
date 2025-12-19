@@ -24,22 +24,27 @@ Cases         Patterns         Datamodellen      Design      Generation   Valida
 ```
 /.github
     /agents/             # Agent definities per DVS-stream
-        /A/              # Stream A: Trigger
-        /B/              # Stream B: Architectuur
-        /C/              # Stream C: Specificeren
-        /D/              # Stream D: Ontwerp
-        /E/              # Stream E: Bouw
-        /F/              # Stream F: Valideren
-        /G/              # Stream G: Deploy
+        /a.trigger/      # Stream A: Trigger (kleine letters, beschrijvend)
+        /b.architectuur/ # Stream B: Architectuur
+        /c.specificatie/ # Stream C: Specificeren
+        /d.solution-design/ # Stream D: Ontwerp
+        /e.bouw/         # Stream E: Bouw
+        /f.validatie/    # Stream F: Valideren
+        /g.deployment/   # Stream G: Deploy
         /utility/        # Utility agents (domeinonafhankelijk)
         agnt-cap.moeder.agent.md
-    /prompts/            # Prompt bestanden (zelfde structuur)
+    /prompts/            # Prompt bestanden (root, voor Copilot)
+        a.*.prompt.md, b.*.prompt.md, c.*.prompt.md, etc. (kleine letter)
+        d.service-architect.prompt.md
+        u.*.prompt.md    # Utility prompts
+        agnt-cap.moeder.prompt.md
 /desc-agents/            # Uitgebreide documentatie
-    /A/, /B/, /C/, ...   # Per DVS-stream
-    /u.utility/          # Utility documentatie
+    /a.trigger/, /b.architectuur/, /c.specificatie/, ...   # Per DVS-stream
+    /d.solution-design/  # Stream D documentatie
+    /utility/            # Utility documentatie
     00-agnt-cap-moeder-agent.md
 /agnt-cap-kit
-    /scripts/            # PowerShell scripts (stream.taaknaam.ps1)
+    /scripts/            # PowerShell scripts (stream.taaknaam.ps1, kleine letter)
     /templates/          # Herbruikbare templates
 /agnt-cap-governance
     constitutie.md       # Algemene regels (bindend)
@@ -83,10 +88,13 @@ Wordt gebruikt in de specificatiefase voor data-analyse.
 
 **Voorbeelden:**
 ```
-@github /u.md-to-docx        # Utility: Markdown naar DOCX
-@github /C.datamodel         # Stream C: Datamodel generator
-@github /F.schema-validator  # Stream F: Schema validatie
+@github /u.md-to-docx          # Utility: Markdown naar DOCX
+@github /d.service-architect   # Stream D: Service Architect
+@github /c.datamodel           # Stream C: Datamodel generator (voorbeeld)
+@github /f.schema-validator    # Stream F: Schema validatie (voorbeeld)
 ```
+
+**Let op**: Agent-namen gebruiken kleine letter voor stream prefix (bijv. `d.`, niet `D.`)
 
 ## 📋 Governance
 
@@ -146,7 +154,7 @@ Het **beleid** (`agnt-cap-governance/beleid.md`) bevat specifieke regels voor Ag
 
 | Prefix | Agent | Beschrijving | Status |
 |--------|-------|-------------|--------|
-| *(Nog geen agents)* | - | - | - |
+| D.01 | [service-architect](.github/agents/d.solution-design/service-architect.agent.md) | Identificeert en classificeert service-kandidaten volgens TrueLogicX (E,T,O,R,U) | ✅ Active |
 
 ### Stream E: Bouw
 **Focus**: Code generatie, implementatie support, build automation
@@ -197,15 +205,17 @@ Het **beleid** (`agnt-cap-governance/beleid.md`) bevat specifieke regels voor Ag
 
 **Voor DVS-stream agents:**
 1. **Agent Definitie**: `.github/agents/<STREAM>/<taaknaam>.agent.md`
-2. **Prompt Bestand**: `.github/prompts/<STREAM>/<taaknaam>.prompt.md`
+2. **Prompt Bestand**: `.github/prompts/<STREAM>.<taaknaam>.prompt.md` *(root voor Copilot)*
 3. **Beschrijving**: `desc-agents/<STREAM>/<PREFIX>-<taaknaam>.md`
 4. **Script** (optioneel): `agnt-cap-kit/scripts/<STREAM>.<taaknaam>.ps1`
 
 **Voor utility agents:**
 1. **Agent Definitie**: `.github/agents/utility/<taaknaam>.agent.md`
-2. **Prompt Bestand**: `.github/prompts/utility/<taaknaam>.prompt.md`
+2. **Prompt Bestand**: `.github/prompts/u.<taaknaam>.prompt.md` *(root voor Copilot)*
 3. **Beschrijving**: `desc-agents/u.utility/u.<taaknaam>.md`
 4. **Script** (optioneel): `agnt-cap-kit/scripts/u.<taaknaam>.ps1`
+
+**Opmerking**: Prompt bestanden blijven in `.github/prompts/` root omdat GitHub Copilot alleen prompts in de root herkent voor `@github /` activatie.
 
 ## 🛠️ PowerShell Scripts
 
@@ -288,10 +298,11 @@ Agent-Capabilities groeit met elke nieuwe herbruikbare agent:
 ```bash
 # Kopieer utility agent
 cp .github/agents/utility/u.md-to-docx.agent.md /jouw-project/.github/agents/
-cp .github/prompts/utility/u.md-to-docx.prompt.md /jouw-project/.github/prompts/
+cp .github/prompts/u.md-to-docx.prompt.md /jouw-project/.github/prompts/
 
 # Of kopieer DVS-agent (voorbeeld Stream C)
 cp .github/agents/C/datamodel.agent.md /jouw-project/.github/agents/
+cp .github/prompts/C.datamodel.prompt.md /jouw-project/.github/prompts/
 
 # Activeer in je project
 @github /u.md-to-docx

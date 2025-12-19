@@ -67,6 +67,15 @@ De moeder-agent zorgt ervoor dat:
    - Input en output formaten
    - Verwachte functionaliteit
 
+4. **Charter Verificatie** (VERPLICHT - KRITISCH)
+   - **Agents mogen ALLEEN worden aangemaakt als een geldig charter bestaat**
+   - Charter locatie: `C:\gitrepo\standards\charters.agents\<stream>\std.agent.charter.<stream>.<taaknaam>.md`
+   - Voorbeeld: `C:\gitrepo\standards\charters.agents\d.ontwerp\std.agent.charter.d.service-architect.md`
+   - **STOP-REGEL**: Als charter niet bestaat, mag agent NIET worden aangemaakt
+   - Bij ontbrekend charter: informeer gebruiker en vraag om charter eerst aan te maken in standards repository
+   - Charter bevat: rol, verantwoordelijkheden, kwaliteitscriteria, werk-principes
+   - Agent MOET werken volgens de principes in het charter
+
 **Agent-naam formaat**: `<domein>.<taaknaam>.agent`
 
 **Voorbeelden van volledige agent-namen**:
