@@ -119,7 +119,7 @@ De moeder-agent mag NIET verder gaan voordat deze informatie volledig is verstre
 - Stream A → `a.trigger`
 - Stream B → `b.architectuur`  
 - Stream C → `c.specificatie`
-- Stream D → `d.solution-design`
+- Stream D → `d.ontwerp`
 - Stream E → `e.bouw`
 - Stream F → `f.validatie`
 - Stream G → `g.deployment`
@@ -168,7 +168,7 @@ De moeder-agent mag NIET verder gaan voordat deze informatie volledig is verstre
 
 **Voorbeelden**: 
 - `.github/agents/c.specificatie/datamodel.agent.md` (Stream C = Specificeren)
-- `.github/agents/d.solution-design/api-spec.agent.md` (Stream D = Ontwerp)
+- `.github/agents/d.ontwerp/api-spec.agent.md` (Stream D = Ontwerp)
 - `.github/agents/f.validatie/schema-validator.agent.md` (Stream F = Valideren)
 
 **Folder structuur**: Agents worden georganiseerd per DVS-stream in subfolders met beschrijvende namen (kleine letters)
@@ -201,7 +201,7 @@ De moeder-agent mag NIET verder gaan voordat deze informatie volledig is verstre
 
 **Voorbeelden**: 
 - `desc-agents/c.specificatie/C.01-datamodel.md` (Stream C, volgnummer 01)
-- `desc-agents/d.solution-design/D.05-api-spec.md` (Stream D, volgnummer 05)
+- `desc-agents/d.ontwerp/D.05-api-spec.md` (Stream D, volgnummer 05)
 - `desc-agents/f.validatie/F.02-schema-validator.md` (Stream F, volgnummer 02)
 
 **Folder structuur**: Beschrijvingen worden georganiseerd per DVS-stream in subfolders met beschrijvende namen
@@ -273,9 +273,9 @@ Deze agent levert de volgende artefacten op:
 - `agnt-cap-kit/scripts/<stream>.<taaknaam>.ps1` - Script (optioneel, kleine letter)
 
 **Voorbeeld voor D.01-service-architect**:
-- `.github/agents/d.solution-design/service-architect.agent.md`
+- `.github/agents/d.ontwerp/service-architect.agent.md`
 - `.github/prompts/d.service-architect.prompt.md`
-- `desc-agents/d.solution-design/D.01-service-architect.md`
+- `desc-agents/d.ontwerp/D.01-service-architect.md`
 - `agnt-cap-kit/scripts/d.service-architect.ps1`
 
 **Folder structuur**: Agents en beschrijvingen zijn georganiseerd in subfolders met beschrijvende namen (kleine letters). Prompts staan in root van `.github/prompts/` met kleine letter prefix.

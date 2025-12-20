@@ -203,16 +203,18 @@ Agent-gedrag moet **consistent en reproduceerbaar** zijn:
    - **Bestaat er een charter voor deze agent in de standards repository?**
 
 2. **Charter Verificatie** (VERPLICHT)
-   - **Agents mogen ALLEEN worden aangemaakt als een geldig charter bestaat**
-   - Charter repository: **https://github.com/hans-blok/standard**
-   - Charter locatie: `charters.agents/<stream>/<stream-folder>/std.agent.charter.<stream>.<taaknaam>.md`
-   - Voorbeelden:
-     - `charters.agents/d.ontwerp/std.agent.charter.d.service-architect.md`
-     - `charters.agents/c.specificatie/std.agent.charter.c.requirements.md`
-   - GitHub URL voorbeeld: `https://github.com/hans-blok/standard/blob/main/charters.agents/d.ontwerp/std.agent.charter.d.service-architect.md`
-   - Als charter niet bestaat: maak eerst charter in standards repository voordat agent wordt aangemaakt
-   - Agent MOET werken volgens de principes en regels in het charter
-   - Charter bevat: rol-definitie, verantwoordelijkheden, kwaliteitscriteria, werk-principes
+   - **Agents mogen ALLEEN worden aangemaakt als een geldig charter bestaat.**
+   - De verificatie doorzoekt alle DVS-stream folders (`a.trigger`, `b.architectuur`, etc.) om het juiste charter te vinden. De DVS-stream wordt bepaald door de locatie van het gevonden charter.
+   - De zoekopdracht wordt in twee stappen uitgevoerd:
+     1. **Lokale controle**: Eerst wordt gezocht in de lokale map `C:\gitrepo\standards`.
+     2. **Remote controle**: Als het lokaal niet wordt gevonden, wordt de GitHub repository benaderd.
+   - Lokale repository: `C:\gitrepo\standards`
+   - Remote repository: **https://github.com/hans-blok/standard**
+   - Charter zoekpatroon: `charters.agents/<stream-folder>/std.agent.charter.*.<taaknaam>.md`
+   - Voorbeeld: Voor de taak `cdm-architect` wordt gezocht naar een bestand zoals `std.agent.charter.b.cdm-architect.md` in alle stream folders.
+   - Als charter niet bestaat: maak eerst charter in de standards repository voordat de agent wordt aangemaakt.
+   - Agent MOET werken volgens de principes en regels in het charter.
+   - Charter bevat: rol-definitie, verantwoordelijkheden, kwaliteitscriteria, werk-principes.
 
 3. **Ontwerp de agent**
    - Definieer doel en scope (conform charter)
@@ -223,7 +225,7 @@ Agent-gedrag moet **consistent en reproduceerbaar** zijn:
 4. **Creëer de agent via agnt-cap.moeder**
    - Gebruik `@github /agnt-cap.moeder` om de agent te creëren
    - Geef aan: taaknaam, context, **en gewenste DVS-stream**
-   - Moeder-agent verifieert charter bestaat voordat agent wordt aangemaakt
+   - Moeder-agent verifieert of het charter bestaat. **Als het charter niet wordt gevonden, stopt het proces en wordt de agent NIET aangemaakt.**
    - Moeder-agent bepaalt definitieve positie en prefix
    - Bij twijfel vraagt moeder-agent om verduidelijking
    - Volg de workflow van de moeder-agent
@@ -347,18 +349,18 @@ Verantwoordelijk voor:
 - Stream A → `a.trigger`
 - Stream B → `b.architectuur`
 - Stream C → `c.specificatie`
-- Stream D → `d.solution-design`
+- Stream D → `d.ontwerp`
 - Stream E → `e.bouw`
 - Stream F → `f.validatie`
 - Stream G → `g.deployment`
 
 **Bestanden**:
 - Agent-definitie: `.github/agents/<stream-folder>/<taaknaam>.agent.md`
-  - Voorbeeld: `.github/agents/d.solution-design/service-architect.agent.md`
+  - Voorbeeld: `.github/agents/d.ontwerp/service-architect.agent.md`
 - Prompt-bestand: `.github/prompts/<stream>.<taaknaam>.prompt.md` (kleine letter, in root voor Copilot)
   - Voorbeeld: `.github/prompts/d.service-architect.prompt.md`
 - Agent-beschrijving: `desc-agents/<stream-folder>/<PREFIX>-<taaknaam>.md`
-  - Voorbeeld: `desc-agents/d.solution-design/D.01-service-architect.md`
+  - Voorbeeld: `desc-agents/d.ontwerp/D.01-service-architect.md`
 - Scripts: `agnt-cap-kit/scripts/<stream>.<taaknaam>.ps1` (kleine letter)
   - Voorbeeld: `agnt-cap-kit/scripts/d.service-architect.ps1`
 
@@ -434,6 +436,15 @@ Een PowerShell script is **optioneel** voor agents die:
 - Gebruik van Git voor versiebeheer
 - Duidelijke commit messages
 - Changes worden gedocumenteerd
+
+### 8.5 Standaard Output Formaat
+
+Tenzij anders gespecificeerd in de agent-documentatie, is het standaard outputformaat voor alle agents **Markdown**.
+
+Dit zorgt voor:
+- **Consistentie**: Alle agents leveren een voorspelbaar formaat.
+- **Leesbaarheid**: Markdown is eenvoudig te lezen voor zowel mensen als machines.
+- **Integratie**: Markdown kan eenvoudig worden geconverteerd naar andere formaten (HTML, DOCX, PDF).
 
 ---
 

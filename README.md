@@ -27,7 +27,7 @@ Cases         Patterns         Datamodellen      Design      Generation   Valida
         /a.trigger/      # Stream A: Trigger (kleine letters, beschrijvend)
         /b.architectuur/ # Stream B: Architectuur
         /c.specificatie/ # Stream C: Specificeren
-        /d.solution-design/ # Stream D: Ontwerp
+        /d.ontwerp/ # Stream D: Ontwerp
         /e.bouw/         # Stream E: Bouw
         /f.validatie/    # Stream F: Valideren
         /g.deployment/   # Stream G: Deploy
@@ -40,7 +40,7 @@ Cases         Patterns         Datamodellen      Design      Generation   Valida
         agnt-cap.moeder.prompt.md
 /desc-agents/            # Uitgebreide documentatie
     /a.trigger/, /b.architectuur/, /c.specificatie/, ...   # Per DVS-stream
-    /d.solution-design/  # Stream D documentatie
+    /d.ontwerp/  # Stream D documentatie
     /utility/            # Utility documentatie
     00-agnt-cap-moeder-agent.md
 /agnt-cap-kit
@@ -154,7 +154,7 @@ Het **beleid** (`agnt-cap-governance/beleid.md`) bevat specifieke regels voor Ag
 
 | Prefix | Agent | Beschrijving | Status |
 |--------|-------|-------------|--------|
-| D.01 | [service-architect](.github/agents/d.solution-design/service-architect.agent.md) | Identificeert en classificeert service-kandidaten volgens TrueLogicX (E,T,O,R,U) | ✅ Active |
+| D.01 | [service-architect](.github/agents/d.ontwerp/service-architect.agent.md) | Identificeert en classificeert service-kandidaten volgens TrueLogicX (E,T,O,R,U) | ✅ Active |
 
 ### Stream E: Bouw
 **Focus**: Code generatie, implementatie support, build automation
