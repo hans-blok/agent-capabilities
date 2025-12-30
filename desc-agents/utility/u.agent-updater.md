@@ -107,10 +107,29 @@ Update type: definition-only
 
 ### Via PowerShell Script
 
+**Script locatie**: `agnt-cap-kit/scripts/u.agent-updater.ps1`
+
+**Basis gebruik**:
 ```powershell
-# Implementatie mogelijk via script dat GitHub API gebruikt
-# Voorlopig alleen via Copilot Chat beschikbaar
+# Laatste versie ophalen
+.\agnt-cap-kit\scripts\u.agent-updater.ps1 -AgentName "c.feature-analist"
+
+# Specifieke versie
+.\agnt-cap-kit\scripts\u.agent-updater.ps1 -AgentName "d.ldm" -Version "v1.0.0"
+
+# Alleen definitie
+.\agnt-cap-kit\scripts\u.agent-updater.ps1 -AgentName "b.cdm-architect" -UpdateType "definition-only"
+
+# Met root cleanup (verplaatst oude bestanden)
+.\agnt-cap-kit\scripts\u.agent-updater.ps1 -AgentName "c.feature-analist" -CleanupRoot $true
 ```
+
+**Parameters**:
+- `-AgentName` (verplicht): Naam van de agent
+- `-Version` (optioneel): Git tag, branch of commit (default: main)
+- `-UpdateType` (optioneel): `full` of `definition-only` (default: full)
+- `-TargetPath` (optioneel): Basis directory (default: huidige directory)
+- `-CleanupRoot` (optioneel): Verplaats oude bestanden uit root (default: $true)
 
 ## 5. Agent Mapping
 
@@ -183,7 +202,61 @@ https://raw.githubusercontent.com/hans-blok/agent-capabilities/v1.0.0/.github/ag
 https://raw.githubusercontent.com/hans-blok/agent-capabilities/abc123def/.github/prompts/b.cdm-architect.prompt.md
 ```
 
-## 7. Validatie en Error Handling
+## 7. Root Cleanup Functionaliteit
+
+### Automatisch Verplaatsen
+
+De agent detecteert en verplaatst automatisch oude agent-bestanden uit de root folder naar de .github structuur.
+
+**Detecteert**:
+- `*.agent.md` bestanden in root
+- `*.prompt.md` bestanden in root
+
+**Verplaatst naar**:
+- Agent definities → `.github/agents/{stream-folder}/`
+- Prompts → `.github/prompts/`
+
+**Voorbeeld**:
+```
+Root folder (oud):
+  c.feature-analist.agent.md
+  d.ldm.prompt.md
+
+Na cleanup:
+  .github/
+    agents/
+      c.specificatie/
+        feature-analist.agent.md
+    prompts/
+      d.ldm.prompt.md
+```
+
+### Gebruik
+
+**Automatisch** (standaard gedrag):
+```powershell
+.\agnt-cap-kit\scripts\u.agent-updater.ps1 -AgentName "c.feature-analist"
+# CleanupRoot is standaard $true
+```
+
+**Uitschakelen**:
+```powershell
+.\agnt-cap-kit\scripts\u.agent-updater.ps1 -AgentName "c.feature-analist" -CleanupRoot $false
+```
+
+### Output
+
+```
+🔄 Controleren op oude bestanden in root...
+  9 Gevonden: c.feature-analist.agent.md
+  ✅ Verplaatst naar: .github\agents\c.specificatie\feature-analist.agent.md
+  📦 Gevonden: d.ldm.prompt.md
+  ✅ Verplaatst naar: .github\prompts\d.ldm.prompt.md
+
+✅ 2 bestand(en) verplaatst van root naar .github
+```
+
+## 8. Validatie en Error Handling
 
 ### Validaties
 
@@ -244,7 +317,7 @@ Agent is bruikbaar, maar beschrijving ontbreekt.
 - ✅ Bestanden overschrijven met nieuwere versies
 - ✅ Rapporteren over succes/falen
 
-## 9. Best Practices
+## 10. Best Practices
 
 ### Wanneer Updaten?
 
@@ -287,7 +360,7 @@ Agent: c.feature-analist
 Versie: v1.1.0
 ```
 
-## 10. Voorbeeld Sessie
+## 11. Voorbeeld Sessie
 
 ```
 Gebruiker: @github /u.agent-updater
@@ -316,7 +389,7 @@ Agent:    Ja! Geef ze door gescheiden met komma's:
           Agents: c.feature-analist, d.ldm, b.cdm-architect
 ```
 
-## 11. Toekomstige Uitbreidingen
+## 12. Toekomstige Uitbreidingen
 
 **Mogelijk**:
 - PowerShell script voor batch updates
