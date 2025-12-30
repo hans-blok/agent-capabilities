@@ -117,7 +117,7 @@ param(
     [string[]]$InputFiles,
     
     [Parameter(Mandatory=$false)]
-    [string]$OutputFile = "ldm.md",
+    [string]$OutputFile = "",
     
     [Parameter(Mandatory=$false)]
     [string]$ModelName,
@@ -199,6 +199,15 @@ end {
     if (-not $ModelName) {
         $firstFile = $Script:AllInputContent[0].FileName
         $ModelName = [System.IO.Path]::GetFileNameWithoutExtension($firstFile)
+    }
+    
+    # Bepaal output file als niet opgegeven
+    if ([string]::IsNullOrWhiteSpace($OutputFile)) {
+        $OutputDir = "artefacten/d.ontwerp"
+        if (-not (Test-Path $OutputDir)) {
+            New-Item -Path $OutputDir -ItemType Directory -Force | Out-Null
+        }
+        $OutputFile = Join-Path $OutputDir "ldm-$ModelName.md"
     }
     
     Write-Host "`nModel naam: " -NoNewline

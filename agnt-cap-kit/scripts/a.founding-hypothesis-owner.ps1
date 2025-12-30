@@ -93,7 +93,7 @@ param(
 )
 
 # Constanten
-$OutputDir = "output"
+$OutputDir = "artefacten/a.trigger"
 $ErrorActionPreference = "Stop"
 
 # Helper functies

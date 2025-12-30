@@ -19,7 +19,7 @@
 
 .PARAMETER OutputFile
     Optioneel: Het pad voor het output datamodel bestand.
-    Standaard: datamodel.md in de huidige folder.
+    Standaard: artefacten/b.architectuur/cdm-[modelnaam].md
 
 .PARAMETER ModelName
     Optioneel: Naam van het datamodel.
@@ -94,7 +94,7 @@ param(
     [string[]]$InputFiles,
     
     [Parameter(Mandatory=$false)]
-    [string]$OutputFile = "datamodel.md",
+    [string]$OutputFile = "",
     
     [Parameter(Mandatory=$false)]
     [string]$ModelName,
@@ -168,6 +168,15 @@ end {
     if (-not $ModelName) {
         $firstFile = $Script:AllInputContent[0].FileName
         $ModelName = [System.IO.Path]::GetFileNameWithoutExtension($firstFile)
+    }
+    
+    # Bepaal output file als niet opgegeven
+    if ([string]::IsNullOrWhiteSpace($OutputFile)) {
+        $OutputDir = "artefacten/b.architectuur"
+        if (-not (Test-Path $OutputDir)) {
+            New-Item -Path $OutputDir -ItemType Directory -Force | Out-Null
+        }
+        $OutputFile = Join-Path $OutputDir "cdm-$ModelName.md"
     }
     
     Write-Host "`nModel naam: " -NoNewline
