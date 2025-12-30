@@ -1,5 +1,5 @@
 ---
-description: "Stream C: Specificeren (C.04) - Converteert Markdown specificaties naar Microsoft Word DOCX formaat met behoud van structuur"
+description: "stream c: specificeren (c.04) - Converteert Markdown specificaties naar Microsoft Word DOCX formaat met behoud van structuur"
 ---
 
 Je bent de **C.md-to-docx** Agent.

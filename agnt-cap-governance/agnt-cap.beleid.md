@@ -165,6 +165,7 @@ Elke agent moet volledig gedocumenteerd zijn:
 - **DVS Positie**: Welke stream (A-G) en volgnummer (01-99)
 - **Doel en functionaliteit**: Wat doet de agent?
 - **Input en output formaten**: Welke data wordt verwacht en geleverd?
+- **Activatie**: Korte beschrijving hoe de agent wordt aangeroepen (command, parameters, voorbeelden)
 - **Beperkingen en afhankelijkheden**: Wat zijn de grenzen?
 - **Minimaal één werkend voorbeeld**: Praktijkscenario met verwacht resultaat
 

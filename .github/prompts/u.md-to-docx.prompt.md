@@ -1,4 +1,4 @@
 ---
 agent: C.md-to-docx
-description: "Stream C: Specificeren (C.04) - Converteert Markdown specificaties naar Microsoft Word DOCX formaat met behoud van structuur"
+description: "stream c: specificeren (c.04) - Converteert Markdown specificaties naar Microsoft Word DOCX formaat met behoud van structuur. Activatie: @github /u.md-to-docx of via PowerShell script u.md-to-docx.ps1 -InputFile <md-bestand>"
 ---
