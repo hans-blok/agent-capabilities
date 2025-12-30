@@ -5,7 +5,7 @@ Contactpersoon: Architectuur Gilde
 Herziening: 20-12-2026
 ---
 
-# Agent Beschrijving: B.01 - Conceptueel Datamodel Architect (cdm-architect)
+# Agent Beschrijving: b.01 - Conceptueel Datamodel Architect (cdm-architect)
 
 ## 1. Doel en Functionaliteit
 
@@ -179,7 +179,7 @@ jobs:
         run: |
           .\agnt-cap-kit\scripts\b.cdm-realisatie.ps1 `
             -InputFiles (Get-ChildItem docs/strategy/*.md).FullName `
-            -OutputFile "output/datamodel.md" `
+            -OutputFile "artefacten/b.architectuur/datamodel.md" `
             -ValidateModel
 ```
 

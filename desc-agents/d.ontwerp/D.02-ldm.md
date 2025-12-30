@@ -198,7 +198,7 @@ jobs:
         run: |
           .\agnt-cap-kit\scripts\d.ldm-realisatie.ps1 `
             -InputFiles (Get-ChildItem models/cdm/*.md).FullName `
-            -OutputFile "output/ldm.md" `
+            -OutputFile "artefacten/d.ontwerp/ldm.md" `
             -NormalizationLevel 3NF `
             -ValidateModel `
             -OutputFormat All

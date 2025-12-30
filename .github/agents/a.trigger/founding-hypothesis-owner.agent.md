@@ -175,7 +175,7 @@ omdat [unieke waarde]
 
 **Geleverde documenten**: De agent schrijft de hypothesis naar een Markdown bestand volgens de standards.
 
-**Bestandslocatie**: `output/founding-hypothesis-[naam].md`
+**Bestandslocatie**: `artefacten/a.trigger/founding-hypothesis-[naam].md`
 
 **Bestandsformaat**:
 
