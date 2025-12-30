@@ -87,7 +87,103 @@ Deze agent opereert primair in **Fase B - Architectuur**.
    ```
    ```
 
-## 5. Beperkingen en Afhankelijkheden
+## 5. Activatie en Aanroep
+
+De CDM-architect agent kan op verschillende manieren worden benaderd van buitenaf:
+
+### 5.1 Via GitHub Copilot Chat
+```
+@github /b.cdm-architect
+```
+Voeg de relevante strategische documenten toe aan de context voordat je de agent activeert.
+
+### 5.2 Via PowerShell Script
+```powershell
+.\agnt-cap-kit\scripts\b.cdm-realisatie.ps1 -InputFiles "beleid.md","wet.md" -DetailLevel Detailed
+```
+
+**Parameters**:
+- `-InputFiles`: Een of meerdere bronbestanden (verplicht)
+- `-OutputFile`: Pad voor output (standaard: `datamodel.md`)
+- `-ModelName`: Naam van het model
+- `-DetailLevel`: `Basic`, `Standard`, of `Detailed` (standaard: `Standard`)
+- `-TraceabilityLevel`: `None`, `Basic`, of `Full` (standaard: `Full`)
+- `-OutputFormat`: `Markdown`, `JSON`, of `Both` (standaard: `Markdown`)
+- `-ValidateModel`: Valideer het gegenereerde model
+- `-IncludeVisualization`: Genereer Mermaid-diagrammen (standaard: aan)
+
+### 5.3 Via Prompt Template
+Voor directe interactie met LLM-gebaseerde systemen:
+
+```markdown
+# Taak: Conceptueel Datamodel Realisatie
+
+Rol: Je bent een Conceptueel Datamodel Architect (Agent B.01)
+
+Context:
+[Voeg hier de strategische/normatieve documenten toe]
+
+Opdracht:
+1. Analyseer de aangeleverde documenten
+2. Identificeer kernentiteiten en hun definities
+3. Bepaal attributen per entiteit met conceptuele datatypes
+4. Leg relaties tussen entiteiten vast
+5. Zorg voor traceerbaarheid naar bronnen (wet/beleidsartikelen)
+6. Genereer een gestructureerd datamodel in Markdown
+7. Voeg een Mermaid-visualisatie toe
+
+Output formaat: Markdown volgens de structuur uit sectie 3.
+
+Detail niveau: [Basic/Standard/Detailed]
+Traceerbaarheid: [None/Basic/Full]
+```
+
+### 5.4 Via API/Service Endpoint
+Als de agent als service wordt gehost:
+
+```bash
+POST /api/agents/cdm-architect/analyze
+Content-Type: application/json
+
+{
+  "inputDocuments": [
+    {
+      "name": "business-case.md",
+      "content": "..."
+    }
+  ],
+  "modelName": "Enterprise Model",
+  "detailLevel": "Detailed",
+  "traceabilityLevel": "Full",
+  "outputFormat": "Markdown"
+}
+```
+
+### 5.5 Integratievoorbeeld - Pipeline
+Voor automatische verwerking in een CI/CD pipeline:
+
+```yaml
+# .github/workflows/cdm-generation.yml
+name: Generate CDM
+on:
+  push:
+    paths:
+      - 'docs/strategy/**'
+
+jobs:
+  generate-cdm:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Generate CDM
+        run: |
+          .\agnt-cap-kit\scripts\b.cdm-realisatie.ps1 `
+            -InputFiles (Get-ChildItem docs/strategy/*.md).FullName `
+            -OutputFile "output/datamodel.md" `
+            -ValidateModel
+```
+
+## 6. Beperkingen en Afhankelijkheden
 
 - De agent ontwerpt **geen** logische of fysieke datamodellen. Technische details zoals keys en indexen zijn buiten scope.
 - De kwaliteit van de output is direct afhankelijk van de duidelijkheid en volledigheid van de aangeleverde brondocumenten.

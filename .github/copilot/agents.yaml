@@ -1,0 +1,21 @@
+# This file configures the agent aliases that can be used in this repository.
+# Each key is an agent alias that can be invoked with @workspace /<alias>
+# The value is a short description of what the agent does.
+
+agents:
+  agnt-cap.moeder:
+    description: "Moeder-agent voor het beheren van herbruikbare generieke agents."
+  b.cdm-architect:
+    description: "Stream B: Genereert een conceptueel datamodel (CDM) met focus op traceerbaarheid."
+  c.feature-analist:
+    description: "Stream C: Transformeert high-level features naar testbare specificaties (user stories, BDD)."
+  d.ldm:
+    description: "Stream D: Genereert een logisch datamodel (3NF) op basis van een conceptueel model."
+  d.service-architect:
+    description: "Stream D: Identificeert en classificeert service-kandidaten."
+  u.md-to-archimate-xml:
+    description: "Utility: Converteert Markdown naar Archimate XML-formaat."
+  u.md-to-docx:
+    description: "Utility: Converteert Markdown-bestanden naar Microsoft Word (DOCX)."
+  u.md-to-dsl:
+    description: "Utility: Converteert Markdown naar een Domain-Specific Language (DSL)."
