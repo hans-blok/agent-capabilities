@@ -132,10 +132,33 @@ begin {
     
     Write-Host "`n=== CDM Realisatie Script ===" -ForegroundColor $InfoColor
     Write-Host "Agent: B.01 - Conceptueel Datamodel Architect`n" -ForegroundColor $InfoColor
+    
+    # Voeg automatisch alle artefacten uit fase a.trigger toe aan input
+    $triggerFolder = "artefacten/a.trigger"
+    if (Test-Path $triggerFolder) {
+        $triggerFiles = Get-ChildItem -Path $triggerFolder -Filter "*.md" -File
+        if ($triggerFiles.Count -gt 0) {
+            Write-Host "📁 Fase A.trigger artefacten gevonden: $($triggerFiles.Count) bestand(en)" -ForegroundColor $SuccessColor
+            foreach ($file in $triggerFiles) {
+                Write-Host "  + $($file.Name)" -ForegroundColor $InfoColor
+            }
+            # Voeg trigger bestanden toe aan InputFiles voor verwerking
+            $Script:InputFiles = @($InputFiles) + @($triggerFiles.FullName)
+        }
+        else {
+            Write-Host "ℹ️  Geen artefacten gevonden in $triggerFolder" -ForegroundColor $WarningColor
+        }
+    }
+    else {
+        Write-Host "ℹ️  Folder $triggerFolder niet gevonden - alleen opgegeven input wordt gebruikt" -ForegroundColor $WarningColor
+    }
 }
 
 process {
-    foreach ($InputFile in $InputFiles) {
+    # Gebruik de samengevoegde lijst van InputFiles (inclusief trigger artefacten)
+    $filesToProcess = if ($Script:InputFiles) { $Script:InputFiles } else { $InputFiles }
+    
+    foreach ($InputFile in $filesToProcess) {
         if (-not (Test-Path $InputFile)) {
             Write-Warning "Bestand niet gevonden: $InputFile"
             continue
