@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-0.runner-builder.py
+runner-builder.py
 
 Builder voor agent runner scripts op basis van charter.
 
 GEBRUIK:
-  python 0.runner-builder.py --plan-path artefacten/_buildplans/std.a.trigger.founding-hypothesis-owner.json
+  python runner-builder.py --plan-path artefacten/_buildplans/std.a.trigger.founding-hypothesis-owner.json
 
 Versie: 1.0
 Datum: 04-01-2026

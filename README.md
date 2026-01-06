@@ -11,7 +11,7 @@
 Agent-Capabilities biedt agents voor de gehele Development Value Stream:
 
 ```
-A. Trigger → B. Architectuur → C. Specificeren → D. Ontwerp → E. Bouw → F. Valideren → G. Deploy
+a. Trigger → b. Architectuur → c. Specificatie → d. Ontwerp → e. Bouw → f. Validatie → g. Deploy
    ↓              ↓                   ↓               ↓           ↓           ↓              ↓
 Business       ADR's            Requirements      API         Code        Tests        Release
 Cases         Patterns         Datamodellen      Design      Generation   Validatie    Management
@@ -23,120 +23,199 @@ Cases         Patterns         Datamodellen      Design      Generation   Valida
 
 ```
 /.github
-    /agents/             # Agent definities per DVS-stream
-        /a.trigger/      # Stream A: Trigger (kleine letters, beschrijvend)
-        /b.architectuur/ # Stream B: Architectuur
-        /c.specificatie/ # Stream C: Specificeren
-        /d.ontwerp/ # Stream D: Ontwerp
-        /e.bouw/         # Stream E: Bouw
-        /f.validatie/    # Stream F: Valideren
-        /g.deployment/   # Stream G: Deploy
-        /utility/        # Utility agents (domeinonafhankelijk)
-        agnt-cap.moeder.agent.md
-    /prompts/            # Prompt bestanden (root, voor Copilot)
-        a.*.prompt.md, b.*.prompt.md, c.*.prompt.md, etc. (kleine letter)
+    /prompts/                       # Agent prompts voor Copilot (@workspace activatie)
+        0.moeder.prompt.md
+        a.founding-hypothesis-owner.prompt.md
+        b.cdm-architect.prompt.md
+        c.feature-analist.prompt.md
+        c.logisch-data-modelleur.prompt.md
+        c.schema-custodian.prompt.md
         d.service-architect.prompt.md
-        u.*.prompt.md    # Utility prompts
-        agnt-cap.moeder.prompt.md
-/desc-agents/            # Uitgebreide documentatie
-    /a.trigger/, /b.architectuur/, /c.specificatie/, ...   # Per DVS-stream
-    /d.ontwerp/  # Stream D documentatie
-    /utility/            # Utility documentatie
-    00-agnt-cap-moeder-agent.md
-/agnt-cap-kit
-    /scripts/            # Python scripts (cross-platform: stream.taaknaam.py)
-    /templates/          # Herbruikbare templates
-/agnt-cap-governance
-    constitutie.md       # Algemene regels (bindend)
-    handvest-logos.md    # Logos structuurprincipes
-    beleid.md            # DVS-gestructureerd beleid
-/input/                  # Input bestanden (lokaal, niet in git)
-requirements.txt         # Python dependencies
-.gitignore
+        d.technisch-data-modelleur.prompt.md
+        u.md-to-archimate-xml.prompt.md
+        u.md-to-docx.prompt.md
+        u.md-to-dsl.prompt.md
+    /copilot/
+        agents.yaml                 # Agent registratie voor GitHub Copilot
+/scripts-agent-ecosysteem/          # Agent maker tools (NIET voor sync naar andere workspaces)
+    make-agent.py                   # Genereert agent van charter
+    prompt-builder.py               # Bouwt prompts uit charters
+    runner-builder.py               # Genereert runner scripts
+    orchestration-builder.py        # Maakt orchestratie configs
+    sync-agents.py                  # Sync agents (ALLEEN prompts/runners) naar andere workspaces
+    moeder.agent.md                 # Moeder agent definitie
+/agent-componenten/
+    /scripts/                       # Gegenereerde runner scripts per fase
+        /a.trigger/
+            founding-hypothesis-owner.py
+        /b.architectuur/
+            cdm-architect.py
+        /c.specificatie/
+            feature-analist.py
+            logisch-data-modelleur.py
+            schema-custodian.py
+        /d.ontwerp/
+            service-architect.py
+            technisch-data-modelleur.py
+/desc-agents/                       # Uitgebreide agent documentatie
+    /a.trigger/, /b.architectuur/, /c.specificatie/, /d.ontwerp/, /utility/
+/templates/                         # Herbruikbare templates
+/docs/                              # Project documentatie
+requirements.txt                    # Python dependencies
 README.md
 ```
+
+## 🔧 Agent Maker Tools
+
+Deze workspace bevat tools om agents te genereren vanuit **charters** (in externe repository):
+
+### Charter Repository
+Charters staan in: `https://github.com/hans-blok/standard.git`
+
+### Agent Maken
+```bash
+# Genereer agent vanuit charter (git pull gebeurt automatisch)
+python scripts-agent-ecosysteem/make-agent.py --agent-name logisch-data-modelleur
+```
+
+**Output:**
+- `.github/prompts/c.logisch-data-modelleur.prompt.md` - Prompt voor Copilot
+- `agent-componenten/scripts/c.specificatie/logisch-data-modelleur.py` - Runner script
+- `agent-componenten/orchestrations/c.logisch-data-modelleur.yaml` - Orchestratie config
+- `artefacten/_buildplans/std.c.specificatie.logisch-data-modelleur.json` - Build plan (metadata)
+
+### Agents Synchroniseren naar Andere Workspaces
+
+⚠️ **Agent maker tools worden NIET gesynchroniseerd** - alleen de agents zelf.
+
+```bash
+# 1. Clone target repository
+git clone https://github.com/user/target-repo.git ../target-workspace
+
+# 2. Dry-run (toon wat gekopieerd wordt)
+python scripts-agent-ecosysteem/sync-agents.py --target ../target-workspace --dry-run
+
+# 3. Sync alle agents
+python scripts-agent-ecosysteem/sync-agents.py --target ../target-workspace
+
+# 4. Sync specifieke agents
+python scripts-agent-ecosysteem/sync-agents.py --target ../target-workspace --agents cdm-architect logisch-data-modelleur
+```
+
+**Wat wordt gesynchroniseerd:**
+- ✅ Prompts uit `.github/prompts/`
+- ✅ Runners uit `agent-componenten/scripts/`
+- ✅ Agent registratie (`agents.yaml`)
+- ❌ Agent maker tools (blijven in deze workspace)
 
 ## ⚙️ Technische Stack
 
 - **Scripts**: Python 3.8+ (cross-platform: Windows, Linux, macOS)
 - **Agent Definitie**: Markdown met YAML frontmatter
 - **Configuratie**: YAML bestanden
-- **Charter Referentie**: GitHub repository links
+- **Charter Repository**: `https://github.com/hans-blok/standard.git`
 
 ### Installatie
 
 ```bash
 # Python dependencies installeren
 pip install -r requirements.txt
-
-# Scripts executable maken (Unix/Linux/macOS)
-chmod +x scripts/*.py
 ```
-
-Voor gedetailleerde informatie over scripts, zie [scripts/README.md](scripts/README.md).
 
 ## 🚀 Gebruik
 
-### Moeder-Agent: Nieuwe Agents Creëren
+### Agent Activeren in GitHub Copilot
+
+Agents worden geactiveerd met `@workspace /agent-naam`:
 
 ```
-@github /agnt-cap.moeder
+@workspace /c.logisch-data-modelleur
+@workspace /d.service-architect
+@workspace /u.md-to-docx
 ```
 
-**Benodigde informatie:**
-1. **Taaknaam**: Beschrijvende naam (bijv. `conceptueel-datamodel`, `api-spec`)
-2. **Context**: Wat doet de agent? Input/output formaten? In welke ontwikkelfase?
+**Let op**: Gebruik kleine letter voor stream prefix (bijv. `c.`, niet `C.`)
 
-De moeder-agent bepaalt automatisch de juiste DVS-stream op basis van de context.
+### Beschikbare Agents
 
-**Voorbeeld:**
-```
-@github /agnt-cap.moeder
-Taaknaam: conceptueel-datamodel
-Context: Genereert conceptueel datamodel uit requirement specificaties.
-Wordt gebruikt in de specificatiefase voor data-analyse.
-```
+**Stream a - Trigger:**
+- `a.founding-hypothesis-owner` - Vertaalt strategische richting naar testbare founding hypothesis
 
-→ Moeder-agent bepaalt: Stream C (Specificeren)
+**Stream b - Architectuur:**
+- `b.cdm-architect` - Genereert conceptueel datamodel (CDM) met traceerbaarheid
 
-### Bestaande Agents Gebruiken
+**Stream c - Specificatie:**
+- `c.feature-analist` - Transformeert features naar testbare specificaties (user stories, BDD)
+- `c.logisch-data-modelleur` - Genereert logisch datamodel (3NF) uit conceptueel model en specificaties
+- `c.schema-custodian` - Beheert en bewaakt datamodel-kwaliteit en consistentie
 
-**Activeer een agent:**
-```
-@github /<stream>.<taaknaam>
-```
+**Stream d - Ontwerp:**
+- `d.service-architect` - Identificeert en classificeert service-kandidaten
+- `d.technisch-data-modelleur` - Vertaalt logisch datamodel naar platform-specifiek technisch datamodel (DDL)
 
-**Voorbeelden:**
-```
-@github /u.md-to-docx          # Utility: Markdown naar DOCX
-@github /d.service-architect   # Stream D: Service Architect
-@github /c.datamodel           # Stream C: Datamodel generator (voorbeeld)
-@github /f.schema-validator    # Stream F: Schema validatie (voorbeeld)
-```
-
-**Let op**: Agent-namen gebruiken kleine letter voor stream prefix (bijv. `d.`, niet `D.`)
+**Utility:**
+- `u.md-to-archimate-xml` - Converteert Markdown naar Archimate XML-formaat
+- `u.md-to-docx` - Converteert Markdown naar Microsoft Word (DOCX)
+- `u.md-to-dsl` - Converteert Markdown naar Domain-Specific Language (DSL)
 
 ## 📋 Governance
 
-### Constitutie
-De **constitutie** (`agnt-cap-governance/constitutie.md`) bevat algemene regels die bindend zijn voor alle repositories en agents:
-- Taalgebruik en communicatie (B1 niveau)
-- Professionele normen (agile, duurzaam ontwerp)
-- Kwaliteitseisen voor specificaties
-- AI-agent gedrag en orkestratie
-- Transparantie en traceerbaarheid
+### Design Principles
 
-### Handvest van Logos
-Het **handvest** (`agnt-cap-governance/handvest-logos.md`) beschrijft hoe deze repository is opgezet door de Logos agent vanuit Genesis.
+1. **Kennisbeveiliging**
+   - Alleen gevalideerde charters worden toegelaten
+   - Alle charters komen uit https://github.com/hans-blok/standard.git
+   - Maker tools blijven in source workspace (niet gesynchroniseerd)
 
-### Beleid
-Het **beleid** (`agnt-cap-governance/beleid.md`) bevat specifieke regels voor Agent-Capabilities:
-- Agents zijn gestructureerd volgens **SAFe Development Value Stream (DVS)**
-- Streams: A=Trigger, B=Architectuur, C=Specificeren, D=Ontwerp, E=Bouw, F=Valideren, G=Deploy
-- Agent moet generiek en domeinonafhankelijk zijn
-- Minimaal één werkend voorbeeld vereist
-- Documentatie op B1-niveau
-- Moeder-agent bepaalt DVS-positie en prefix
+2. **Traceerbaarheid**
+   - Charter versioning via Git (standard repository)
+   - Agent herkomst altijd traceerbaar naar charter commit
+   - Sync logs identificeren bron en datum van agent-distributie
+
+3. **Reproducibility**
+   - Agents reproduceerbaar via `make-agent.py`
+   - Charter-updates triggeren agent regeneratie
+   - Dry-run mode voor risico-vrije verificatie
+
+4. **Scheiding van Verantwoordelijkheden**
+   - **Source workspace**: Agent creatie en ontwikkeling (scripts-agent-ecosysteem/)
+   - **Target workspaces**: Agent gebruik (alleen .github/prompts/ en .github/copilot/agents.yaml)
+   - Maker tools NIET toegankelijk in target workspaces
+
+### SAFe Development Value Stream (DVS)
+
+Agents zijn gestructureerd volgens de DVS-fases met kleine letter prefixes:
+
+| Fase | Prefix | Focus | Beschrijving |
+|------|--------|-------|--------------|
+| Trigger | **a.** | Ideeën, business cases | Initiatieven, founding hypotheses |
+| Architectuur | **b.** | Architectonische beslissingen | Architectuurpatronen, conceptueel datamodel |
+| Specificatie | **c.** | Requirements, datamodellen | Features, user stories, logisch datamodel |
+| Ontwerp | **d.** | Technisch ontwerp | API design, services, technisch datamodel |
+| Bouw | **e.** | Code generatie, implementatie | Build automation, scaffolding |
+| Validatie | **f.** | Testen, kwaliteitscontrole | Testing, validatie, verificatie |
+| Deploy | **g.** | Deployment, release | Release management, documentatie |
+
+### Charter Kwaliteit (uit Standard Repository)
+
+**Verplichte Secties:**
+- **## 1. Doel**: Waarom bestaat deze agent?
+- **## 2. Scope**: Binnen/Buiten scope grenzen
+- **## 3. Input**: Verwachte input specificatie
+- **## 4. Output**: Geproduceerde output specificatie
+- **## 5. Werkwijze**: Stappen/algoritme/methode
+- **## 6. Bevoegdheden**: Acties die agent mag uitvoeren
+
+**Charter Locatie:**
+- Repository: https://github.com/hans-blok/standard.git
+- Patroon: `charters.agents/{fase}/*.{agent-naam}.md`
+- Voorbeelden:
+  - `charters.agents/c.specificatie/logisch-data-modelleur.logisch-data-modelleur.md`
+  - `charters.agents/d.ontwerp/service-architect.service-architect.md`
+
+**Charter Updates:**
+- `make-agent.py` voert **automatisch** `git pull` uit voor c:\gitrepo\standard
+- Regenereer gewoon de agent: `python scripts-agent-ecosysteem/make-agent.py --agent-name {naam}`
 
 ## 🤖 Agent Catalogus
 
@@ -145,162 +224,163 @@ Het **beleid** (`agnt-cap-governance/beleid.md`) bevat specifieke regels voor Ag
 
 | Agent | Beschrijving | Status |
 |-------|-------------|--------|
+| **u.md-to-archimate-xml** | Converteert Markdown naar Archimate XML-formaat | ✅ Actief |
 | **u.md-to-docx** | Markdown naar DOCX conversie | ✅ Actief |
-| **u.md-to-dsl** | Markdown naar DSL conversie | 🔄 In ontwikkeling |
+| **u.md-to-dsl** | Markdown naar DSL conversie | ✅ Actief |
 
-### Stream A: Trigger
+### Stream a: Trigger
 **Focus**: Ideeën, business cases, initiatieven
 
-| Prefix | Agent | Beschrijving | Status |
-|--------|-------|-------------|--------|
-| *(Nog geen agents)* | - | - | - |
+| Agent | Beschrijving | Status |
+|-------|-------------|--------|
+| **a.founding-hypothesis-owner** | Vertaalt strategische richting naar testbare founding hypothesis | ✅ Actief |
 
-### Stream B: Architectuur
+### Stream b: Architectuur
 **Focus**: Architectonische beslissingen, patronen, principes
 
-| Prefix | Agent | Beschrijving | Status |
-|--------|-------|-------------|--------|
-| *(Nog geen agents)* | - | - | - |
+| Agent | Beschrijving | Status |
+|-------|-------------|--------|
+| **b.cdm-architect** | Genereert conceptueel datamodel (CDM) met traceerbaarheid | ✅ Actief |
 
-### Stream C: Specificeren
+### Stream c: Specificatie
 **Focus**: Requirements, functionele specificaties, datamodellen
 
-| Prefix | Agent | Beschrijving | Status |
-|--------|-------|-------------|--------|
-| *(Nog geen agents)* | - | - | - |
+| Agent | Beschrijving | Status |
+|-------|-------------|--------|
+| **c.feature-analist** | Transformeert features naar testbare specificaties (user stories, BDD) | ✅ Actief |
+| **c.logisch-data-modelleur** | Genereert logisch datamodel (3NF) uit conceptueel model en specificaties | ✅ Actief |
+| **c.schema-custodian** | Beheert en bewaakt datamodel-kwaliteit en consistentie | ✅ Actief |
 
-### Stream D: Ontwerp
+### Stream d: Ontwerp
 **Focus**: Technisch ontwerp, API design, database design
 
-| Prefix | Agent | Beschrijving | Status |
-|--------|-------|-------------|--------|
-| D.01 | [service-architect](.github/agents/d.ontwerp/service-architect.agent.md) | Identificeert en classificeert service-kandidaten volgens TrueLogicX (E,T,O,R,U) | ✅ Active |
+| Agent | Beschrijving | Status |
+|-------|-------------|--------|
+| **d.service-architect** | Identificeert en classificeert service-kandidaten volgens TrueLogicX (E,T,O,R,U) | ✅ Actief |
+| **d.technisch-data-modelleur** | Vertaalt logisch datamodel naar platform-specifiek technisch datamodel (DDL) | ✅ Actief |
 
-### Stream E: Bouw
+### Stream e: Bouw
 **Focus**: Code generatie, implementatie support, build automation
 
-| Prefix | Agent | Beschrijving | Status |
-|--------|-------|-------------|--------|
-| *(Nog geen agents)* | - | - | - |
+| Agent | Beschrijving | Status |
+|-------|-------------|--------|
+| *(Nog geen agents)* | - | - |
 
-### Stream F: Valideren
+### Stream f: Validatie
 **Focus**: Testen, kwaliteitscontrole, validatie
 
-| Prefix | Agent | Beschrijving | Status |
-|--------|-------|-------------|--------|
-| *(Nog geen agents)* | - | - | - |
+| Agent | Beschrijving | Status |
+|-------|-------------|--------|
+| *(Nog geen agents)* | - | - |
 
-### Stream G: Deploy
+### Stream g: Deploy
 **Focus**: Deployment, release management, documentatie
 
-| Prefix | Agent | Beschrijving | Status |
-|--------|-------|-------------|--------|
-| *(Nog geen agents)* | - | - | - |
+| Agent | Beschrijving | Status |
+|-------|-------------|--------|
+| *(Nog geen agents)* | - | - |
 
 ## 📝 Agent Naamgeving en Structuur
 
-### DVS-Stream Agents
-**Agent-naam formaat:** `<stream>.<taaknaam>` (voor activatie)  
-**DVS Prefix:** `<STREAM>.<VOLGNUMMER>` (voor documentatie)
+### Agent Naamgeving
+**Agent-naam formaat:** `<fase>.<agent-naam>` (voor activatie via @workspace)
 
 **Voorbeelden:**
-- Stream A: `A.01-business-case` - Business case generator
-- Stream B: `B.01-adr-template` - ADR template generator
-- Stream C: `C.01-conceptueel-datamodel` - Conceptueel datamodel generator
-- Stream D: `D.01-api-spec` - OpenAPI specificatie generator
-- Stream E: `E.01-crud-generator` - CRUD code generator
-- Stream F: `F.01-test-case-generator` - Test case generator
-- Stream G: `G.01-release-notes` - Release notes generator
+- Stream a: `a.founding-hypothesis-owner` - Founding hypothesis generator
+- Stream b: `b.cdm-architect` - Conceptueel datamodel architect
+- Stream c: `c.logisch-data-modelleur` - Logisch datamodel generator
+- Stream d: `d.service-architect` - Service architect
+- Stream d: `d.technisch-data-modelleur` - Technisch datamodel generator
+- Utility: `u.md-to-docx` - Markdown naar DOCX converter
 
-### Utility Agents
-**Agent-naam formaat:** `u.<taaknaam>` (voor activatie)  
-**Geen prefix** - utility agents zijn stream-onafhankelijk
-
-**Voorbeelden:**
-- `u.md-to-docx` - Markdown naar DOCX converter
-- `u.yaml-validator` - YAML schema validator
-- `u.file-compare` - Bestandsvergelijker
+**Let op**: Gebruik kleine letter voor fase prefix (bijv. `c.`, niet `C.`)
 
 ### Bestanden per Agent
 
 **Voor DVS-stream agents:**
-1. **Agent Definitie**: `.github/agents/<STREAM>/<taaknaam>.agent.md`
-2. **Prompt Bestand**: `.github/prompts/<STREAM>.<taaknaam>.prompt.md` *(root voor Copilot)*
-3. **Beschrijving**: `desc-agents/<STREAM>/<PREFIX>-<taaknaam>.md`
-4. **Script** (optioneel): `scripts/<STREAM>.<taaknaam>.py`
+1. **Prompt Bestand**: `.github/prompts/<fase>.<agent-naam>.prompt.md` 
+2. **Runner Script**: `agent-componenten/scripts/<fase>/<agent-naam>.py`
+3. **Orchestration**: `agent-componenten/orchestrations/<fase>.<agent-naam>.yaml`
 
 **Voor utility agents:**
-1. **Agent Definitie**: `.github/agents/utility/<taaknaam>.agent.md`
-2. **Prompt Bestand**: `.github/prompts/u.<taaknaam>.prompt.md` *(root voor Copilot)*
-3. **Beschrijving**: `desc-agents/u.utility/u.<taaknaam>.md`
-4. **Script** (optioneel): `scripts/u.<taaknaam>.py`
+1. **Prompt Bestand**: `.github/prompts/u.<agent-naam>.prompt.md`
+2. **Runner Script**: `agent-componenten/scripts/utility/<agent-naam>.py`
+3. **Orchestration**: `agent-componenten/orchestrations/u.<agent-naam>.yaml`
 
-**Opmerking**: Prompt bestanden blijven in `.github/prompts/` root omdat GitHub Copilot alleen prompts in de root herkent voor `@github /` activatie.
+**Agent Registratie:**
+- Alle agents geregistreerd in `.github/copilot/agents.yaml`
 
 ## 🐍 Python Scripts
 
-Agents hebben Python scripts voor herhaald gebruik (cross-platform: Windows, Linux, macOS):
-- **DVS-agents**: `<stream>.<taaknaam>.py` (bijv. `d.tdm-realisatie.py`)
-- **Utility agents**: `u.<taaknaam>.py` (bijv. `u.md-to-docx.py`)
-- **Locatie**: `scripts/`
+Agents hebben Python runner scripts voor geautomatiseerde uitvoering:
+- **DVS-agents**: `<fase>.<agent-naam>.py` (bijv. `d.service-architect.py`)
+- **Utility agents**: `u.<agent-naam>.py` (bijv. `u.md-to-docx.py`)
+- **Locatie**: `agent-componenten/scripts/<fase>/`
 - **Features**: Type hints, argument parsing, error handling, progress reporting
-- **Voorbeeld**: `python scripts/d.tdm-realisatie.py -i input.md -p PostgreSQL`
+- **Cross-platform**: Windows, Linux, macOS
 
 **Installatie:**
 ```bash
 pip install -r requirements.txt
 ```
 
-Zie [scripts/README.md](scripts/README.md) voor gedetailleerde documentatie.
+**Gebruik:**
+```bash
+# Runner direct uitvoeren
+python agent-componenten/scripts/d/service-architect.py -i input.md -o output.md
+
+# Via orchestration
+python agent-componenten/scripts/d/service-architect.py --config orchestrations/d.service-architect.yaml
+```
 
 ## 🎓 Principes
 
 Agent-Capabilities volgt deze kernprincipes:
 
-1. **DVS-Gestructureerd**: DVS-agents volgen de SAFe Development Value Stream (A-G)
-2. **Utility Support**: Utility agents (u.*) bieden stream-onafhankelijke ondersteuning
+1. **DVS-Gestructureerd**: Agents volgen de SAFe Development Value Stream (a-g)
+2. **Charter-Based**: Alle agents worden gegenereerd uit gevalideerde charters (https://github.com/hans-blok/standard.git)
 3. **Domeinonafhankelijk**: Alle agents zijn generiek en herbruikbaar
-4. **Volledig Gedocumenteerd**: Elke agent heeft definitie + beschrijving + voorbeelden
-5. **Kwaliteit Eerst**: Moeder-agent valideert en bepaalt DVS-positie
+4. **Maker-Tools Gescheiden**: Agent creatie tools blijven in source workspace, agents worden gesynchroniseerd naar target workspaces
+5. **Reproduceerbaar**: Agents kunnen altijd opnieuw worden gegenereerd uit charters via `make-agent.py`
 6. **Menselijke Leesbaarheid**: Documentatie op B1-niveau (Nederlands)
 
 ## ❓ FAQ
 
 **Q: Wat is de Development Value Stream (DVS)?**  
-A: De DVS beschrijft de flow van softwareontwikkeling: A=Trigger → B=Architectuur → C=Specificeren → D=Ontwerp → E=Bouw → F=Valideren → G=Deploy. DVS-agents ondersteunen een specifieke fase.
-
-**Q: Wat zijn utility agents?**  
-A: Utility agents (u.*) zijn stream-onafhankelijke tools zoals converters en validators. Ze kunnen in elke DVS-fase worden gebruikt.
+A: De DVS beschrijft de flow van softwareontwikkeling: a=Trigger → b=Architectuur → c=Specificatie → d=Ontwerp → e=Bouw → f=Validatie → g=Deploy. Agents ondersteunen specifieke fases met kleine letter prefix.
 
 **Q: Hoe maak ik een nieuwe agent?**  
-A: Gebruik `@github /agnt-cap.moeder` met taaknaam en context. De moeder-agent bepaalt automatisch of het een DVS-agent of utility agent wordt.
+A: Gebruik `python scripts-agent-ecosysteem/make-agent.py --agent-name {naam}`. Het script zoekt automatisch de juiste charter in https://github.com/hans-blok/standard.git en genereert alle agent artifacts.
 
-**Q: Wie bepaalt in welke DVS-stream een agent thuishoort?**  
-A: De moeder-agent analyseert de context. Bij twijfel vraagt de moeder-agent om input. Algemene tools worden utility agents.
+**Q: Waar vind ik de charters?**  
+A: Charters staan in https://github.com/hans-blok/standard.git, gecloneerd naar c:\gitrepo\standard. Het patroon is `charters.agents/{fase}/*.{agent-naam}.md`.
 
-**Q: Verschil tussen DVS-agent en utility agent?**  
-A: DVS-agents zijn specifiek voor één ontwikkelfase (bijv. C.datamodel voor specificeren). Utility agents zijn algemeen bruikbaar (bijv. u.md-to-docx voor conversies).
+**Q: Hoe synchroniseer ik agents naar een andere workspace?**  
+A: Gebruik `python scripts-agent-ecosysteem/sync-agents.py --target ../target-workspace`. Dit kopieert alleen de agents (prompts, runners, orchestrations), NIET de maker tools.
 
-**Q: Kan ik een agent aanpassen voor mijn project?**  
-A: Ja! Kopieer de agent naar je project en pas aan. Deel verbeteringen terug naar agent-capabilities.
+**Q: Kan ik agents aanpassen?**  
+A: Ja, maar doe dit via charter updates in de standard repository. Regenereer daarna de agent met `make-agent.py`. Directe wijzigingen worden overschreven bij regeneratie.
 
-**Q: Waarom twee bestanden per agent?**  
-A: `.agent.md` is compact voor AI (efficiënt). Beschrijving in `desc-agents/` is uitgebreid voor mensen.
+**Q: Waarom kleine letters voor fase prefixes?**  
+A: Consistentie met moderne naming conventions en betere leesbaarheid in command-line tools. Bijv. `c.logisch-data-modelleur` in plaats van `C.logisch-data-modelleur`.
+
+**Q: Verschil tussen source en target workspace?**  
+A: **Source workspace** (deze): Agent creatie, charter beheer, maker tools. **Target workspaces**: Alleen agent gebruik via @workspace commands. Maker tools zijn NIET beschikbaar in target workspaces.
 
 ## 📖 Documentatie
 
-- **Constitutie**: `agnt-cap-governance/constitutie.md` - Algemene regels (10 artikelen)
-- **Handvest**: `agnt-cap-governance/handvest-logos.md` - Logos structuurprincipes
-- **Beleid**: `agnt-cap-governance/beleid.md` - DVS en utility agent structuur
-- **Moeder-Agent**: `desc-agents/00-agnt-cap-moeder-agent.md` - Volledige documentatie
+- **Charter Repository**: `https://github.com/hans-blok/standard.git` - Gevalideerde agent charters
+- **Agent Maker Tools**: `scripts-agent-ecosysteem/` - Tools voor agent generatie (NIET gesynchroniseerd)
+- **Agent Componenten**: `agent-componenten/` - Gegenereerde prompts, runners, orchestrations
+- **Moeder-Agent**: `.github/prompts/0.moeder.prompt.md` - Overzichts-agent
 
 ## 🔄 Development Value Stream Overzicht
 
 ```
-A. Trigger → B. Architectuur → C. Specificeren → D. Ontwerp → E. Bouw → F. Valideren → G. Deploy
+a.trigger → b.architectuur → c.specificatie → d.ontwerp → e.bouw → f.validatie → g.deploy
    ↓              ↓                   ↓               ↓           ↓           ↓              ↓
-Business       ADR's            Requirements      API         Code        Tests        Release
-Cases         Patterns         Datamodellen      Design      Generation   Validatie    Management
+Founding       Conceptueel      Requirements      Service     Code        Tests        Release
+Hypotheses     Datamodel       Logisch Model      Design     Generation   Validatie    Management
 
                             ┌─────────────────────────────────┐
                             │      Utility Agents (u.*)       │
@@ -309,7 +389,7 @@ Cases         Patterns         Datamodellen      Design      Generation   Valida
                             └─────────────────────────────────┘
 ```
 
-**DVS-agents** ondersteunen een specifieke fase. **Utility agents** ondersteunen alle fases.
+**DVS-agents** ondersteunen een specifieke fase met kleine letter prefix. **Utility agents** ondersteunen alle fases.
 
 ## 🤝 Bijdragen
 

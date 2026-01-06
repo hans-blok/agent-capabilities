@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-0.agent-maker.py
+make-agent.py
 
 V1 orchestrator: maakt (of ververst) agent artefacten op basis van een bestaand charter.
 
@@ -9,9 +9,9 @@ VOORWAARDEN:
     (Phase is bv: a.trigger, b.architectuur, c.specificatie, etc.)
 
 GEBRUIK:
-  python scripts/0.make-agent.py --agent-name "founding-hypothesis-owner"
+  python scripts-agent-ecosysteem/make-agent.py --agent-name "founding-hypothesis-owner"
 
-Agent: 0.agent-maker.py
+Agent: make-agent.py
 Versie: 1.0
 Datum: 04-01-2026
 """
@@ -223,9 +223,9 @@ class AgentMaker:
             self.write_plan_json(self.plan)
             
             # Invoke builders
-            self.invoke_builder("0.prompt-builder.py", self.plan["buildPlanPath"])
-            self.invoke_builder("0.runner-builder.py", self.plan["buildPlanPath"])
-            self.invoke_builder("0.orchestration-builder.py", self.plan["buildPlanPath"])
+            self.invoke_builder("prompt-builder.py", self.plan["buildPlanPath"])
+            self.invoke_builder("runner-builder.py", self.plan["buildPlanPath"])
+            self.invoke_builder("orchestration-builder.py", self.plan["buildPlanPath"])
             
             # Test completion
             self.test_agent_completion(self.plan)

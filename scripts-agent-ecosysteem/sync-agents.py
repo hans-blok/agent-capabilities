@@ -1,25 +1,27 @@
 #!/usr/bin/env python3
 """
-0.sync-agents.py
+DIT SCRIPT NIET DRAAIEN IN AGENT-CAPABILITIES REPO!
+
+sync-agents.py
 
 Synchroniseert agent artefacten van deze workspace naar een andere workspace.
 Kopiëert prompts, runners en orchestraties zodat andere projecten dezelfde agents kunnen gebruiken.
 
 GEBRUIK:
   # Dry-run (toon wat er gekopieerd zou worden)
-  python scripts/0.agent-ecosysteem/0.sync-agents.py --target ../mijn-project --dry-run
+  python scripts-agent-ecosysteem/sync-agents.py --target ../mijn-project --dry-run
   
   # Kopieer alle agents
-  python scripts/0.agent-ecosysteem/0.sync-agents.py --target ../mijn-project
+  python scripts-agent-ecosysteem/sync-agents.py --target ../mijn-project
   
   # Kopieer specifieke agents
-  python scripts/0.agent-ecosysteem/0.sync-agents.py --target ../mijn-project --agents cdm-architect ldm
+  python scripts-agent-ecosysteem/sync-agents.py --target ../mijn-project --agents cdm-architect ldm
   
   # Clone eerst een repository
   git clone https://github.com/user/target-repo.git ../mijn-project
-  python scripts/0.agent-ecosysteem/0.sync-agents.py --target ../mijn-project
+  python scripts-agent-ecosysteem/sync-agents.py --target ../mijn-project
 
-Agent: 0.sync-agents.py
+Agent: sync-agents.py
 Versie: 1.0
 Datum: 06-01-2026
 """
@@ -227,17 +229,17 @@ def main():
         epilog="""
 Voorbeelden:
   # Dry-run
-  python scripts/0.agent-ecosysteem/0.sync-agents.py --target ../mijn-project --dry-run
+  python scripts-agent-ecosysteem/sync-agents.py --target ../mijn-project --dry-run
   
   # Sync alle agents
-  python scripts/0.agent-ecosysteem/0.sync-agents.py --target ../mijn-project
+  python scripts-agent-ecosysteem/sync-agents.py --target ../mijn-project
   
   # Sync specifieke agents
-  python scripts/0.agent-ecosysteem/0.sync-agents.py --target ../mijn-project --agents cdm-architect ldm
+  python scripts-agent-ecosysteem/sync-agents.py --target ../mijn-project --agents cdm-architect ldm
   
   # Clone eerst een repo
   git clone https://github.com/user/repo.git ../target-workspace
-  python scripts/0.agent-ecosysteem/0.sync-agents.py --target ../target-workspace
+  python scripts-agent-ecosysteem/sync-agents.py --target ../target-workspace
         """
     )
     

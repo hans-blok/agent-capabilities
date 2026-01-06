@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-0.orchestration-builder.py
+orchestration-builder.py
 
 Builder voor agent orchestration configuratie op basis van charter.
 
 GEBRUIK:
-  python 0.orchestration-builder.py --plan-path artefacten/_buildplans/std.a.trigger.founding-hypothesis-owner.json
+  python orchestration-builder.py --plan-path artefacten/_buildplans/std.a.trigger.founding-hypothesis-owner.json
 
 Versie: 1.0
 Datum: 04-01-2026

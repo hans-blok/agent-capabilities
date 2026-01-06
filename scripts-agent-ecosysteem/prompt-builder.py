@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-0.prompt-builder.py
+prompt-builder.py
 
 Builder voor agent prompt bestanden op basis van charter.
 
 GEBRUIK:
-  python 0.prompt-builder.py --plan-path artefacten/_buildplans/std.a.trigger.founding-hypothesis-owner.json
+  python prompt-builder.py --plan-path artefacten/_buildplans/std.a.trigger.founding-hypothesis-owner.json
 
 Versie: 1.0
 Datum: 04-01-2026
