@@ -1,5 +1,5 @@
 ---
-DVS-Positie: Stream C (Specificatie) - C.01
+DVS-Positie: Stream C (Specificatie) - c.01
 Status: Actief
 Contactpersoon: Product Owner / Lead Analist
 Herziening: 20-12-2026

@@ -44,16 +44,36 @@ Cases         Patterns         Datamodellen      Design      Generation   Valida
     /utility/            # Utility documentatie
     00-agnt-cap-moeder-agent.md
 /agnt-cap-kit
-    /scripts/            # PowerShell scripts (stream.taaknaam.ps1, kleine letter)
+    /scripts/            # Python scripts (cross-platform: stream.taaknaam.py)
     /templates/          # Herbruikbare templates
 /agnt-cap-governance
     constitutie.md       # Algemene regels (bindend)
     handvest-logos.md    # Logos structuurprincipes
     beleid.md            # DVS-gestructureerd beleid
 /input/                  # Input bestanden (lokaal, niet in git)
+requirements.txt         # Python dependencies
 .gitignore
 README.md
 ```
+
+## ⚙️ Technische Stack
+
+- **Scripts**: Python 3.8+ (cross-platform: Windows, Linux, macOS)
+- **Agent Definitie**: Markdown met YAML frontmatter
+- **Configuratie**: YAML bestanden
+- **Charter Referentie**: GitHub repository links
+
+### Installatie
+
+```bash
+# Python dependencies installeren
+pip install -r requirements.txt
+
+# Scripts executable maken (Unix/Linux/macOS)
+chmod +x scripts/*.py
+```
+
+Voor gedetailleerde informatie over scripts, zie [scripts/README.md](scripts/README.md).
 
 ## 🚀 Gebruik
 
@@ -207,24 +227,31 @@ Het **beleid** (`agnt-cap-governance/beleid.md`) bevat specifieke regels voor Ag
 1. **Agent Definitie**: `.github/agents/<STREAM>/<taaknaam>.agent.md`
 2. **Prompt Bestand**: `.github/prompts/<STREAM>.<taaknaam>.prompt.md` *(root voor Copilot)*
 3. **Beschrijving**: `desc-agents/<STREAM>/<PREFIX>-<taaknaam>.md`
-4. **Script** (optioneel): `agnt-cap-kit/scripts/<STREAM>.<taaknaam>.ps1`
+4. **Script** (optioneel): `scripts/<STREAM>.<taaknaam>.py`
 
 **Voor utility agents:**
 1. **Agent Definitie**: `.github/agents/utility/<taaknaam>.agent.md`
 2. **Prompt Bestand**: `.github/prompts/u.<taaknaam>.prompt.md` *(root voor Copilot)*
 3. **Beschrijving**: `desc-agents/u.utility/u.<taaknaam>.md`
-4. **Script** (optioneel): `agnt-cap-kit/scripts/u.<taaknaam>.ps1`
+4. **Script** (optioneel): `scripts/u.<taaknaam>.py`
 
 **Opmerking**: Prompt bestanden blijven in `.github/prompts/` root omdat GitHub Copilot alleen prompts in de root herkent voor `@github /` activatie.
 
-## 🛠️ PowerShell Scripts
+## 🐍 Python Scripts
 
-Agents kunnen PowerShell scripts genereren voor herhaald gebruik:
-- **DVS-agents**: `<stream>.<taaknaam>.ps1` (bijv. `C.datamodel.ps1`)
-- **Utility agents**: `u.<taaknaam>.ps1` (bijv. `u.md-to-docx.ps1`)
-- **Locatie**: `agnt-cap-kit/scripts/`
-- **Features**: Parameter validatie, error handling, progress reporting
-- **Voorbeeld**: `u.md-to-docx.ps1` (Utility), `C.datamodel.ps1` (Stream C)
+Agents hebben Python scripts voor herhaald gebruik (cross-platform: Windows, Linux, macOS):
+- **DVS-agents**: `<stream>.<taaknaam>.py` (bijv. `d.tdm-realisatie.py`)
+- **Utility agents**: `u.<taaknaam>.py` (bijv. `u.md-to-docx.py`)
+- **Locatie**: `scripts/`
+- **Features**: Type hints, argument parsing, error handling, progress reporting
+- **Voorbeeld**: `python scripts/d.tdm-realisatie.py -i input.md -p PostgreSQL`
+
+**Installatie:**
+```bash
+pip install -r requirements.txt
+```
+
+Zie [scripts/README.md](scripts/README.md) voor gedetailleerde documentatie.
 
 ## 🎓 Principes
 

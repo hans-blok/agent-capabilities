@@ -1,0 +1,25 @@
+{
+  "agentName": "technisch-data-modelleur",
+  "phase": "d.ontwerp",
+  "agentId": "std.d.ontwerp.technisch-data-modelleur",
+  "repoRoot": "C:\\gitrepo\\agent-capabilities",
+  "charterRoot": "https://github.com/hans-blok/standard.git",
+  "charterPath": "C:\\gitrepo\\standard\\charters.agents\\d.ontwerp\\std.agent.charter.d.technisch-data-modelleur.md",
+  "promptPath": "C:\\gitrepo\\agent-capabilities\\.github\\prompts\\d.technisch-data-modelleur.prompt.md",
+  "runnerPath": "C:\\gitrepo\\agent-capabilities\\scripts\\d.ontwerp\\technisch-data-modelleur.py",
+  "orchestrationPath": "C:\\gitrepo\\agent-capabilities\\orchestrations\\d.ontwerp\\technisch-data-modelleur.orchestration.yaml",
+  "outputRoot": "C:\\gitrepo\\agent-capabilities\\artefacten\\d.ontwerp",
+  "buildPlanPath": "C:\\gitrepo\\agent-capabilities\\artefacten\\_buildplans\\std.d.ontwerp.technisch-data-modelleur.json",
+  "qualityGates": [
+    "Nederlands B1",
+    "Geen technische implementatiedetails in prompt",
+    "Max 3 aannames (indien van toepassing)",
+    "Output is Markdown"
+  ],
+  "runtime": {
+    "llmProvider": "anthropic",
+    "model": "claude-sonnet",
+    "adapter": "Invoke-LLM (stub in runner)"
+  },
+  "generatedOn": "2026-01-06T20:09:22.871841"
+}

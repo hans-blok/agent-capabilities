@@ -1,0 +1,51 @@
+# Python Dependencies voor Agent-Capabilities Scripts
+#
+# Installatie:
+#   pip install -r requirements.txt
+#
+# Versie: 1.0
+# Datum: 04-01-2026
+
+# YAML parsing voor orchestration configuratie
+pyyaml>=6.0.1
+
+# Type checking (optioneel, voor development)
+# mypy>=1.0.0
+
+# Linting (optioneel, voor development)
+# pylint>=2.15.0
+# flake8>=6.0.0
+
+# Testing (optioneel, voor development)
+# pytest>=7.2.0
+# pytest-cov>=4.0.0
+
+# Documentatie generatie (optioneel)
+# python-docx>=0.8.11  # Voor u.md-to-docx conversie indien nodig
+
+# Markdown processing (indien nodig voor parsers)
+# markdown>=3.4.0
+# markdown-it-py>=2.1.0
+
+# JSON/YAML validation (optioneel)
+# jsonschema>=4.17.0
+
+# Progress bars voor lange operaties (optioneel)
+# tqdm>=4.64.0
+
+# Rich text output in terminal (optioneel, voor mooiere logging)
+# rich>=13.0.0
+
+# Database connectivity (indien agents direct met databases werken)
+# psycopg2-binary>=2.9.0  # PostgreSQL
+# pymongo>=4.3.0          # MongoDB
+# pyodbc>=4.0.39          # SQL Server (Windows)
+
+# Note: Veel functionaliteit gebruikt alleen Python stdlib:
+# - argparse (command-line parsing)
+# - pathlib (path handling)
+# - json (JSON parsing)
+# - datetime (timestamps)
+# - typing (type hints)
+# - subprocess (process execution)
+# - sys, os (system utilities)

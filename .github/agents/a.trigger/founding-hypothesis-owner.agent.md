@@ -233,7 +233,7 @@ omdat [unieke waarde].
 **Charter**: https://github.com/hans-blok/standard/blob/main/charters.agents/a.trigger/std.agent.charter.a.founding-hypothesis-owner.md
 ```
 
-**PowerShell Script**: `agnt-cap-kit/scripts/a.founding-hypothesis-owner.ps1`
+**Python Script**: `scripts/a.founding-hypothesis-owner.py`
 
 **Script gebruik**:
 ```powershell
