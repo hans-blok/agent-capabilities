@@ -1,64 +1,14 @@
 ## Bewaar hier al mijn statements (vervang ze niet)
 
 # Agent maken vanuit charter (in standard repository)
-python scripts-agent-ecosysteem/make-agent.py --agent-name technisch-data-modelleur
-python scripts-agent-ecosysteem/make-agent.py --agent-name logisch-data-modelleur
-python scripts-agent-ecosysteem/make-agent.py --agent-name schema-custodian
-python scripts-agent-ecosysteem/make-agent.py --agent-name founding-hypothesis-owner
-python scripts-agent-ecosysteem/make-agent.py --agent-name service-architect
-python scripts-agent-ecosysteem/make-agent.py --agent-name cdm-architect
+python scripts/make-agent.py --agent-name technisch-data-modelleur
+python scripts/make-agent.py --agent-name logisch-data-modelleur
+python scripts/make-agent.py --agent-name schema-custodian
+python scripts/make-agent.py --agent-name founding-hypothesis-owner
+python scripts/make-agent.py --agent-name service-architect
+python scripts/make-agent.py --agent-name cdm-architect
+python scripts/make-agent.py --agent-name c4-modelleur
 
-# Agents synchroniseren naar andere workspace
-# 1. Clone eerst target repository:
-git clone https://github.com/user/target-repo.git ../target-workspace
-
-# 2. Sync agents (dry-run eerst)
-python scripts-agent-ecosysteem/sync-agents.py --target ../target-workspace --dry-run
-
-# 3. Daadwerkelijk syncen
-python scripts-agent-ecosysteem/sync-agents.py --target ../target-workspace
-
-# 4. Specifieke agents syncen
-python scripts-agent-ecosysteem/sync-agents.py --target ../target-workspace --agents cdm-architect logisch-data-modelleur
-
-# Structuur:
-# scripts-agent-ecosysteem/
-#     make-agent.py                 - Maakt agent van charter (auto git pull)
-#     prompt-builder.py             - Genereert prompts
-#     runner-builder.py             - Genereert runners
-#     orchestration-builder.py      - Genereert orchestratie
-#     sync-agents.py                - Sync naar project workspaces
-#     statements handmatig/         - Dit bestand
-#
-# .github/
-#   copilot/
-#     agents.yaml                   - Agent registratie
-#   agents/                         - Agent definities (plat, fase prefix)
-#     a.founding-hypothesis-owner.agent.md
-#     b.cdm-architect.agent.md
-#     ...
-#
-# agent-componenten/                # Alle agent componenten centraal
-#   prompts/                        - Prompts (sync kopieert naar .github/prompts/ in projecten)
-#     a.founding-hypothesis-owner.prompt.md
-#     b.cdm-architect.prompt.md
-#     c.logisch-data-modelleur.prompt.md
-#     ...
-#   runners/                        - Runner scripts (plat, fase prefix)
-#     a.founding-hypothesis-owner.py
-#     b.cdm-architect.py
-#     c.logisch-data-modelleur.py
-#     d.service-architect.py
-#     ...
-#   orchestrations/                 - Orchestratie configs (plat, volledige fase)
-#     a.trigger.founding-hypothesis-owner.orchestration.yaml
-#     b.architectuur.cdm-architect.orchestration.yaml
-#     c.specificatie.logisch-data-modelleur.orchestration.yaml
-#     ...
-#   buildplans/                     - Build metadata (JSON)
-#     std.a.trigger.founding-hypothesis-owner.json
-#     std.c.specificatie.logisch-data-modelleur.json
-#     ...
 #
 # GEEN artefacten/: Deze workspace is alleen voor agent componenten!
 # Artefacten worden gemaakt in project workspaces waar sync-agents.py naar kopieert

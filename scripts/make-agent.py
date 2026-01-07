@@ -156,7 +156,7 @@ class AgentMaker:
             "runnerPath": str(self.repo_root / "agent-componenten" / "runners" / f"{phase_prefix}.{self.agent_name}.py"),
             "orchestrationPath": str(self.repo_root / "agent-componenten" / "orchestrations" / f"{phase}.{self.agent_name}.orchestration.yaml"),
             "outputRoot": "<project-workspace>/artefacten",
-            "buildPlanPath": str(self.repo_root / "agent-componenten" / "buildplans" / f"{agent_id}.json"),
+            "buildPlanPath": str(self.repo_root / "agent-componenten" / "buildplans" / f"{phase_prefix}.{self.agent_name}.json"),
             "qualityGates": [
                 "Nederlands B1",
                 "Geen technische implementatiedetails in prompt",
@@ -185,7 +185,7 @@ class AgentMaker:
     
     def invoke_builder(self, script_name: str, plan_path: str):
         """Invoke a builder script."""
-        scripts_dir = Path(__file__).parent
+        scripts_dir = self.repo_root / "scripts"
         script_path = scripts_dir / script_name
         
         if not script_path.exists():
