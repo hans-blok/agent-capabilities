@@ -23,47 +23,54 @@ Cases         Patterns         Datamodellen      Design      Generation   Valida
 
 ```
 /.github
-    /prompts/                       # Agent prompts voor Copilot (@workspace activatie)
-        0.moeder.prompt.md
-        a.founding-hypothesis-owner.prompt.md
-        b.cdm-architect.prompt.md
-        c.feature-analist.prompt.md
-        c.logisch-data-modelleur.prompt.md
-        c.schema-custodian.prompt.md
-        d.service-architect.prompt.md
-        d.technisch-data-modelleur.prompt.md
-        u.md-to-archimate-xml.prompt.md
-        u.md-to-docx.prompt.md
-        u.md-to-dsl.prompt.md
     /copilot/
         agents.yaml                 # Agent registratie voor GitHub Copilot
-/scripts-agent-ecosysteem/          # Agent maker tools (NIET voor sync naar andere workspaces)
-    make-agent.py                   # Genereert agent van charter
+    /agents/                        # Agent definities (platte structuur, fase prefix)
+        a.founding-hypothesis-owner.agent.md
+        b.cdm-architect.agent.md
+        c.logisch-data-modelleur.agent.md
+        ...
+/scripts-agent-ecosysteem/          # Agent maker tools
+    make-agent.py                   # Genereert agent van charter (auto git pull)
     prompt-builder.py               # Bouwt prompts uit charters
     runner-builder.py               # Genereert runner scripts
     orchestration-builder.py        # Maakt orchestratie configs
-    sync-agents.py                  # Sync agents (ALLEEN prompts/runners) naar andere workspaces
-    moeder.agent.md                 # Moeder agent definitie
-/agent-componenten/
-    /scripts/                       # Gegenereerde runner scripts per fase
-        /a.trigger/
-            founding-hypothesis-owner.py
-        /b.architectuur/
-            cdm-architect.py
-        /c.specificatie/
-            feature-analist.py
-            logisch-data-modelleur.py
-            schema-custodian.py
-        /d.ontwerp/
-            service-architect.py
-            technisch-data-modelleur.py
+    sync-agents.py                  # Sync agents naar project workspaces
+/agent-componenten/                 # Alle agent componenten bij elkaar
+    /prompts/                       # Agent prompts (sync kopieert naar .github/prompts/ in projecten)
+        0.moeder.prompt.md
+        a.founding-hypothesis-owner.prompt.md
+        b.cdm-architect.prompt.md
+        c.logisch-data-modelleur.prompt.md
+        d.service-architect.prompt.md
+        ...
+    /runners/                       # Runner scripts (platte structuur, fase prefix)
+        a.founding-hypothesis-owner.py
+        b.cdm-architect.py
+        c.logisch-data-modelleur.py
+        d.service-architect.py
+        ...
+    /orchestrations/                # Orchestratie configs (platte structuur, volledige fase)
+        a.trigger.founding-hypothesis-owner.orchestration.yaml
+        b.architectuur.cdm-architect.orchestration.yaml
+        c.specificatie.logisch-data-modelleur.orchestration.yaml
+        d.ontwerp.service-architect.orchestration.yaml
+        ...
+    /buildplans/                    # Build metadata (JSON)
+        std.a.trigger.founding-hypothesis-owner.json
+        std.c.specificatie.logisch-data-modelleur.json
+        ...
 /desc-agents/                       # Uitgebreide agent documentatie
-    /a.trigger/, /b.architectuur/, /c.specificatie/, /d.ontwerp/, /utility/
 /templates/                         # Herbruikbare templates
 /docs/                              # Project documentatie
-requirements.txt                    # Python dependencies
+requirements.txt
 README.md
 ```
+
+**Belangrijke directories:**
+- `agent-componenten/` - Alle agent componenten centraal
+- `scripts-agent-ecosysteem/` - Tools om agents te maken en synchroniseren
+- **Geen artefacten**: Deze workspace is alleen voor agent componenten, niet voor output
 
 ## 🔧 Agent Maker Tools
 
@@ -79,10 +86,10 @@ python scripts-agent-ecosysteem/make-agent.py --agent-name logisch-data-modelleu
 ```
 
 **Output:**
-- `.github/prompts/c.logisch-data-modelleur.prompt.md` - Prompt voor Copilot
-- `agent-componenten/scripts/c.specificatie/logisch-data-modelleur.py` - Runner script
-- `agent-componenten/orchestrations/c.logisch-data-modelleur.yaml` - Orchestratie config
-- `artefacten/_buildplans/std.c.specificatie.logisch-data-modelleur.json` - Build plan (metadata)
+- `agent-componenten/prompts/c.logisch-data-modelleur.prompt.md` - Prompt (sync kopieert naar .github/prompts/ in projecten)
+- `agent-componenten/runners/c.logisch-data-modelleur.py` - Runner script
+- `agent-componenten/orchestrations/c.specificatie.logisch-data-modelleur.orchestration.yaml` - Orchestratie config
+- `agent-componenten/buildplans/std.c.specificatie.logisch-data-modelleur.json` - Build plan (metadata)
 
 ### Agents Synchroniseren naar Andere Workspaces
 
@@ -298,17 +305,23 @@ Agents zijn gestructureerd volgens de DVS-fases met kleine letter prefixes:
 ### Bestanden per Agent
 
 **Voor DVS-stream agents:**
-1. **Prompt Bestand**: `.github/prompts/<fase>.<agent-naam>.prompt.md` 
-2. **Runner Script**: `agent-componenten/scripts/<fase>/<agent-naam>.py`
-3. **Orchestration**: `agent-componenten/orchestrations/<fase>.<agent-naam>.yaml`
+1. **Prompt Bestand**: `agent-componenten/prompts/<fase>.<agent-naam>.prompt.md` 
+2. **Runner Script**: `agent-componenten/runners/<fase>.<agent-naam>.py`
+3. **Orchestration**: `agent-componenten/orchestrations/<volledige-fase>.<agent-naam>.orchestration.yaml`
 
 **Voor utility agents:**
-1. **Prompt Bestand**: `.github/prompts/u.<agent-naam>.prompt.md`
-2. **Runner Script**: `agent-componenten/scripts/utility/<agent-naam>.py`
-3. **Orchestration**: `agent-componenten/orchestrations/u.<agent-naam>.yaml`
+1. **Prompt Bestand**: `agent-componenten/prompts/u.<agent-naam>.prompt.md`
+2. **Runner Script**: `agent-componenten/runners/u.<agent-naam>.py`
+3. **Orchestration**: `agent-componenten/orchestrations/u.<agent-naam>.orchestration.yaml`
 
-**Agent Registratie:**
-- Alle agents geregistreerd in `.github/copilot/agents.yaml`
+**Synchronisatie naar projecten:**
+- `sync-agents.py` kopieert prompts naar `.github/prompts/` in project workspaces voor GitHub Copilot
+- Runners en orchestrations blijven in `agent-componenten/` in project workspaces
+
+**Voorbeelden:**
+- Prompt: `c.logisch-data-modelleur.prompt.md` (fase prefix: `c.`)
+- Runner: `c.logisch-data-modelleur.py` (fase prefix: `c.`)
+- Orchestration: `c.specificatie.logisch-data-modelleur.orchestration.yaml` (volledige fase: `c.specificatie.`)
 
 ## 🐍 Python Scripts
 
@@ -327,10 +340,10 @@ pip install -r requirements.txt
 **Gebruik:**
 ```bash
 # Runner direct uitvoeren
-python agent-componenten/scripts/d/service-architect.py -i input.md -o output.md
+python agent-componenten/scripts/d.service-architect.py -i input.md -o output.md
 
 # Via orchestration
-python agent-componenten/scripts/d/service-architect.py --config orchestrations/d.service-architect.yaml
+python agent-componenten/scripts/d.service-architect.py --config agent-componenten/orchestrations/d.ontwerp.service-architect.orchestration.yaml
 ```
 
 ## 🎓 Principes

@@ -1,7 +1,0 @@
-## bewaar hier al mijn statements (vervang ze niet)
-python scripts/0.agent-ecosysteem/0.make-agent.py --agent-name technisch-data-modelleur
-python scripts/0.agent-ecosysteem/0.make-agent.py --agent-name logisch-data-modelleur
-python scripts/0.agent-ecosysteem/0.make-agent.py --agent-name schema-custodian
-python scripts/0.agent-ecosysteem/0.make-agent.py --agent-name founding-hypothesis-owner
-python scripts/0.agent-ecosysteem/0.make-agent.py --agent-name service-architect
-python scripts/0.agent-ecosysteem/0.make-agent.py --agent-name cdm-architect

@@ -1,0 +1,25 @@
+{
+  "agentName": "cdm-architect",
+  "phase": "b",
+  "agentId": "std.b.cdm-architect",
+  "repoRoot": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem",
+  "charterRoot": "https://github.com/hans-blok/standard.git",
+  "charterPath": "c:\\gitrepo\\standard\\charters.agents\\std.agent.charter.b.cdm-architect.md",
+  "promptPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\prompts\\b.cdm-architect.prompt.md",
+  "runnerPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\runners\\b.cdm-architect.py",
+  "orchestrationPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\orchestrations\\b.cdm-architect.orchestration.yaml",
+  "outputRoot": "<project-workspace>/artefacten",
+  "buildPlanPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\buildplans\\std.b.cdm-architect.json",
+  "qualityGates": [
+    "Nederlands B1",
+    "Geen technische implementatiedetails in prompt",
+    "Max 3 aannames (indien van toepassing)",
+    "Output is Markdown"
+  ],
+  "runtime": {
+    "llmProvider": "anthropic",
+    "model": "claude-sonnet",
+    "adapter": "Invoke-LLM (stub in runner)"
+  },
+  "generatedOn": "2026-01-07T09:19:15.330017"
+}
