@@ -341,6 +341,7 @@ class AgentFetcher:
         
         # Find all workflow pipelines (pattern: workflow.*.*)
         workflow_count = 0
+        self.log("Ophalen workflows...")
         for workflow_file in pipelines_dir.glob("workflow.*"):
             if self.platform == 'github-actions':
                 target_pipeline_dir = self.target_root / ".github" / "workflows"
@@ -353,7 +354,9 @@ class AgentFetcher:
             workflow_count += 1
         
         if workflow_count > 0:
-            self.log(f"Workflows opgehaald: {workflow_count}")
+            self.log(f"Workflows opgehaald: {workflow_count}", "SUCCESS")
+        else:
+            self.log("Geen workflows gevonden")
     
     def fetch_agents_yaml(self):
         """Fetch agents.yaml configuration."""
