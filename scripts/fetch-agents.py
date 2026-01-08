@@ -24,10 +24,12 @@ Datum: 07-01-2026
 """
 
 import argparse
+import logging
 import shutil
 import subprocess
 import sys
 import tempfile
+from datetime import datetime
 from pathlib import Path
 from typing import List, Optional
 
@@ -39,15 +41,41 @@ class AgentFetcher:
         self, 
         target_root: Path, 
         source_url: str = "https://github.com/hans-blok/agent-capabilities.git",
-        dry_run: bool = False
+        dry_run: bool = False,
+        update_scripts: bool = False,
+        platform: str = 'github-actions'
     ):
         """Initialize the fetcher."""
         self.target_root = target_root
         self.source_url = source_url
         self.dry_run = dry_run
+        self.update_scripts = update_scripts
+        self.platform = platform
         self.copied_files = []
         self.temp_dir = None
         self.source_root = None
+        self.logger = None
+    
+    def setup_logging(self):
+        """Setup file-based logging in target/logs directory."""
+        log_dir = self.target_root / "logs"
+        log_dir.mkdir(parents=True, exist_ok=True)
+        
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        log_file = log_dir / f"fetch-agents_{timestamp}.log"
+        
+        # Configure logging
+        self.logger = logging.getLogger('fetch-agents')
+        self.logger.setLevel(logging.DEBUG)
+        
+        # File handler
+        file_handler = logging.FileHandler(log_file, encoding='utf-8')
+        file_handler.setLevel(logging.DEBUG)
+        file_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        file_handler.setFormatter(file_formatter)
+        self.logger.addHandler(file_handler)
+        
+        self.log(f"Logging naar: {log_file}", "INFO")
     
     def log(self, message: str, prefix: str = "INFO"):
         """Log a message with prefix."""
@@ -61,6 +89,18 @@ class AgentFetcher:
         reset = "\033[0m"
         color = colors.get(prefix, "")
         print(f"{color}[{prefix}] {message}{reset}")
+        
+        # Also log to file if logger is configured
+        if self.logger:
+            log_methods = {
+                "INFO": self.logger.info,
+                "SUCCESS": self.logger.info,
+                "WARNING": self.logger.warning,
+                "ERROR": self.logger.error,
+                "DRY-RUN": self.logger.info
+            }
+            log_method = log_methods.get(prefix, self.logger.info)
+            log_method(message)
     
     def clone_source(self) -> Path:
         """Clone source repository to temporary location."""
@@ -99,6 +139,7 @@ class AgentFetcher:
         
         self.log(f"Source: {self.source_url}")
         self.log(f"Target: {self.target_root}")
+        self.log(f"Platform: {self.platform}")
     
     def get_available_agents(self) -> List[str]:
         """Get list of available agents from source."""
@@ -129,7 +170,9 @@ class AgentFetcher:
             'prompt': None,
             'runner': None,
             'orchestration': None,
-            'buildplan': None
+            'buildplan': None,
+            'pipeline': None,
+            'agent': None
         }
         
         if self.dry_run:
@@ -141,6 +184,13 @@ class AgentFetcher:
         for prompt_file in prompts_dir.glob(f"*.{agent_name}.prompt.md"):
             files['prompt'] = prompt_file
             break
+        
+        # Find agent definition (pattern: *.<agent-name>.agent.md)
+        agents_dir = self.source_root / "agent-componenten" / "agents"
+        if agents_dir.exists():
+            for agent_file in agents_dir.glob(f"*.{agent_name}.agent.md"):
+                files['agent'] = agent_file
+                break
         
         # Find runner (pattern: *.<agent-name>.py in runners/)
         runners_dir = self.source_root / "agent-componenten" / "runners"
@@ -161,6 +211,13 @@ class AgentFetcher:
         if buildplans_dir.exists():
             for buildplan_file in buildplans_dir.glob(f"*.{agent_name}.json"):
                 files['buildplan'] = buildplan_file
+                break
+        
+        # Find pipeline (pattern: *.<agent-name>.* in pipelines/generated/<platform>/)
+        pipelines_dir = self.source_root / "agent-componenten" / "pipelines" / "generated" / self.platform
+        if pipelines_dir.exists():
+            for pipeline_file in pipelines_dir.glob(f"*.{agent_name}.*"):
+                files['pipeline'] = pipeline_file
                 break
         
         return files
@@ -192,6 +249,16 @@ class AgentFetcher:
             target_prompt = self.target_root / ".github" / "prompts" / source_prompt.name
             self.copy_file(source_prompt, target_prompt)
         
+        # Copy agent definition if exists
+        if files['agent']:
+            source_agent = files['agent']
+            rel_agent = source_agent.relative_to(self.source_root)
+            target_agent = self.target_root / rel_agent
+            self.copy_file(source_agent, target_agent)
+        else:
+            if not self.dry_run:
+                self.log(f"Geen agent definitie gevonden voor {agent_name}", "WARNING")
+        
         # Copy buildplan if exists
         if files['buildplan']:
             source_buildplan = files['buildplan']
@@ -222,7 +289,44 @@ class AgentFetcher:
             if not self.dry_run:
                 self.log(f"Geen orchestration gevonden voor {agent_name}", "WARNING")
         
+        # Copy pipeline if exists
+        if files['pipeline']:
+            if self.platform == 'github-actions':
+                target_pipeline_dir = self.target_root / ".github" / "workflows"
+            elif self.platform == 'gitlab-ci':
+                target_pipeline_dir = self.target_root  # GitLab CI files in root
+            else:
+                target_pipeline_dir = self.target_root / ".pipelines"
+            
+            self.copy_file(files['pipeline'], target_pipeline_dir / files['pipeline'].name)
+        else:
+            if not self.dry_run:
+                self.log(f"Geen pipeline gevonden voor {agent_name} (platform: {self.platform})", "WARNING")
+        
         return True
+    
+    def fetch_scripts(self):
+        """Fetch scripts directory (including fetch-agents.py itself)."""
+        if not self.update_scripts:
+            return
+        
+        if self.dry_run:
+            self.log("Would copy scripts directory", "DRY-RUN")
+            return
+        
+        source_scripts = self.source_root / "scripts"
+        target_scripts = self.target_root / "scripts"
+        
+        if not source_scripts.exists():
+            self.log("Geen scripts directory gevonden", "WARNING")
+            return
+        
+        self.log("Bijwerken scripts directory...")
+        
+        # Copy all Python files from scripts directory
+        for script_file in source_scripts.glob("*.py"):
+            target_file = target_scripts / script_file.name
+            self.copy_file(script_file, target_file)
     
     def fetch_agents_yaml(self):
         """Fetch agents.yaml configuration."""
@@ -263,6 +367,10 @@ class AgentFetcher:
     def run(self, agent_names: Optional[List[str]] = None):
         """Run the fetch operation."""
         try:
+            # Setup logging to file
+            if not self.dry_run:
+                self.setup_logging()
+            
             if self.dry_run:
                 self.log("DRY-RUN MODE - geen bestanden worden gekopieerd", "DRY-RUN")
             
@@ -293,10 +401,15 @@ class AgentFetcher:
             # Fetch agents.yaml
             self.fetch_agents_yaml()
             
+            # Fetch scripts if requested
+            self.fetch_scripts()
+            
             # Summary
             self.log(f"\nSamenvatting:", "SUCCESS")
             self.log(f"  Agents opgehaald: {success_count}/{len(agents) if agents else 0}")
             self.log(f"  Bestanden gekopieerd: {len(self.copied_files)}")
+            if self.update_scripts:
+                self.log(f"  Scripts bijgewerkt: ja")
             
             if self.dry_run:
                 self.log("\nDit was een dry-run. Voer opnieuw uit zonder --dry-run om op te halen.", "DRY-RUN")
@@ -326,6 +439,9 @@ Voorbeelden:
   # Haal specifieke agents op
   python fetch-agents.py --agents cdm-architect logisch-data-modelleur
   
+  # Update scripts directory (inclusief fetch-agents.py zelf)
+  python fetch-agents.py --update-scripts
+  
   # Gebruik andere bron
   python fetch-agents.py --source https://github.com/other/repo.git
         """
@@ -337,6 +453,9 @@ Voorbeelden:
     parser.add_argument('--dry-run', action='store_true',
                        help='Toon wat er opgehaald zou worden zonder te kopiëren')
     
+    parser.add_argument('--update-scripts', action='store_true',
+                       help='Werk scripts directory bij (inclusief fetch-agents.py)')
+    
     parser.add_argument('--source', 
                        default="https://github.com/hans-blok/agent-capabilities.git",
                        help='Bron repository URL (default: agent-capabilities)')
@@ -344,11 +463,20 @@ Voorbeelden:
     parser.add_argument('--target', default=None,
                        help='Target workspace directory (default: current directory)')
     
+    parser.add_argument('--platform', default='github-actions',
+                       help='Pipeline platform om op te halen (github-actions, gitlab-ci)')
+    
     args = parser.parse_args()
     
     target = Path(args.target).resolve() if args.target else Path.cwd()
     
-    fetcher = AgentFetcher(target, source_url=args.source, dry_run=args.dry_run)
+    fetcher = AgentFetcher(
+        target, 
+        source_url=args.source, 
+        dry_run=args.dry_run, 
+        update_scripts=args.update_scripts,
+        platform=args.platform
+    )
     return fetcher.run(agent_names=args.agents)
 
 

@@ -1,0 +1,36 @@
+name: C4 Modelleur Agent
+'on':
+  workflow_dispatch:
+    inputs:
+      source_docs:
+        description: Path to source documents for C4 model
+        required: true
+        type: string
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v4
+    - name: setup-python
+      uses: actions/setup-python@v5
+      with:
+        version: ${{ environment.python-version }}
+    - name: install-deps
+      run: pip install -r requirements.txt
+    - name: run-agent
+      run: 'python agent-componenten/runners/u.c4-modelleur.py --input ${{ inputs.source_docs
+        }}
+
+        '
+    - name: upload-artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: c4-model-diagrams
+        path: output/c4-diagrams/
+    - name: Notify on Failure
+      if: failure()
+      uses: slackapi/slack-github-action@v1.25.0
+      with:
+        channel-id: agent-alerts
+        slack-message: Agent u.c4-modelleur failed

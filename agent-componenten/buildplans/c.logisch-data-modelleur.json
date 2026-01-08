@@ -2,14 +2,16 @@
   "agentName": "logisch-data-modelleur",
   "phase": "c",
   "agentId": "std.c.logisch-data-modelleur",
-  "repoRoot": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem",
+  "repoRoot": "C:\\gitrepo\\agent-capabilities",
   "charterRoot": "https://github.com/hans-blok/standard.git",
-  "charterPath": "c:\\gitrepo\\standard\\charters.agents\\std.agent.charter.c.logisch-data-modelleur.md",
-  "promptPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\prompts\\c.logisch-data-modelleur.prompt.md",
-  "runnerPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\runners\\c.logisch-data-modelleur.py",
-  "orchestrationPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\orchestrations\\c.logisch-data-modelleur.orchestration.yaml",
+  "charterPath": "C:\\gitrepo\\standard\\artefacten\\3-charters-agents\\std.agent.charter.c.logisch-data-modelleur.md",
+  "charterUrl": "https://github.com/hans-blok/standard/blob/main/artefacten/3-charters-agents/std.agent.charter.c.logisch-data-modelleur.md",
+  "promptPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\prompts\\c.logisch-data-modelleur.prompt.md",
+  "runnerPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\runners\\c.logisch-data-modelleur.py",
+  "orchestrationPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\orchestrations\\c.logisch-data-modelleur.orchestration.yaml",
+  "agentDefinitionPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\agents\\c.logisch-data-modelleur.agent.md",
   "outputRoot": "<project-workspace>/artefacten",
-  "buildPlanPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\buildplans\\std.c.logisch-data-modelleur.json",
+  "buildPlanPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\buildplans\\c.logisch-data-modelleur.json",
   "qualityGates": [
     "Nederlands B1",
     "Geen technische implementatiedetails in prompt",
@@ -21,5 +23,5 @@
     "model": "claude-sonnet",
     "adapter": "Invoke-LLM (stub in runner)"
   },
-  "generatedOn": "2026-01-07T09:19:15.922461"
+  "generatedOn": "2026-01-08T15:36:33.778292"
 }

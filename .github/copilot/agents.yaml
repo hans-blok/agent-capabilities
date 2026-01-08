@@ -3,26 +3,6 @@
 # The value is a short description of what the agent does.
 
 agents:
-  0.moeder:
-    description: "Moeder-agent voor het beheren van herbruikbare generieke agents."
-  a.founding-hypothesis-owner:
-    description: "Stream a: Vertaalt strategische richting naar testbare founding hypothesis."
-  b.cdm-architect:
-    description: "Stream b: Genereert een conceptueel datamodel (CDM) met focus op traceerbaarheid."
-  c.feature-analist:
-    description: "Stream c: Transformeert high-level features naar testbare specificaties (user stories, BDD)."
-  c.logisch-data-modelleur:
-    description: "Stream c: Genereert een logisch datamodel (3NF) op basis van conceptueel model en specificaties."
-  c.schema-custodian:
-    description: "Stream c: Beheert en bewaakt datamodel-kwaliteit en consistentie."
-  d.service-architect:
-    description: "Stream d: Identificeert en classificeert service-kandidaten."
-  d.technisch-data-modelleur:
-    description: "Stream d: Vertaalt logisch datamodel naar platform-specifiek technisch datamodel (DDL)."
-  u.md-to-archimate-xml:
-    description: "Utility: Converteert Markdown naar Archimate XML-formaat."
-  u.md-to-docx:
-    description: "Utility: Converteert Markdown-bestanden naar Microsoft Word (DOCX)."
-  u.md-to-dsl:
-    description: "Utility: Converteert Markdown naar een Domain-Specific Language (DSL)."
-
+  0.agent-cap-moeder:
+    description: "Moeder-agent voor het beheren van agent-capabilities workspace."
+  

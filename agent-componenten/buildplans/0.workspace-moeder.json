@@ -1,0 +1,25 @@
+{
+  "agentName": "workspace-moeder",
+  "phase": "0",
+  "agentId": "std.0.workspace-moeder",
+  "repoRoot": "C:\\gitrepo\\agent-capabilities",
+  "charterRoot": "https://github.com/hans-blok/standard.git",
+  "charterPath": "C:\\gitrepo\\standard\\charters.agents\\std.agent.charter.0.workspace-moeder.md",
+  "promptPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\prompts\\0.workspace-moeder.prompt.md",
+  "runnerPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\runners\\0.workspace-moeder.py",
+  "orchestrationPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\orchestrations\\0.workspace-moeder.orchestration.yaml",
+  "outputRoot": "<project-workspace>/artefacten",
+  "buildPlanPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\buildplans\\0.workspace-moeder.json",
+  "qualityGates": [
+    "Nederlands B1",
+    "Geen technische implementatiedetails in prompt",
+    "Max 3 aannames (indien van toepassing)",
+    "Output is Markdown"
+  ],
+  "runtime": {
+    "llmProvider": "anthropic",
+    "model": "claude-sonnet",
+    "adapter": "Invoke-LLM (stub in runner)"
+  },
+  "generatedOn": "2026-01-08T10:44:52.296384"
+}

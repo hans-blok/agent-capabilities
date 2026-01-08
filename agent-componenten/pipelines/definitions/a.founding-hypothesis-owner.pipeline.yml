@@ -1,0 +1,45 @@
+pipeline:
+  name: Founding Hypothesis Owner Agent
+  description: Vertaalt strategische richting naar testbare founding hypothesis
+  
+  trigger:
+    type: manual
+    inputs:
+      business_case:
+        description: Path to business case document
+        required: true
+        type: string
+  
+  environment:
+    runner: ubuntu-latest
+    python-version: "3.11"
+  
+  steps:
+    - id: checkout
+      action: checkout
+    
+    - id: setup-python
+      action: setup-python
+      with:
+        version: ${{ environment.python-version }}
+    
+    - id: install-deps
+      action: run
+      command: pip install -r requirements.txt
+    
+    - id: run-agent
+      action: run
+      command: |
+        python agent-componenten/runners/a.founding-hypothesis-owner.py --input ${{ inputs.business_case }}
+    
+    - id: upload-artifacts
+      action: upload-artifact
+      with:
+        name: founding-hypothesis
+        path: output/founding-hypothesis.md
+  
+  notifications:
+    on-failure:
+      slack:
+        channel: agent-alerts
+        message: Agent a.founding-hypothesis-owner failed

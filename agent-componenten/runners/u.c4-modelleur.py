@@ -4,10 +4,10 @@ c4-modelleur.py
 
 Runner script voor c4-modelleur agent.
 
-Agent: std.b.c4-modelleur
-Fase: b
-Charter: C:\gitrepo\standard\charters.agents\std.agent.charter.b.c4-modelleur.md
-Gegenereerd: 2026-01-07
+Agent: std.u.c4-modelleur
+Fase: u
+Charter: C:\gitrepo\standard\artefacten\3-charters-agents\std.agent.charter.u.c4-modelleur.md
+Gegenereerd: 2026-01-08
 """
 
 import argparse
@@ -25,7 +25,7 @@ class C4ModelleurAgent:
         """Initialize the agent."""
         self.args = args
         self.output_root = Path("<project-workspace>/artefacten")
-        self.charter_path = Path("C:\gitrepo\standard\charters.agents\std.agent.charter.b.c4-modelleur.md")
+        self.charter_path = Path("C:\gitrepo\standard\artefacten\3-charters-agents\std.agent.charter.u.c4-modelleur.md")
     
     def log(self, message: str, msg_type: str = "INFO"):
         """Log a message."""
@@ -64,7 +64,7 @@ class C4ModelleurAgent:
             self.validate_inputs()
             
             # PLACEHOLDER: Hier zou de daadwerkelijke agent logic komen
-            # Dit zou typisch een LLM call zijn met de prompt uit C:\gitrepo\agent-capabilities\agent-componenten\prompts\b.c4-modelleur.prompt.md
+            # Dit zou typisch een LLM call zijn met de prompt uit C:\gitrepo\agent-capabilities\agent-componenten\prompts\u.c4-modelleur.prompt.md
             
             self.log("LET OP: Dit is een placeholder runner", "WARNING")
             self.log("De daadwerkelijke agent-logica zou hier via LLM gebeuren", "WARNING")
@@ -83,7 +83,7 @@ class C4ModelleurAgent:
 Dit is placeholder output. De daadwerkelijke output zou gegenereerd worden
 door de LLM op basis van:
 - Charter: {self.charter_path}
-- Prompt: C:\gitrepo\agent-capabilities\agent-componenten\prompts\b.c4-modelleur.prompt.md
+- Prompt: C:\gitrepo\agent-capabilities\agent-componenten\prompts\u.c4-modelleur.prompt.md
 - Input bestanden
 """
             

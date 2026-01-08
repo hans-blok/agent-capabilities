@@ -143,8 +143,18 @@ Kopieert:
 - Geen externe dependencies voor core functionality
 
 ### External
-- Standard repository: `c:\gitrepo\standard` (charters)
+- Standard repository: `c:\gitrepo\standard` (charters) - Zie [beleid.md](beleid.md) voor git pull vereiste
 - Project workspaces: Targets voor sync
+
+## Beleid & Principes
+
+Zie [beleid.md](beleid.md) voor:
+- Git pull vereiste bij standard repository raadpleging
+- Minimale prompts principe
+- Charter als single source of truth
+- Flat file structure
+- Naming conventions
+- En meer...
 
 ## Contact & Escalatie
 

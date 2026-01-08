@@ -6,8 +6,8 @@ Runner script voor founding-hypothesis-owner agent.
 
 Agent: std.a.founding-hypothesis-owner
 Fase: a
-Charter: c:\gitrepo\standard\charters.agents\std.agent.charter.a.founding-hypothesis-owner.md
-Gegenereerd: 2026-01-07
+Charter: C:\gitrepo\standard\artefacten\3-charters-agents\std.agent.charter.a.founding-hypothesis-owner.md
+Gegenereerd: 2026-01-08
 """
 
 import argparse
@@ -25,7 +25,7 @@ class FoundingHypothesisOwnerAgent:
         """Initialize the agent."""
         self.args = args
         self.output_root = Path("<project-workspace>/artefacten")
-        self.charter_path = Path("c:\gitrepo\standard\charters.agents\std.agent.charter.a.founding-hypothesis-owner.md")
+        self.charter_path = Path("C:\gitrepo\standard\artefacten\3-charters-agents\std.agent.charter.a.founding-hypothesis-owner.md")
     
     def log(self, message: str, msg_type: str = "INFO"):
         """Log a message."""
@@ -64,7 +64,7 @@ class FoundingHypothesisOwnerAgent:
             self.validate_inputs()
             
             # PLACEHOLDER: Hier zou de daadwerkelijke agent logic komen
-            # Dit zou typisch een LLM call zijn met de prompt uit C:\gitrepo\agent-capabilities\scripts-agent-ecosysteem\agent-componenten\prompts\a.founding-hypothesis-owner.prompt.md
+            # Dit zou typisch een LLM call zijn met de prompt uit C:\gitrepo\agent-capabilities\agent-componenten\prompts\a.founding-hypothesis-owner.prompt.md
             
             self.log("LET OP: Dit is een placeholder runner", "WARNING")
             self.log("De daadwerkelijke agent-logica zou hier via LLM gebeuren", "WARNING")
@@ -83,7 +83,7 @@ class FoundingHypothesisOwnerAgent:
 Dit is placeholder output. De daadwerkelijke output zou gegenereerd worden
 door de LLM op basis van:
 - Charter: {self.charter_path}
-- Prompt: C:\gitrepo\agent-capabilities\scripts-agent-ecosysteem\agent-componenten\prompts\a.founding-hypothesis-owner.prompt.md
+- Prompt: C:\gitrepo\agent-capabilities\agent-componenten\prompts\a.founding-hypothesis-owner.prompt.md
 - Input bestanden
 """
             

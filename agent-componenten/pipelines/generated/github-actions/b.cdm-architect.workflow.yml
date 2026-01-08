@@ -1,0 +1,31 @@
+name: CDM Architect Agent
+'on':
+  workflow_dispatch:
+    inputs: {}
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v4
+    - name: setup-python
+      uses: actions/setup-python@v5
+      with:
+        version: ${{ environment.python-version }}
+    - name: install-deps
+      run: pip install -r requirements.txt
+    - name: run-agent
+      run: 'python agent-componenten/runners/b.cdm-architect.py --input cdm-sources/
+
+        '
+    - name: upload-artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: cdm-artefact
+        path: output/cdm.md
+    - name: Notify on Failure
+      if: failure()
+      uses: slackapi/slack-github-action@v1.25.0
+      with:
+        channel-id: agent-alerts
+        slack-message: Agent b.cdm-architect failed

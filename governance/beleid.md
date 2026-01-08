@@ -1,4 +1,25 @@
-# Principes Agent-Componenten
+# Beleid Agent-Capabilities Workspace
+
+## Verplicht: Git Pull bij Standard Repository Raadpleging
+
+**Beleid**: Bij elke raadpleging van https://github.com/hans-blok/standard.git MOET er eerst een `git pull` worden uitgevoerd.
+
+**Implementatie**:
+- make-agent.py voert automatisch `git pull` uit op standard repository
+- Alle agents die charters raadplegen doen eerst een pull
+- Dit garandeert dat altijd met de nieuwste versie wordt gewerkt
+
+**Rationale**: 
+- Voorkomt werken met verouderde charters
+- Agents genereren altijd de meest actuele componenten
+- Consistentie tussen alle agent-componenten
+
+**Is dit dubbel met agent charters?**: Nee, dit is complementair:
+- Dit beleid = workspace regel (hoe we werken)
+- Agent charter = agent verantwoordelijkheid (wat de agent doet)
+- Beide versterken elkaar voor robuuste workflows
+
+---
 
 ## 1. Minimale Prompts
 **Rationale**: Schaalbaarheid en onderhoudbaarheid
@@ -113,6 +134,36 @@ project-workspaces/     → Agent-execution & artefacten
 - Altijd terug te traceren naar charter
 - Audit trail voor debugging
 - Reproduceerbare builds
+
+## 9. Pipeline Templates
+**Rationale**: Herbruikbare, platform-agnostische CI/CD configuratie
+
+**Architectuur**:
+- **Definities**: Platform-agnostische pipeline definities in `agent-componenten/pipelines/definitions/`
+- **Generators**: `make-agent.py` bevat generators die definities vertalen naar platform-specifieke templates
+- **Gegenereerd**: Platform-specifieke templates in `agent-componenten/pipelines/generated/<platform>/`
+
+**Implementatie**:
+- `make-agent.py` genereert platform-specifieke templates uit de agnostische definitie
+- `sync-agents.py` synchroniseert de *gegenereerde* templates naar project workspaces
+- Naming: `<fase>.<agent-naam>.pipeline.yml` (definitie), `<fase>.<agent-naam>.<platform-extensie>` (gegenereerd)
+
+**Project Gebruik**:
+- Project kiest platform bij sync (`--platform gitlab-ci`)
+- Template wordt gekopieerd naar platform-specifieke locatie (bv. `.gitlab-ci.yml`)
+- Project MAG template aanpassen na sync
+- Template dient als startpunt en best practice
+
+**Consequenties**:
+- Charter kan pipeline-configuratie bevatten (optioneel)
+- `make-agent.py` kan alle pipelines regenereren voor een nieuw platform (bv. bij migratie)
+- `sync-agents.py` kopieert alleen de benodigde platform-specifieke templates
+- Pipeline definities zijn onderdeel van Experience Packages
+
+**Beperkingen**:
+- Definitie bevat generieke agent-executie
+- Project-specifieke secrets/vars niet in definitie
+- Environment-specifieke config in project
 
 ## Anti-Patterns (NIET doen)
 

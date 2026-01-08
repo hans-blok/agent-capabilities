@@ -1,0 +1,43 @@
+pipeline:
+  name: CDM Architect Agent
+  description: Genereert een conceptueel datamodel (CDM) met focus op traceerbaarheid
+  
+  trigger:
+    type: commit
+    branches:
+      - main
+      - develop
+  
+  environment:
+    runner: ubuntu-latest
+    python-version: "3.11"
+  
+  steps:
+    - id: checkout
+      action: checkout
+    
+    - id: setup-python
+      action: setup-python
+      with:
+        version: ${{ environment.python-version }}
+    
+    - id: install-deps
+      action: run
+      command: pip install -r requirements.txt
+    
+    - id: run-agent
+      action: run
+      command: |
+        python agent-componenten/runners/b.cdm-architect.py --input cdm-sources/
+    
+    - id: upload-artifacts
+      action: upload-artifact
+      with:
+        name: cdm-artefact
+        path: output/cdm.md
+  
+  notifications:
+    on-failure:
+      slack:
+        channel: agent-alerts
+        message: Agent b.cdm-architect failed

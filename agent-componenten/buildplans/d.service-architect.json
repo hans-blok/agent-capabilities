@@ -2,14 +2,16 @@
   "agentName": "service-architect",
   "phase": "d",
   "agentId": "std.d.service-architect",
-  "repoRoot": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem",
+  "repoRoot": "C:\\gitrepo\\agent-capabilities",
   "charterRoot": "https://github.com/hans-blok/standard.git",
-  "charterPath": "c:\\gitrepo\\standard\\charters.agents\\std.agent.charter.d.service-architect.md",
-  "promptPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\prompts\\d.service-architect.prompt.md",
-  "runnerPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\runners\\d.service-architect.py",
-  "orchestrationPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\orchestrations\\d.service-architect.orchestration.yaml",
+  "charterPath": "C:\\gitrepo\\standard\\artefacten\\3-charters-agents\\std.agent.charter.d.service-architect.md",
+  "charterUrl": "https://github.com/hans-blok/standard/blob/main/artefacten/3-charters-agents/std.agent.charter.d.service-architect.md",
+  "promptPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\prompts\\d.service-architect.prompt.md",
+  "runnerPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\runners\\d.service-architect.py",
+  "orchestrationPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\orchestrations\\d.service-architect.orchestration.yaml",
+  "agentDefinitionPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\agents\\d.service-architect.agent.md",
   "outputRoot": "<project-workspace>/artefacten",
-  "buildPlanPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\buildplans\\std.d.service-architect.json",
+  "buildPlanPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\buildplans\\d.service-architect.json",
   "qualityGates": [
     "Nederlands B1",
     "Geen technische implementatiedetails in prompt",
@@ -21,5 +23,5 @@
     "model": "claude-sonnet",
     "adapter": "Invoke-LLM (stub in runner)"
   },
-  "generatedOn": "2026-01-07T09:19:17.579783"
+  "generatedOn": "2026-01-08T15:36:37.417056"
 }

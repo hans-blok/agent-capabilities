@@ -2,14 +2,16 @@
   "agentName": "cdm-architect",
   "phase": "b",
   "agentId": "std.b.cdm-architect",
-  "repoRoot": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem",
+  "repoRoot": "C:\\gitrepo\\agent-capabilities",
   "charterRoot": "https://github.com/hans-blok/standard.git",
-  "charterPath": "c:\\gitrepo\\standard\\charters.agents\\std.agent.charter.b.cdm-architect.md",
-  "promptPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\prompts\\b.cdm-architect.prompt.md",
-  "runnerPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\runners\\b.cdm-architect.py",
-  "orchestrationPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\orchestrations\\b.cdm-architect.orchestration.yaml",
+  "charterPath": "C:\\gitrepo\\standard\\artefacten\\3-charters-agents\\std.agent.charter.b.cdm-architect.md",
+  "charterUrl": "https://github.com/hans-blok/standard/blob/main/artefacten/3-charters-agents/std.agent.charter.b.cdm-architect.md",
+  "promptPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\prompts\\b.cdm-architect.prompt.md",
+  "runnerPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\runners\\b.cdm-architect.py",
+  "orchestrationPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\orchestrations\\b.cdm-architect.orchestration.yaml",
+  "agentDefinitionPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\agents\\b.cdm-architect.agent.md",
   "outputRoot": "<project-workspace>/artefacten",
-  "buildPlanPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\buildplans\\std.b.cdm-architect.json",
+  "buildPlanPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\buildplans\\b.cdm-architect.json",
   "qualityGates": [
     "Nederlands B1",
     "Geen technische implementatiedetails in prompt",
@@ -21,5 +23,5 @@
     "model": "claude-sonnet",
     "adapter": "Invoke-LLM (stub in runner)"
   },
-  "generatedOn": "2026-01-07T09:19:15.330017"
+  "generatedOn": "2026-01-08T15:36:31.975000"
 }

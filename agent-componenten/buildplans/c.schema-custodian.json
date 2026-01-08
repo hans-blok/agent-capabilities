@@ -2,14 +2,16 @@
   "agentName": "schema-custodian",
   "phase": "c",
   "agentId": "std.c.schema-custodian",
-  "repoRoot": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem",
+  "repoRoot": "C:\\gitrepo\\agent-capabilities",
   "charterRoot": "https://github.com/hans-blok/standard.git",
-  "charterPath": "c:\\gitrepo\\standard\\charters.agents\\std.agent.charter.c.schema-custodian.md",
-  "promptPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\prompts\\c.schema-custodian.prompt.md",
-  "runnerPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\runners\\c.schema-custodian.py",
-  "orchestrationPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\orchestrations\\c.schema-custodian.orchestration.yaml",
+  "charterPath": "C:\\gitrepo\\standard\\artefacten\\3-charters-agents\\std.agent.charter.c.schema-custodian.md",
+  "charterUrl": "https://github.com/hans-blok/standard/blob/main/artefacten/3-charters-agents/std.agent.charter.c.schema-custodian.md",
+  "promptPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\prompts\\c.schema-custodian.prompt.md",
+  "runnerPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\runners\\c.schema-custodian.py",
+  "orchestrationPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\orchestrations\\c.schema-custodian.orchestration.yaml",
+  "agentDefinitionPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\agents\\c.schema-custodian.agent.md",
   "outputRoot": "<project-workspace>/artefacten",
-  "buildPlanPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\buildplans\\std.c.schema-custodian.json",
+  "buildPlanPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\buildplans\\c.schema-custodian.json",
   "qualityGates": [
     "Nederlands B1",
     "Geen technische implementatiedetails in prompt",
@@ -21,5 +23,5 @@
     "model": "claude-sonnet",
     "adapter": "Invoke-LLM (stub in runner)"
   },
-  "generatedOn": "2026-01-07T09:19:16.754354"
+  "generatedOn": "2026-01-08T15:36:35.747242"
 }

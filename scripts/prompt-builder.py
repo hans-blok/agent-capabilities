@@ -52,14 +52,14 @@ def read_charter(charter_path: Path) -> str:
 def generate_prompt(plan: dict, charter_content: str) -> str:
     """Generate minimal prompt with agent reference."""
     agent_id = plan['agentId']
-    charter_path = plan['charterPath']
+    charter_url = plan.get('charterUrl', plan['charterPath'])  # Use URL if available, fallback to path
     
     prompt = f"""---
 agent: {agent_id}
 ---
 
 We scheiden agents en prompts voor schaalbaarheid.
-Charter: {charter_path}
+Charter: {charter_url}
 """
     
     return prompt

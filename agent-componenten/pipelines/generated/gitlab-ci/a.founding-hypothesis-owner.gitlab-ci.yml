@@ -1,0 +1,17 @@
+founding-hypothesis-owner-agent:
+  stage: agent
+  image: python:3.11
+  rules:
+  - if: $CI_PIPELINE_SOURCE == "web"
+  script:
+  - pip install -r requirements.txt
+  - python agent-componenten/runners/a.founding-hypothesis-owner.py --input ${{ inputs.business_case
+    }}
+  artifacts:
+    name: founding-hypothesis
+    paths:
+    - output/founding-hypothesis.md
+  after_script:
+  - 'if [ $CI_JOB_STATUS == ''failed'' ]; then apk add --no-cache curl; curl -X POST
+    -H ''Content-type: application/json'' --data ''{"text":"Agent a.founding-hypothesis-owner
+    failed"}'' $SLACK_WEBHOOK_URL; fi'

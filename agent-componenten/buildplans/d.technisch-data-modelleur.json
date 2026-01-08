@@ -2,14 +2,16 @@
   "agentName": "technisch-data-modelleur",
   "phase": "d",
   "agentId": "std.d.technisch-data-modelleur",
-  "repoRoot": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem",
+  "repoRoot": "C:\\gitrepo\\agent-capabilities",
   "charterRoot": "https://github.com/hans-blok/standard.git",
-  "charterPath": "c:\\gitrepo\\standard\\charters.agents\\std.agent.charter.d.technisch-data-modelleur.md",
-  "promptPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\prompts\\d.technisch-data-modelleur.prompt.md",
-  "runnerPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\runners\\d.technisch-data-modelleur.py",
-  "orchestrationPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\orchestrations\\d.technisch-data-modelleur.orchestration.yaml",
+  "charterPath": "C:\\gitrepo\\standard\\artefacten\\3-charters-agents\\std.agent.charter.d.technisch-data-modelleur.md",
+  "charterUrl": "https://github.com/hans-blok/standard/blob/main/artefacten/3-charters-agents/std.agent.charter.d.technisch-data-modelleur.md",
+  "promptPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\prompts\\d.technisch-data-modelleur.prompt.md",
+  "runnerPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\runners\\d.technisch-data-modelleur.py",
+  "orchestrationPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\orchestrations\\d.technisch-data-modelleur.orchestration.yaml",
+  "agentDefinitionPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\agents\\d.technisch-data-modelleur.agent.md",
   "outputRoot": "<project-workspace>/artefacten",
-  "buildPlanPath": "C:\\gitrepo\\agent-capabilities\\scripts-agent-ecosysteem\\agent-componenten\\buildplans\\std.d.technisch-data-modelleur.json",
+  "buildPlanPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\buildplans\\d.technisch-data-modelleur.json",
   "qualityGates": [
     "Nederlands B1",
     "Geen technische implementatiedetails in prompt",
@@ -21,5 +23,5 @@
     "model": "claude-sonnet",
     "adapter": "Invoke-LLM (stub in runner)"
   },
-  "generatedOn": "2026-01-07T09:19:18.309506"
+  "generatedOn": "2026-01-08T15:36:39.234410"
 }

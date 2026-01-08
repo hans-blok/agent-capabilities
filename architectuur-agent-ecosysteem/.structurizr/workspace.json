@@ -1,0 +1,1115 @@
+{
+  "configuration" : {
+    "scope" : "SoftwareSystem"
+  },
+  "description" : "Gegoverned ecosysteem van gespecialiseerde AI-agents voor software delivery",
+  "documentation" : { },
+  "id" : 1,
+  "lastModifiedAgent" : "structurizr-ui",
+  "lastModifiedDate" : "2025-12-14T14:03:53Z",
+  "model" : {
+    "people" : [ {
+      "description" : "Software engineer, architect, product owner die opdrachten geeft aan het agent ecosysteem",
+      "id" : "1",
+      "name" : "Gebruiker",
+      "properties" : {
+        "structurizr.dsl.identifier" : "user"
+      },
+      "relationships" : [ {
+        "description" : "Geeft opdracht (≤5 regels)",
+        "destinationId" : "4",
+        "id" : "28",
+        "sourceId" : "1",
+        "tags" : "Relationship",
+        "technology" : "Natural language"
+      }, {
+        "description" : "Activeert agent via prompt",
+        "destinationId" : "12",
+        "id" : "32",
+        "sourceId" : "1",
+        "tags" : "Relationship",
+        "technology" : "Natural language"
+      } ],
+      "tags" : "Element,Person"
+    } ],
+    "softwareSystems" : [ {
+      "description" : "Claude, GPT-4 - AI inference",
+      "documentation" : { },
+      "id" : "2",
+      "name" : "LLM Provider",
+      "properties" : {
+        "structurizr.dsl.identifier" : "llmProvider"
+      },
+      "tags" : "Element,Software System,External"
+    }, {
+      "description" : "Code repository, standards repository",
+      "documentation" : { },
+      "id" : "3",
+      "name" : "GitHub",
+      "properties" : {
+        "structurizr.dsl.identifier" : "github"
+      },
+      "tags" : "Element,Software System,External"
+    }, {
+      "containers" : [ {
+        "components" : [ {
+          "description" : "Markdown",
+          "documentation" : { },
+          "id" : "6",
+          "name" : "Constitutie",
+          "properties" : {
+            "structurizr.dsl.identifier" : "agentEcosysteem.standards.constitutie"
+          },
+          "relationships" : [ {
+            "description" : "Overschrijft",
+            "destinationId" : "7",
+            "id" : "80",
+            "sourceId" : "6",
+            "tags" : "Relationship",
+            "technology" : "Hierarchy"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Universele principes"
+        }, {
+          "description" : "Markdown",
+          "documentation" : { },
+          "id" : "7",
+          "name" : "Beleid",
+          "properties" : {
+            "structurizr.dsl.identifier" : "agentEcosysteem.standards.beleid"
+          },
+          "relationships" : [ {
+            "description" : "Overschrijft",
+            "destinationId" : "8",
+            "id" : "81",
+            "sourceId" : "7",
+            "tags" : "Relationship",
+            "technology" : "Hierarchy"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Repository-specifieke regels"
+        }, {
+          "description" : "Markdown",
+          "documentation" : { },
+          "id" : "8",
+          "name" : "Agent Charters",
+          "properties" : {
+            "structurizr.dsl.identifier" : "agentEcosysteem.standards.agentCharters"
+          },
+          "tags" : "Element,Component",
+          "technology" : "Operationele bevoegdheden per agent (std.agent.charter.*.md)"
+        }, {
+          "description" : "Markdown",
+          "documentation" : { },
+          "id" : "9",
+          "name" : "Fase Charters",
+          "properties" : {
+            "structurizr.dsl.identifier" : "agentEcosysteem.standards.faseCharters"
+          },
+          "relationships" : [ {
+            "description" : "Definieert kwaliteitseisen voor",
+            "destinationId" : "8",
+            "id" : "83",
+            "sourceId" : "9",
+            "tags" : "Relationship",
+            "technology" : "Reference"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Kwaliteitseisen per SAFe-fase (std.fase.charter.*.md)"
+        }, {
+          "description" : "Markdown",
+          "documentation" : { },
+          "id" : "10",
+          "name" : "Delivery Framework",
+          "properties" : {
+            "structurizr.dsl.identifier" : "agentEcosysteem.standards.deliveryFramework"
+          },
+          "relationships" : [ {
+            "description" : "Definieert fases voor",
+            "destinationId" : "9",
+            "id" : "82",
+            "sourceId" : "10",
+            "tags" : "Relationship",
+            "technology" : "Reference"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "SAFe Development Value Stream definitie (A-G+U fases)"
+        }, {
+          "description" : "Markdown",
+          "documentation" : { },
+          "id" : "11",
+          "name" : "Templates",
+          "properties" : {
+            "structurizr.dsl.identifier" : "agentEcosysteem.standards.templates"
+          },
+          "tags" : "Element,Component",
+          "technology" : "Charter templates"
+        } ],
+        "description" : "Git Repository",
+        "documentation" : { },
+        "id" : "5",
+        "name" : "GitHub Standards",
+        "properties" : {
+          "structurizr.dsl.identifier" : "agentEcosysteem.standards"
+        },
+        "relationships" : [ {
+          "description" : "Gepersisteerd in standards repo",
+          "destinationId" : "3",
+          "id" : "77",
+          "sourceId" : "5",
+          "tags" : "Relationship",
+          "technology" : "Git"
+        } ],
+        "tags" : "Element,Container",
+        "technology" : "Governance regels, charters, templates"
+      }, {
+        "components" : [ {
+          "description" : "Meta-agent",
+          "documentation" : { },
+          "id" : "13",
+          "name" : "Moeder Agent",
+          "properties" : {
+            "structurizr.dsl.identifier" : "agentEcosysteem.capabilities.moeder"
+          },
+          "relationships" : [ {
+            "description" : "Leest governance",
+            "destinationId" : "5",
+            "id" : "34",
+            "sourceId" : "13",
+            "tags" : "Relationship",
+            "technology" : "File I/O"
+          }, {
+            "description" : "Activeert",
+            "destinationId" : "14",
+            "id" : "84",
+            "sourceId" : "13",
+            "tags" : "Relationship",
+            "technology" : "Orchestration"
+          }, {
+            "description" : "Activeert",
+            "destinationId" : "15",
+            "id" : "85",
+            "sourceId" : "13",
+            "tags" : "Relationship",
+            "technology" : "Orchestration"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Agent factory, charter designer"
+        }, {
+          "description" : "Trigger",
+          "documentation" : { },
+          "id" : "14",
+          "name" : "Fase A Agents",
+          "properties" : {
+            "structurizr.dsl.identifier" : "agentEcosysteem.capabilities.agentA"
+          },
+          "relationships" : [ {
+            "description" : "Leest eigen charter",
+            "destinationId" : "8",
+            "id" : "35",
+            "sourceId" : "14",
+            "tags" : "Relationship",
+            "technology" : "Read"
+          }, {
+            "description" : "Leest eigen charter",
+            "destinationId" : "5",
+            "id" : "36",
+            "linkedRelationshipId" : "35",
+            "sourceId" : "14",
+            "technology" : "Read"
+          }, {
+            "description" : "Opereert in Fase A",
+            "destinationId" : "10",
+            "id" : "52",
+            "sourceId" : "14",
+            "tags" : "Relationship",
+            "technology" : "Process adherence"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Business case analyse"
+        }, {
+          "description" : "Architectuur",
+          "documentation" : { },
+          "id" : "15",
+          "name" : "Fase B Agents",
+          "properties" : {
+            "structurizr.dsl.identifier" : "agentEcosysteem.capabilities.agentB"
+          },
+          "relationships" : [ {
+            "description" : "Leest eigen charter",
+            "destinationId" : "8",
+            "id" : "38",
+            "sourceId" : "15",
+            "tags" : "Relationship",
+            "technology" : "Read"
+          }, {
+            "description" : "Leest eigen charter",
+            "destinationId" : "5",
+            "id" : "39",
+            "linkedRelationshipId" : "38",
+            "sourceId" : "15",
+            "technology" : "Read"
+          }, {
+            "description" : "Opereert in Fase B",
+            "destinationId" : "10",
+            "id" : "54",
+            "sourceId" : "15",
+            "tags" : "Relationship",
+            "technology" : "Process adherence"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "ADR's, patterns"
+        }, {
+          "description" : "Specificatie",
+          "documentation" : { },
+          "id" : "16",
+          "name" : "Fase C Agents",
+          "properties" : {
+            "structurizr.dsl.identifier" : "agentEcosysteem.capabilities.agentC"
+          },
+          "relationships" : [ {
+            "description" : "Leest eigen charter",
+            "destinationId" : "8",
+            "id" : "40",
+            "sourceId" : "16",
+            "tags" : "Relationship",
+            "technology" : "Read"
+          }, {
+            "description" : "Leest eigen charter",
+            "destinationId" : "5",
+            "id" : "41",
+            "linkedRelationshipId" : "40",
+            "sourceId" : "16",
+            "technology" : "Read"
+          }, {
+            "description" : "Opereert in Fase C",
+            "destinationId" : "10",
+            "id" : "55",
+            "sourceId" : "16",
+            "tags" : "Relationship",
+            "technology" : "Process adherence"
+          }, {
+            "description" : "Schrijft features, user stories",
+            "destinationId" : "23",
+            "id" : "62",
+            "sourceId" : "16",
+            "tags" : "Relationship",
+            "technology" : "Write"
+          }, {
+            "description" : "Schrijft features, user stories",
+            "destinationId" : "22",
+            "id" : "63",
+            "linkedRelationshipId" : "62",
+            "sourceId" : "16",
+            "technology" : "Write"
+          }, {
+            "description" : "Leest datamodel",
+            "destinationId" : "24",
+            "id" : "65",
+            "sourceId" : "16",
+            "tags" : "Relationship",
+            "technology" : "Read"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Features, datamodellen"
+        }, {
+          "description" : "Ontwerp",
+          "documentation" : { },
+          "id" : "17",
+          "name" : "Fase D Agents",
+          "properties" : {
+            "structurizr.dsl.identifier" : "agentEcosysteem.capabilities.agentD"
+          },
+          "relationships" : [ {
+            "description" : "Leest eigen charter",
+            "destinationId" : "8",
+            "id" : "42",
+            "sourceId" : "17",
+            "tags" : "Relationship",
+            "technology" : "Read"
+          }, {
+            "description" : "Leest eigen charter",
+            "destinationId" : "5",
+            "id" : "43",
+            "linkedRelationshipId" : "42",
+            "sourceId" : "17",
+            "technology" : "Read"
+          }, {
+            "description" : "Opereert in Fase D",
+            "destinationId" : "10",
+            "id" : "56",
+            "sourceId" : "17",
+            "tags" : "Relationship",
+            "technology" : "Process adherence"
+          }, {
+            "description" : "Schrijft solution design, contracts",
+            "destinationId" : "24",
+            "id" : "67",
+            "sourceId" : "17",
+            "tags" : "Relationship",
+            "technology" : "Write"
+          }, {
+            "description" : "Schrijft solution design, contracts",
+            "destinationId" : "22",
+            "id" : "68",
+            "linkedRelationshipId" : "67",
+            "sourceId" : "17",
+            "technology" : "Write"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Solution design"
+        }, {
+          "description" : "Bouw",
+          "documentation" : { },
+          "id" : "18",
+          "name" : "Fase E Agents",
+          "properties" : {
+            "structurizr.dsl.identifier" : "agentEcosysteem.capabilities.agentE"
+          },
+          "relationships" : [ {
+            "description" : "Leest eigen charter",
+            "destinationId" : "8",
+            "id" : "44",
+            "sourceId" : "18",
+            "tags" : "Relationship",
+            "technology" : "Read"
+          }, {
+            "description" : "Leest eigen charter",
+            "destinationId" : "5",
+            "id" : "45",
+            "linkedRelationshipId" : "44",
+            "sourceId" : "18",
+            "technology" : "Read"
+          }, {
+            "description" : "Opereert in Fase E",
+            "destinationId" : "10",
+            "id" : "57",
+            "sourceId" : "18",
+            "tags" : "Relationship",
+            "technology" : "Process adherence"
+          }, {
+            "description" : "Schrijft code",
+            "destinationId" : "25",
+            "id" : "69",
+            "sourceId" : "18",
+            "tags" : "Relationship",
+            "technology" : "Write"
+          }, {
+            "description" : "Schrijft code",
+            "destinationId" : "22",
+            "id" : "70",
+            "linkedRelationshipId" : "69",
+            "sourceId" : "18",
+            "technology" : "Write"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Code generatie"
+        }, {
+          "description" : "Validatie",
+          "documentation" : { },
+          "id" : "19",
+          "name" : "Fase F Agents",
+          "properties" : {
+            "structurizr.dsl.identifier" : "agentEcosysteem.capabilities.agentF"
+          },
+          "relationships" : [ {
+            "description" : "Leest eigen charter",
+            "destinationId" : "8",
+            "id" : "46",
+            "sourceId" : "19",
+            "tags" : "Relationship",
+            "technology" : "Read"
+          }, {
+            "description" : "Leest eigen charter",
+            "destinationId" : "5",
+            "id" : "47",
+            "linkedRelationshipId" : "46",
+            "sourceId" : "19",
+            "technology" : "Read"
+          }, {
+            "description" : "Opereert in Fase F",
+            "destinationId" : "10",
+            "id" : "58",
+            "sourceId" : "19",
+            "tags" : "Relationship",
+            "technology" : "Process adherence"
+          }, {
+            "description" : "Schrijft en voert tests uit",
+            "destinationId" : "26",
+            "id" : "72",
+            "sourceId" : "19",
+            "tags" : "Relationship",
+            "technology" : "Write"
+          }, {
+            "description" : "Schrijft en voert tests uit",
+            "destinationId" : "22",
+            "id" : "73",
+            "linkedRelationshipId" : "72",
+            "sourceId" : "19",
+            "technology" : "Write"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Testing"
+        }, {
+          "description" : "Deployment",
+          "documentation" : { },
+          "id" : "20",
+          "name" : "Fase G Agents",
+          "properties" : {
+            "structurizr.dsl.identifier" : "agentEcosysteem.capabilities.agentG"
+          },
+          "relationships" : [ {
+            "description" : "Leest eigen charter",
+            "destinationId" : "8",
+            "id" : "48",
+            "sourceId" : "20",
+            "tags" : "Relationship",
+            "technology" : "Read"
+          }, {
+            "description" : "Leest eigen charter",
+            "destinationId" : "5",
+            "id" : "49",
+            "linkedRelationshipId" : "48",
+            "sourceId" : "20",
+            "technology" : "Read"
+          }, {
+            "description" : "Opereert in Fase G",
+            "destinationId" : "10",
+            "id" : "59",
+            "sourceId" : "20",
+            "tags" : "Relationship",
+            "technology" : "Process adherence"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Release management"
+        }, {
+          "description" : "Utility",
+          "documentation" : { },
+          "id" : "21",
+          "name" : "Utility Agents",
+          "properties" : {
+            "structurizr.dsl.identifier" : "agentEcosysteem.capabilities.agentU"
+          },
+          "relationships" : [ {
+            "description" : "Leest eigen charter",
+            "destinationId" : "8",
+            "id" : "50",
+            "sourceId" : "21",
+            "tags" : "Relationship",
+            "technology" : "Read"
+          }, {
+            "description" : "Leest eigen charter",
+            "destinationId" : "5",
+            "id" : "51",
+            "linkedRelationshipId" : "50",
+            "sourceId" : "21",
+            "technology" : "Read"
+          }, {
+            "description" : "Opereert in Fase U",
+            "destinationId" : "10",
+            "id" : "60",
+            "sourceId" : "21",
+            "tags" : "Relationship",
+            "technology" : "Process adherence"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Charter schrijver, MD-to-DSL converter"
+        } ],
+        "description" : "Git Repository",
+        "documentation" : { },
+        "id" : "12",
+        "name" : "GitHub Agent-Capabilities",
+        "properties" : {
+          "structurizr.dsl.identifier" : "agentEcosysteem.capabilities"
+        },
+        "relationships" : [ {
+          "description" : "Leest charters en regels",
+          "destinationId" : "5",
+          "id" : "33",
+          "sourceId" : "12",
+          "tags" : "Relationship",
+          "technology" : "File I/O"
+        }, {
+          "description" : "Leest eigen charter",
+          "destinationId" : "8",
+          "id" : "37",
+          "linkedRelationshipId" : "35",
+          "sourceId" : "12",
+          "technology" : "Read"
+        }, {
+          "description" : "Opereert in Fase A",
+          "destinationId" : "10",
+          "id" : "53",
+          "linkedRelationshipId" : "52",
+          "sourceId" : "12",
+          "technology" : "Process adherence"
+        }, {
+          "description" : "Schrijft/leest artefacten",
+          "destinationId" : "22",
+          "id" : "61",
+          "sourceId" : "12",
+          "tags" : "Relationship",
+          "technology" : "File I/O"
+        }, {
+          "description" : "Schrijft features, user stories",
+          "destinationId" : "23",
+          "id" : "64",
+          "linkedRelationshipId" : "62",
+          "sourceId" : "12",
+          "technology" : "Write"
+        }, {
+          "description" : "Leest datamodel",
+          "destinationId" : "24",
+          "id" : "66",
+          "linkedRelationshipId" : "65",
+          "sourceId" : "12",
+          "technology" : "Read"
+        }, {
+          "description" : "Schrijft code",
+          "destinationId" : "25",
+          "id" : "71",
+          "linkedRelationshipId" : "69",
+          "sourceId" : "12",
+          "technology" : "Write"
+        }, {
+          "description" : "Schrijft en voert tests uit",
+          "destinationId" : "26",
+          "id" : "74",
+          "linkedRelationshipId" : "72",
+          "sourceId" : "12",
+          "technology" : "Write"
+        }, {
+          "description" : "Gebruikt voor inferentie",
+          "destinationId" : "2",
+          "id" : "75",
+          "sourceId" : "12",
+          "tags" : "Relationship",
+          "technology" : "API"
+        }, {
+          "description" : "Gepersisteerd in standards repo",
+          "destinationId" : "3",
+          "id" : "78",
+          "sourceId" : "12",
+          "tags" : "Relationship",
+          "technology" : "Git"
+        } ],
+        "tags" : "Element,Container",
+        "technology" : "Agent-definities en prompts"
+      }, {
+        "components" : [ {
+          "description" : "Markdown",
+          "documentation" : { },
+          "id" : "23",
+          "name" : "Specificaties",
+          "properties" : {
+            "structurizr.dsl.identifier" : "agentEcosysteem.workspace.specs"
+          },
+          "tags" : "Element,Component",
+          "technology" : "Requirements, features, user stories"
+        }, {
+          "description" : "Markdown/Diagrams",
+          "documentation" : { },
+          "id" : "24",
+          "name" : "Designs",
+          "properties" : {
+            "structurizr.dsl.identifier" : "agentEcosysteem.workspace.designs"
+          },
+          "tags" : "Element,Component",
+          "technology" : "Solution designs, API contracts"
+        }, {
+          "description" : "Source files",
+          "documentation" : { },
+          "id" : "25",
+          "name" : "Code",
+          "properties" : {
+            "structurizr.dsl.identifier" : "agentEcosysteem.workspace.code"
+          },
+          "tags" : "Element,Component",
+          "technology" : "Gegenereerde en handgeschreven code"
+        }, {
+          "description" : "Test files",
+          "documentation" : { },
+          "id" : "26",
+          "name" : "Tests",
+          "properties" : {
+            "structurizr.dsl.identifier" : "agentEcosysteem.workspace.tests"
+          },
+          "tags" : "Element,Component",
+          "technology" : "Test cases en validatie resultaten"
+        }, {
+          "description" : "Markdown",
+          "documentation" : { },
+          "id" : "27",
+          "name" : "Documentatie",
+          "properties" : {
+            "structurizr.dsl.identifier" : "agentEcosysteem.workspace.docs"
+          },
+          "tags" : "Element,Component",
+          "technology" : "Technische documentatie en runbooks"
+        } ],
+        "description" : "Git Repository",
+        "documentation" : { },
+        "id" : "22",
+        "name" : "Project Workspace",
+        "properties" : {
+          "structurizr.dsl.identifier" : "agentEcosysteem.workspace"
+        },
+        "relationships" : [ {
+          "description" : "Semantische zoeken, validatie, cross-referencing",
+          "destinationId" : "2",
+          "id" : "76",
+          "sourceId" : "22",
+          "tags" : "Relationship",
+          "technology" : "API"
+        }, {
+          "description" : "Gepersisteerd in project repo",
+          "destinationId" : "3",
+          "id" : "79",
+          "sourceId" : "22",
+          "tags" : "Relationship",
+          "technology" : "Git"
+        } ],
+        "tags" : "Element,Container",
+        "technology" : "Gegenereerde artefacten per project"
+      } ],
+      "description" : "Gegoverned netwerk van AI-agents voor software delivery",
+      "documentation" : { },
+      "id" : "4",
+      "name" : "Agent Ecosysteem",
+      "properties" : {
+        "structurizr.dsl.identifier" : "agentEcosysteem"
+      },
+      "relationships" : [ {
+        "description" : "Levert artefacten",
+        "destinationId" : "1",
+        "id" : "29",
+        "sourceId" : "4",
+        "tags" : "Relationship",
+        "technology" : "Markdown, code"
+      }, {
+        "description" : "Gebruikt voor inferentie",
+        "destinationId" : "2",
+        "id" : "30",
+        "sourceId" : "4",
+        "tags" : "Relationship",
+        "technology" : "API"
+      }, {
+        "description" : "Leest standards, persisteert output",
+        "destinationId" : "3",
+        "id" : "31",
+        "sourceId" : "4",
+        "tags" : "Relationship",
+        "technology" : "Git"
+      } ],
+      "tags" : "Element,Software System"
+    } ]
+  },
+  "name" : "Agent Ecosysteem",
+  "properties" : {
+    "structurizr.inspection.info" : "0",
+    "structurizr.inspection.ignore" : "0",
+    "structurizr.inspection.error" : "4",
+    "structurizr.inspection.warning" : "0",
+    "structurizr.dsl" : "d29ya3NwYWNlICJBZ2VudCBFY29zeXN0ZWVtIiAiR2Vnb3Zlcm5lZCBlY29zeXN0ZWVtIHZhbiBnZXNwZWNpYWxpc2VlcmRlIEFJLWFnZW50cyB2b29yIHNvZnR3YXJlIGRlbGl2ZXJ5IiB7CgogICAgIWlkZW50aWZpZXJzIGhpZXJhcmNoaWNhbAoKICAgIG1vZGVsIHsKICAgICAgICB1c2VyID0gcGVyc29uICJHZWJydWlrZXIiICJTb2Z0d2FyZSBlbmdpbmVlciwgYXJjaGl0ZWN0LCBwcm9kdWN0IG93bmVyIGRpZSBvcGRyYWNodGVuIGdlZWZ0IGFhbiBoZXQgYWdlbnQgZWNvc3lzdGVlbSIKICAgICAgICAKICAgICAgICBsbG1Qcm92aWRlciA9IHNvZnR3YXJlU3lzdGVtICJMTE0gUHJvdmlkZXIiICJDbGF1ZGUsIEdQVC00IC0gQUkgaW5mZXJlbmNlIiAiRXh0ZXJuYWwiCiAgICAgICAgZ2l0aHViID0gc29mdHdhcmVTeXN0ZW0gIkdpdEh1YiIgIkNvZGUgcmVwb3NpdG9yeSwgc3RhbmRhcmRzIHJlcG9zaXRvcnkiICJFeHRlcm5hbCIKICAgICAgICAKICAgICAgICBhZ2VudEVjb3N5c3RlZW0gPSBzb2Z0d2FyZVN5c3RlbSAiQWdlbnQgRWNvc3lzdGVlbSIgIkdlZ292ZXJuZWQgbmV0d2VyayB2YW4gQUktYWdlbnRzIHZvb3Igc29mdHdhcmUgZGVsaXZlcnkiIHsKICAgICAgICAgICAgCiAgICAgICAgICAgICMgR2l0SHViIFN0YW5kYXJkcyBDb250YWluZXIKICAgICAgICAgICAgc3RhbmRhcmRzID0gY29udGFpbmVyICJHaXRIdWIgU3RhbmRhcmRzIiAiR2l0IFJlcG9zaXRvcnkiICJHb3Zlcm5hbmNlIHJlZ2VscywgY2hhcnRlcnMsIHRlbXBsYXRlcyIgewogICAgICAgICAgICAgICAgY29uc3RpdHV0aWUgPSBjb21wb25lbnQgIkNvbnN0aXR1dGllIiAiTWFya2Rvd24iICJVbml2ZXJzZWxlIHByaW5jaXBlcyIKICAgICAgICAgICAgICAgIGJlbGVpZCA9IGNvbXBvbmVudCAiQmVsZWlkIiAiTWFya2Rvd24iICJSZXBvc2l0b3J5LXNwZWNpZmlla2UgcmVnZWxzIgogICAgICAgICAgICAgICAgYWdlbnRDaGFydGVycyA9IGNvbXBvbmVudCAiQWdlbnQgQ2hhcnRlcnMiICJNYXJrZG93biIgIk9wZXJhdGlvbmVsZSBiZXZvZWdkaGVkZW4gcGVyIGFnZW50IChzdGQuYWdlbnQuY2hhcnRlci4qLm1kKSIKICAgICAgICAgICAgICAgIGZhc2VDaGFydGVycyA9IGNvbXBvbmVudCAiRmFzZSBDaGFydGVycyIgIk1hcmtkb3duIiAiS3dhbGl0ZWl0c2Vpc2VuIHBlciBTQUZlLWZhc2UgKHN0ZC5mYXNlLmNoYXJ0ZXIuKi5tZCkiCiAgICAgICAgICAgICAgICBkZWxpdmVyeUZyYW1ld29yayA9IGNvbXBvbmVudCAiRGVsaXZlcnkgRnJhbWV3b3JrIiAiTWFya2Rvd24iICJTQUZlIERldmVsb3BtZW50IFZhbHVlIFN0cmVhbSBkZWZpbml0aWUgKEEtRytVIGZhc2VzKSIKICAgICAgICAgICAgICAgIHRlbXBsYXRlcyA9IGNvbXBvbmVudCAiVGVtcGxhdGVzIiAiTWFya2Rvd24iICJDaGFydGVyIHRlbXBsYXRlcyIKICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgIyBHaXRIdWIgQWdlbnQtQ2FwYWJpbGl0aWVzIENvbnRhaW5lcgogICAgICAgICAgICBjYXBhYmlsaXRpZXMgPSBjb250YWluZXIgIkdpdEh1YiBBZ2VudC1DYXBhYmlsaXRpZXMiICJHaXQgUmVwb3NpdG9yeSIgIkFnZW50LWRlZmluaXRpZXMgZW4gcHJvbXB0cyIgewogICAgICAgICAgICAgICAgbW9lZGVyID0gY29tcG9uZW50ICJNb2VkZXIgQWdlbnQiICJNZXRhLWFnZW50IiAiQWdlbnQgZmFjdG9yeSwgY2hhcnRlciBkZXNpZ25lciIKICAgICAgICAgICAgICAgIGFnZW50QSA9IGNvbXBvbmVudCAiRmFzZSBBIEFnZW50cyIgIlRyaWdnZXIiICJCdXNpbmVzcyBjYXNlIGFuYWx5c2UiCiAgICAgICAgICAgICAgICBhZ2VudEIgPSBjb21wb25lbnQgIkZhc2UgQiBBZ2VudHMiICJBcmNoaXRlY3R1dXIiICJBRFIncywgcGF0dGVybnMiCiAgICAgICAgICAgICAgICBhZ2VudEMgPSBjb21wb25lbnQgIkZhc2UgQyBBZ2VudHMiICJTcGVjaWZpY2F0aWUiICJGZWF0dXJlcywgZGF0YW1vZGVsbGVuIgogICAgICAgICAgICAgICAgYWdlbnREID0gY29tcG9uZW50ICJGYXNlIEQgQWdlbnRzIiAiT250d2VycCIgIlNvbHV0aW9uIGRlc2lnbiIKICAgICAgICAgICAgICAgIGFnZW50RSA9IGNvbXBvbmVudCAiRmFzZSBFIEFnZW50cyIgIkJvdXciICJDb2RlIGdlbmVyYXRpZSIKICAgICAgICAgICAgICAgIGFnZW50RiA9IGNvbXBvbmVudCAiRmFzZSBGIEFnZW50cyIgIlZhbGlkYXRpZSIgIlRlc3RpbmciCiAgICAgICAgICAgICAgICBhZ2VudEcgPSBjb21wb25lbnQgIkZhc2UgRyBBZ2VudHMiICJEZXBsb3ltZW50IiAiUmVsZWFzZSBtYW5hZ2VtZW50IgogICAgICAgICAgICAgICAgYWdlbnRVID0gY29tcG9uZW50ICJVdGlsaXR5IEFnZW50cyIgIlV0aWxpdHkiICJDaGFydGVyIHNjaHJpanZlciwgTUQtdG8tRFNMIGNvbnZlcnRlciIKICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgIyBQcm9qZWN0IFdvcmtzcGFjZSBDb250YWluZXIKICAgICAgICAgICAgd29ya3NwYWNlID0gY29udGFpbmVyICJQcm9qZWN0IFdvcmtzcGFjZSIgIkdpdCBSZXBvc2l0b3J5IiAiR2VnZW5lcmVlcmRlIGFydGVmYWN0ZW4gcGVyIHByb2plY3QiIHsKICAgICAgICAgICAgICAgIHNwZWNzID0gY29tcG9uZW50ICJTcGVjaWZpY2F0aWVzIiAiTWFya2Rvd24iICJSZXF1aXJlbWVudHMsIGZlYXR1cmVzLCB1c2VyIHN0b3JpZXMiCiAgICAgICAgICAgICAgICBkZXNpZ25zID0gY29tcG9uZW50ICJEZXNpZ25zIiAiTWFya2Rvd24vRGlhZ3JhbXMiICJTb2x1dGlvbiBkZXNpZ25zLCBBUEkgY29udHJhY3RzIgogICAgICAgICAgICAgICAgY29kZSA9IGNvbXBvbmVudCAiQ29kZSIgIlNvdXJjZSBmaWxlcyIgIkdlZ2VuZXJlZXJkZSBlbiBoYW5kZ2VzY2hyZXZlbiBjb2RlIgogICAgICAgICAgICAgICAgdGVzdHMgPSBjb21wb25lbnQgIlRlc3RzIiAiVGVzdCBmaWxlcyIgIlRlc3QgY2FzZXMgZW4gdmFsaWRhdGllIHJlc3VsdGF0ZW4iCiAgICAgICAgICAgICAgICBkb2NzID0gY29tcG9uZW50ICJEb2N1bWVudGF0aWUiICJNYXJrZG93biIgIlRlY2huaXNjaGUgZG9jdW1lbnRhdGllIGVuIHJ1bmJvb2tzIgogICAgICAgICAgICB9CiAgICAgICAgfQogICAgICAgIAogICAgICAgICMgVXNlciBpbnRlcmFjdGlvbnMKICAgICAgICB1c2VyIC0+IGFnZW50RWNvc3lzdGVlbSAiR2VlZnQgb3BkcmFjaHQgKOKJpDUgcmVnZWxzKSIgIk5hdHVyYWwgbGFuZ3VhZ2UiCiAgICAgICAgYWdlbnRFY29zeXN0ZWVtIC0+IHVzZXIgIkxldmVydCBhcnRlZmFjdGVuIiAiTWFya2Rvd24sIGNvZGUiCiAgICAgICAgCiAgICAgICAgIyBFeHRlcm5hbCBzeXN0ZW0gaW50ZXJhY3Rpb25zCiAgICAgICAgYWdlbnRFY29zeXN0ZWVtIC0+IGxsbVByb3ZpZGVyICJHZWJydWlrdCB2b29yIGluZmVyZW50aWUiICJBUEkiCiAgICAgICAgYWdlbnRFY29zeXN0ZWVtIC0+IGdpdGh1YiAiTGVlc3Qgc3RhbmRhcmRzLCBwZXJzaXN0ZWVydCBvdXRwdXQiICJHaXQiCiAgICAgICAgCiAgICAgICAgIyBVc2VyIHRvIENhcGFiaWxpdGllcwogICAgICAgIHVzZXIgLT4gYWdlbnRFY29zeXN0ZWVtLmNhcGFiaWxpdGllcyAiQWN0aXZlZXJ0IGFnZW50IHZpYSBwcm9tcHQiICJOYXR1cmFsIGxhbmd1YWdlIgogICAgICAgIAogICAgICAgICMgQ2FwYWJpbGl0aWVzIHRvIFN0YW5kYXJkcwogICAgICAgIGFnZW50RWNvc3lzdGVlbS5jYXBhYmlsaXRpZXMgLT4gYWdlbnRFY29zeXN0ZWVtLnN0YW5kYXJkcyAiTGVlc3QgY2hhcnRlcnMgZW4gcmVnZWxzIiAiRmlsZSBJL08iCiAgICAgICAgYWdlbnRFY29zeXN0ZWVtLmNhcGFiaWxpdGllcy5tb2VkZXIgLT4gYWdlbnRFY29zeXN0ZWVtLnN0YW5kYXJkcyAiTGVlc3QgZ292ZXJuYW5jZSIgIkZpbGUgSS9PIgogICAgICAgIGFnZW50RWNvc3lzdGVlbS5jYXBhYmlsaXRpZXMuYWdlbnRBIC0+IGFnZW50RWNvc3lzdGVlbS5zdGFuZGFyZHMuYWdlbnRDaGFydGVycyAiTGVlc3QgZWlnZW4gY2hhcnRlciIgIlJlYWQiCiAgICAgICAgYWdlbnRFY29zeXN0ZWVtLmNhcGFiaWxpdGllcy5hZ2VudEIgLT4gYWdlbnRFY29zeXN0ZWVtLnN0YW5kYXJkcy5hZ2VudENoYXJ0ZXJzICJMZWVzdCBlaWdlbiBjaGFydGVyIiAiUmVhZCIKICAgICAgICBhZ2VudEVjb3N5c3RlZW0uY2FwYWJpbGl0aWVzLmFnZW50QyAtPiBhZ2VudEVjb3N5c3RlZW0uc3RhbmRhcmRzLmFnZW50Q2hhcnRlcnMgIkxlZXN0IGVpZ2VuIGNoYXJ0ZXIiICJSZWFkIgogICAgICAgIGFnZW50RWNvc3lzdGVlbS5jYXBhYmlsaXRpZXMuYWdlbnREIC0+IGFnZW50RWNvc3lzdGVlbS5zdGFuZGFyZHMuYWdlbnRDaGFydGVycyAiTGVlc3QgZWlnZW4gY2hhcnRlciIgIlJlYWQiCiAgICAgICAgYWdlbnRFY29zeXN0ZWVtLmNhcGFiaWxpdGllcy5hZ2VudEUgLT4gYWdlbnRFY29zeXN0ZWVtLnN0YW5kYXJkcy5hZ2VudENoYXJ0ZXJzICJMZWVzdCBlaWdlbiBjaGFydGVyIiAiUmVhZCIKICAgICAgICBhZ2VudEVjb3N5c3RlZW0uY2FwYWJpbGl0aWVzLmFnZW50RiAtPiBhZ2VudEVjb3N5c3RlZW0uc3RhbmRhcmRzLmFnZW50Q2hhcnRlcnMgIkxlZXN0IGVpZ2VuIGNoYXJ0ZXIiICJSZWFkIgogICAgICAgIGFnZW50RWNvc3lzdGVlbS5jYXBhYmlsaXRpZXMuYWdlbnRHIC0+IGFnZW50RWNvc3lzdGVlbS5zdGFuZGFyZHMuYWdlbnRDaGFydGVycyAiTGVlc3QgZWlnZW4gY2hhcnRlciIgIlJlYWQiCiAgICAgICAgYWdlbnRFY29zeXN0ZWVtLmNhcGFiaWxpdGllcy5hZ2VudFUgLT4gYWdlbnRFY29zeXN0ZWVtLnN0YW5kYXJkcy5hZ2VudENoYXJ0ZXJzICJMZWVzdCBlaWdlbiBjaGFydGVyIiAiUmVhZCIKICAgICAgICAKICAgICAgICAjIENhcGFiaWxpdGllcyB0byBEZWxpdmVyeSBGcmFtZXdvcmsKICAgICAgICBhZ2VudEVjb3N5c3RlZW0uY2FwYWJpbGl0aWVzLmFnZW50QSAtPiBhZ2VudEVjb3N5c3RlZW0uc3RhbmRhcmRzLmRlbGl2ZXJ5RnJhbWV3b3JrICJPcGVyZWVydCBpbiBGYXNlIEEiICJQcm9jZXNzIGFkaGVyZW5jZSIKICAgICAgICBhZ2VudEVjb3N5c3RlZW0uY2FwYWJpbGl0aWVzLmFnZW50QiAtPiBhZ2VudEVjb3N5c3RlZW0uc3RhbmRhcmRzLmRlbGl2ZXJ5RnJhbWV3b3JrICJPcGVyZWVydCBpbiBGYXNlIEIiICJQcm9jZXNzIGFkaGVyZW5jZSIKICAgICAgICBhZ2VudEVjb3N5c3RlZW0uY2FwYWJpbGl0aWVzLmFnZW50QyAtPiBhZ2VudEVjb3N5c3RlZW0uc3RhbmRhcmRzLmRlbGl2ZXJ5RnJhbWV3b3JrICJPcGVyZWVydCBpbiBGYXNlIEMiICJQcm9jZXNzIGFkaGVyZW5jZSIKICAgICAgICBhZ2VudEVjb3N5c3RlZW0uY2FwYWJpbGl0aWVzLmFnZW50RCAtPiBhZ2VudEVjb3N5c3RlZW0uc3RhbmRhcmRzLmRlbGl2ZXJ5RnJhbWV3b3JrICJPcGVyZWVydCBpbiBGYXNlIEQiICJQcm9jZXNzIGFkaGVyZW5jZSIKICAgICAgICBhZ2VudEVjb3N5c3RlZW0uY2FwYWJpbGl0aWVzLmFnZW50RSAtPiBhZ2VudEVjb3N5c3RlZW0uc3RhbmRhcmRzLmRlbGl2ZXJ5RnJhbWV3b3JrICJPcGVyZWVydCBpbiBGYXNlIEUiICJQcm9jZXNzIGFkaGVyZW5jZSIKICAgICAgICBhZ2VudEVjb3N5c3RlZW0uY2FwYWJpbGl0aWVzLmFnZW50RiAtPiBhZ2VudEVjb3N5c3RlZW0uc3RhbmRhcmRzLmRlbGl2ZXJ5RnJhbWV3b3JrICJPcGVyZWVydCBpbiBGYXNlIEYiICJQcm9jZXNzIGFkaGVyZW5jZSIKICAgICAgICBhZ2VudEVjb3N5c3RlZW0uY2FwYWJpbGl0aWVzLmFnZW50RyAtPiBhZ2VudEVjb3N5c3RlZW0uc3RhbmRhcmRzLmRlbGl2ZXJ5RnJhbWV3b3JrICJPcGVyZWVydCBpbiBGYXNlIEciICJQcm9jZXNzIGFkaGVyZW5jZSIKICAgICAgICBhZ2VudEVjb3N5c3RlZW0uY2FwYWJpbGl0aWVzLmFnZW50VSAtPiBhZ2VudEVjb3N5c3RlZW0uc3RhbmRhcmRzLmRlbGl2ZXJ5RnJhbWV3b3JrICJPcGVyZWVydCBpbiBGYXNlIFUiICJQcm9jZXNzIGFkaGVyZW5jZSIKICAgICAgICAKICAgICAgICAjIENhcGFiaWxpdGllcyB0byBXb3Jrc3BhY2UKICAgICAgICBhZ2VudEVjb3N5c3RlZW0uY2FwYWJpbGl0aWVzIC0+IGFnZW50RWNvc3lzdGVlbS53b3Jrc3BhY2UgIlNjaHJpamZ0L2xlZXN0IGFydGVmYWN0ZW4iICJGaWxlIEkvTyIKICAgICAgICBhZ2VudEVjb3N5c3RlZW0uY2FwYWJpbGl0aWVzLmFnZW50QyAtPiBhZ2VudEVjb3N5c3RlZW0ud29ya3NwYWNlLnNwZWNzICJTY2hyaWpmdCBmZWF0dXJlcywgdXNlciBzdG9yaWVzIiAiV3JpdGUiCiAgICAgICAgYWdlbnRFY29zeXN0ZWVtLmNhcGFiaWxpdGllcy5hZ2VudEMgLT4gYWdlbnRFY29zeXN0ZWVtLndvcmtzcGFjZS5kZXNpZ25zICJMZWVzdCBkYXRhbW9kZWwiICJSZWFkIgogICAgICAgIGFnZW50RWNvc3lzdGVlbS5jYXBhYmlsaXRpZXMuYWdlbnREIC0+IGFnZW50RWNvc3lzdGVlbS53b3Jrc3BhY2UuZGVzaWducyAiU2NocmlqZnQgc29sdXRpb24gZGVzaWduLCBjb250cmFjdHMiICJXcml0ZSIKICAgICAgICBhZ2VudEVjb3N5c3RlZW0uY2FwYWJpbGl0aWVzLmFnZW50RSAtPiBhZ2VudEVjb3N5c3RlZW0ud29ya3NwYWNlLmNvZGUgIlNjaHJpamZ0IGNvZGUiICJXcml0ZSIKICAgICAgICBhZ2VudEVjb3N5c3RlZW0uY2FwYWJpbGl0aWVzLmFnZW50RiAtPiBhZ2VudEVjb3N5c3RlZW0ud29ya3NwYWNlLnRlc3RzICJTY2hyaWpmdCBlbiB2b2VydCB0ZXN0cyB1aXQiICJXcml0ZSIKICAgICAgICAKICAgICAgICAjIENhcGFiaWxpdGllcyB0byBMTE0KICAgICAgICBhZ2VudEVjb3N5c3RlZW0uY2FwYWJpbGl0aWVzIC0+IGxsbVByb3ZpZGVyICJHZWJydWlrdCB2b29yIGluZmVyZW50aWUiICJBUEkiCiAgICAgICAgCiAgICAgICAgIyBXb3Jrc3BhY2UgdG8gTExNICh2b29yIGludGVsbGlnZW50IHdvcmtzcGFjZSBmZWF0dXJlcykKICAgICAgICBhZ2VudEVjb3N5c3RlZW0ud29ya3NwYWNlIC0+IGxsbVByb3ZpZGVyICJTZW1hbnRpc2NoZSB6b2VrZW4sIHZhbGlkYXRpZSwgY3Jvc3MtcmVmZXJlbmNpbmciICJBUEkiCiAgICAgICAgCiAgICAgICAgIyBTdGFuZGFyZHMgdG8gR2l0SHViCiAgICAgICAgYWdlbnRFY29zeXN0ZWVtLnN0YW5kYXJkcyAtPiBnaXRodWIgIkdlcGVyc2lzdGVlcmQgaW4gc3RhbmRhcmRzIHJlcG8iICJHaXQiCiAgICAgICAgYWdlbnRFY29zeXN0ZWVtLmNhcGFiaWxpdGllcyAtPiBnaXRodWIgIkdlcGVyc2lzdGVlcmQgaW4gc3RhbmRhcmRzIHJlcG8iICJHaXQiCiAgICAgICAgCiAgICAgICAgIyBXb3Jrc3BhY2UgdG8gR2l0SHViCiAgICAgICAgYWdlbnRFY29zeXN0ZWVtLndvcmtzcGFjZSAtPiBnaXRodWIgIkdlcGVyc2lzdGVlcmQgaW4gcHJvamVjdCByZXBvIiAiR2l0IgogICAgICAgIAogICAgICAgICMgR292ZXJuYW5jZSBoaWVyYXJjaHkgd2l0aGluIFN0YW5kYXJkcwogICAgICAgIGFnZW50RWNvc3lzdGVlbS5zdGFuZGFyZHMuY29uc3RpdHV0aWUgLT4gYWdlbnRFY29zeXN0ZWVtLnN0YW5kYXJkcy5iZWxlaWQgIk92ZXJzY2hyaWpmdCIgIkhpZXJhcmNoeSIKICAgICAgICBhZ2VudEVjb3N5c3RlZW0uc3RhbmRhcmRzLmJlbGVpZCAtPiBhZ2VudEVjb3N5c3RlZW0uc3RhbmRhcmRzLmFnZW50Q2hhcnRlcnMgIk92ZXJzY2hyaWpmdCIgIkhpZXJhcmNoeSIKICAgICAgICBhZ2VudEVjb3N5c3RlZW0uc3RhbmRhcmRzLmRlbGl2ZXJ5RnJhbWV3b3JrIC0+IGFnZW50RWNvc3lzdGVlbS5zdGFuZGFyZHMuZmFzZUNoYXJ0ZXJzICJEZWZpbmllZXJ0IGZhc2VzIHZvb3IiICJSZWZlcmVuY2UiCiAgICAgICAgYWdlbnRFY29zeXN0ZWVtLnN0YW5kYXJkcy5mYXNlQ2hhcnRlcnMgLT4gYWdlbnRFY29zeXN0ZWVtLnN0YW5kYXJkcy5hZ2VudENoYXJ0ZXJzICJEZWZpbmllZXJ0IGt3YWxpdGVpdHNlaXNlbiB2b29yIiAiUmVmZXJlbmNlIgogICAgICAgIAogICAgICAgICMgTW9lZGVyIEFnZW50IG9yY2hlc3RyYXRpb24KICAgICAgICBhZ2VudEVjb3N5c3RlZW0uY2FwYWJpbGl0aWVzLm1vZWRlciAtPiBhZ2VudEVjb3N5c3RlZW0uY2FwYWJpbGl0aWVzLmFnZW50QSAiQWN0aXZlZXJ0IiAiT3JjaGVzdHJhdGlvbiIKICAgICAgICBhZ2VudEVjb3N5c3RlZW0uY2FwYWJpbGl0aWVzLm1vZWRlciAtPiBhZ2VudEVjb3N5c3RlZW0uY2FwYWJpbGl0aWVzLmFnZW50QiAiQWN0aXZlZXJ0IiAiT3JjaGVzdHJhdGlvbiIKICAgIH0KCiAgICB2aWV3cyB7CiAgICAgICAgc3lzdGVtQ29udGV4dCBhZ2VudEVjb3N5c3RlZW0gIlN5c3RlbUNvbnRleHQiIHsKICAgICAgICAgICAgaW5jbHVkZSAqCiAgICAgICAgfQoKICAgICAgICBjb250YWluZXIgYWdlbnRFY29zeXN0ZWVtICJDb250YWluZXJzIiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgIH0KICAgICAgICAKICAgICAgICBjb21wb25lbnQgYWdlbnRFY29zeXN0ZWVtLnN0YW5kYXJkcyAiR2l0SHViU3RhbmRhcmRzIiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgIH0KICAgICAgICAKICAgICAgICBjb21wb25lbnQgYWdlbnRFY29zeXN0ZWVtLmNhcGFiaWxpdGllcyAiR2l0SHViQWdlbnRDYXBhYmlsaXRpZXMiIHsKICAgICAgICAgICAgaW5jbHVkZSAqCiAgICAgICAgfQogICAgICAgIAogICAgICAgIGNvbXBvbmVudCBhZ2VudEVjb3N5c3RlZW0ud29ya3NwYWNlICJQcm9qZWN0V29ya3NwYWNlIiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgIH0KCiAgICAgICAgc3R5bGVzIHsKICAgICAgICAgICAgZWxlbWVudCAiU29mdHdhcmUgU3lzdGVtIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICMxMTY4YmQKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgICAgIHNoYXBlIHJvdW5kZWRib3gKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJFeHRlcm5hbCIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjOTk5OTk5CiAgICAgICAgICAgICAgICBjb2xvciAjZmZmZmZmCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiUGVyc29uIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBwZXJzb24KICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzA4NDI3YgogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkNvbnRhaW5lciIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjNDM4ZGQ1CiAgICAgICAgICAgICAgICBjb2xvciAjZmZmZmZmCiAgICAgICAgICAgICAgICBzaGFwZSByb3VuZGVkYm94CiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiQ29tcG9uZW50IiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICM4NWJiZjAKICAgICAgICAgICAgICAgIGNvbG9yICMwMDAwMDAKICAgICAgICAgICAgICAgIHNoYXBlIHJvdW5kZWRib3gKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJHaXQgUmVwb3NpdG9yeSIgewogICAgICAgICAgICAgICAgc2hhcGUgY3lsaW5kZXIKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzJlN2QzMgogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIlByb2NlcyBNb2RlbCIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjZmZmM2UwCiAgICAgICAgICAgICAgICBjb2xvciAjMDAwMDAwCiAgICAgICAgICAgICAgICBzaGFwZSBoZXhhZ29uCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiTWV0YS1hZ2VudCIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjZmZmOWM0CiAgICAgICAgICAgICAgICBjb2xvciAjMDAwMDAwCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiVHJpZ2dlciIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjZmZlYmVlCiAgICAgICAgICAgICAgICBjb2xvciAjMDAwMDAwCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiQXJjaGl0ZWN0dXVyIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICNlM2YyZmQKICAgICAgICAgICAgICAgIGNvbG9yICMwMDAwMDAKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJTcGVjaWZpY2F0aWUiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgI2YzZTVmNQogICAgICAgICAgICAgICAgY29sb3IgIzAwMDAwMAogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIk9udHdlcnAiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgI2UwZjJmMQogICAgICAgICAgICAgICAgY29sb3IgIzAwMDAwMAogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkJvdXciIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgI2ZmZjljNAogICAgICAgICAgICAgICAgY29sb3IgIzAwMDAwMAogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIlZhbGlkYXRpZSIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjZmNlNGVjCiAgICAgICAgICAgICAgICBjb2xvciAjMDAwMDAwCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiRGVwbG95bWVudCIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjZThmNWU5CiAgICAgICAgICAgICAgICBjb2xvciAjMDAwMDAwCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiVXRpbGl0eSIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjZjVmNWY1CiAgICAgICAgICAgICAgICBjb2xvciAjMDAwMDAwCiAgICAgICAgICAgIH0KICAgICAgICAgICAgcmVsYXRpb25zaGlwICJSZWxhdGlvbnNoaXAiIHsKICAgICAgICAgICAgICAgIHRoaWNrbmVzcyAyCiAgICAgICAgICAgICAgICBjb2xvciAjNzA3MDcwCiAgICAgICAgICAgIH0KICAgICAgICAgICAgcmVsYXRpb25zaGlwICJIaWVyYXJjaHkiIHsKICAgICAgICAgICAgICAgIHRoaWNrbmVzcyAzCiAgICAgICAgICAgICAgICBjb2xvciAjZDkyMzJiCiAgICAgICAgICAgICAgICBzdHlsZSBkYXNoZWQKICAgICAgICAgICAgfQogICAgICAgICAgICByZWxhdGlvbnNoaXAgIlByb2Nlc3MgYWRoZXJlbmNlIiB7CiAgICAgICAgICAgICAgICB0aGlja25lc3MgMgogICAgICAgICAgICAgICAgY29sb3IgI2ZmOTgwMAogICAgICAgICAgICAgICAgc3R5bGUgZG90dGVkCiAgICAgICAgICAgIH0KICAgICAgICAgICAgcmVsYXRpb25zaGlwICJPcmNoZXN0cmF0aW9uIiB7CiAgICAgICAgICAgICAgICB0aGlja25lc3MgMwogICAgICAgICAgICAgICAgY29sb3IgIzRjYWY1MAogICAgICAgICAgICB9CiAgICAgICAgfQogICAgfQoKICAgIGNvbmZpZ3VyYXRpb24gewogICAgICAgIHNjb3BlIHNvZnR3YXJlc3lzdGVtCiAgICB9Cgp9"
+  },
+  "views" : {
+    "componentViews" : [ {
+      "containerId" : "5",
+      "elements" : [ {
+        "id" : "6",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "7",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "8",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "9",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "10",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "11",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "12",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "GitHubStandards",
+      "name" : "Component View: Agent Ecosysteem - GitHub Standards",
+      "order" : 3,
+      "relationships" : [ {
+        "id" : "37"
+      }, {
+        "id" : "53"
+      }, {
+        "id" : "80"
+      }, {
+        "id" : "81"
+      }, {
+        "id" : "82"
+      }, {
+        "id" : "83"
+      } ]
+    }, {
+      "containerId" : "12",
+      "elements" : [ {
+        "id" : "5",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "13",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "14",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "15",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "16",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "17",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "18",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "19",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "20",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "21",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "22",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "GitHubAgentCapabilities",
+      "name" : "Component View: Agent Ecosysteem - GitHub Agent-Capabilities",
+      "order" : 4,
+      "relationships" : [ {
+        "id" : "34"
+      }, {
+        "id" : "36"
+      }, {
+        "id" : "39"
+      }, {
+        "id" : "41"
+      }, {
+        "id" : "43"
+      }, {
+        "id" : "45"
+      }, {
+        "id" : "47"
+      }, {
+        "id" : "49"
+      }, {
+        "id" : "51"
+      }, {
+        "id" : "63"
+      }, {
+        "id" : "68"
+      }, {
+        "id" : "70"
+      }, {
+        "id" : "73"
+      }, {
+        "id" : "84"
+      }, {
+        "id" : "85"
+      } ]
+    }, {
+      "containerId" : "22",
+      "elements" : [ {
+        "id" : "12",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "23",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "24",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "25",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "26",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "27",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "ProjectWorkspace",
+      "name" : "Component View: Agent Ecosysteem - Project Workspace",
+      "order" : 5,
+      "relationships" : [ {
+        "id" : "64"
+      }, {
+        "id" : "66"
+      }, {
+        "id" : "71"
+      }, {
+        "id" : "74"
+      } ]
+    } ],
+    "configuration" : {
+      "branding" : { },
+      "lastSavedView" : "SystemContext",
+      "metadataSymbols" : "SquareBrackets",
+      "styles" : {
+        "elements" : [ {
+          "background" : "#e3f2fd",
+          "color" : "#000000",
+          "tag" : "Architectuur"
+        }, {
+          "background" : "#fff9c4",
+          "color" : "#000000",
+          "tag" : "Bouw"
+        }, {
+          "background" : "#85bbf0",
+          "color" : "#000000",
+          "shape" : "RoundedBox",
+          "tag" : "Component"
+        }, {
+          "background" : "#438dd5",
+          "color" : "#ffffff",
+          "shape" : "RoundedBox",
+          "tag" : "Container"
+        }, {
+          "background" : "#e8f5e9",
+          "color" : "#000000",
+          "tag" : "Deployment"
+        }, {
+          "background" : "#999999",
+          "color" : "#ffffff",
+          "tag" : "External"
+        }, {
+          "background" : "#2e7d32",
+          "color" : "#ffffff",
+          "shape" : "Cylinder",
+          "tag" : "Git Repository"
+        }, {
+          "background" : "#fff9c4",
+          "color" : "#000000",
+          "tag" : "Meta-agent"
+        }, {
+          "background" : "#e0f2f1",
+          "color" : "#000000",
+          "tag" : "Ontwerp"
+        }, {
+          "background" : "#08427b",
+          "color" : "#ffffff",
+          "shape" : "Person",
+          "tag" : "Person"
+        }, {
+          "background" : "#fff3e0",
+          "color" : "#000000",
+          "shape" : "Hexagon",
+          "tag" : "Proces Model"
+        }, {
+          "background" : "#1168bd",
+          "color" : "#ffffff",
+          "shape" : "RoundedBox",
+          "tag" : "Software System"
+        }, {
+          "background" : "#f3e5f5",
+          "color" : "#000000",
+          "tag" : "Specificatie"
+        }, {
+          "background" : "#ffebee",
+          "color" : "#000000",
+          "tag" : "Trigger"
+        }, {
+          "background" : "#f5f5f5",
+          "color" : "#000000",
+          "tag" : "Utility"
+        }, {
+          "background" : "#fce4ec",
+          "color" : "#000000",
+          "tag" : "Validatie"
+        } ],
+        "relationships" : [ {
+          "color" : "#d9232b",
+          "style" : "Dashed",
+          "tag" : "Hierarchy",
+          "thickness" : 3
+        }, {
+          "color" : "#4caf50",
+          "tag" : "Orchestration",
+          "thickness" : 3
+        }, {
+          "color" : "#ff9800",
+          "style" : "Dotted",
+          "tag" : "Process adherence",
+          "thickness" : 2
+        }, {
+          "color" : "#707070",
+          "tag" : "Relationship",
+          "thickness" : 2
+        } ]
+      },
+      "terminology" : { }
+    },
+    "containerViews" : [ {
+      "dimensions" : {
+        "height" : 2620,
+        "width" : 3308
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 1640,
+        "y" : 35
+      }, {
+        "id" : "2",
+        "x" : 2420,
+        "y" : 630
+      }, {
+        "id" : "3",
+        "x" : 750,
+        "y" : 1910
+      }, {
+        "id" : "5",
+        "x" : 575,
+        "y" : 620
+      }, {
+        "id" : "12",
+        "x" : 1615,
+        "y" : 635
+      }, {
+        "id" : "22",
+        "x" : 1610,
+        "y" : 1290
+      } ],
+      "externalSoftwareSystemBoundariesVisible" : false,
+      "key" : "Containers",
+      "name" : "Container View: Agent Ecosysteem",
+      "order" : 2,
+      "relationships" : [ {
+        "id" : "32"
+      }, {
+        "id" : "33"
+      }, {
+        "id" : "61"
+      }, {
+        "id" : "75"
+      }, {
+        "id" : "76",
+        "vertices" : [ {
+          "x" : 2630,
+          "y" : 1445
+        }, {
+          "x" : 2635,
+          "y" : 1265
+        } ]
+      }, {
+        "id" : "77",
+        "vertices" : [ {
+          "x" : 850,
+          "y" : 920
+        }, {
+          "x" : 850,
+          "y" : 1785
+        }, {
+          "x" : 845,
+          "y" : 1855
+        } ]
+      }, {
+        "id" : "78",
+        "vertices" : [ {
+          "x" : 980,
+          "y" : 1040
+        } ]
+      }, {
+        "id" : "79",
+        "vertices" : [ {
+          "x" : 1840,
+          "y" : 2070
+        } ]
+      } ],
+      "softwareSystemId" : "4"
+    } ],
+    "systemContextViews" : [ {
+      "dimensions" : {
+        "height" : 1900,
+        "width" : 2300
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 810,
+        "y" : 20
+      }, {
+        "id" : "2",
+        "x" : 1580,
+        "y" : 725
+      }, {
+        "id" : "3",
+        "x" : 765,
+        "y" : 1290
+      }, {
+        "id" : "4",
+        "x" : 770,
+        "y" : 735
+      } ],
+      "enterpriseBoundaryVisible" : true,
+      "key" : "SystemContext",
+      "name" : "System Context View: Agent Ecosysteem",
+      "order" : 1,
+      "relationships" : [ {
+        "id" : "28",
+        "vertices" : [ {
+          "x" : 910,
+          "y" : 420
+        }, {
+          "x" : 910,
+          "y" : 730
+        } ]
+      }, {
+        "id" : "29",
+        "vertices" : [ {
+          "x" : 1105,
+          "y" : 735
+        }, {
+          "x" : 1105,
+          "y" : 420
+        } ]
+      }, {
+        "id" : "30"
+      }, {
+        "id" : "31"
+      } ],
+      "softwareSystemId" : "4"
+    } ]
+  }
+}

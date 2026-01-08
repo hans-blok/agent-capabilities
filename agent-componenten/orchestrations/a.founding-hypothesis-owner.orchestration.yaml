@@ -3,13 +3,13 @@ agent:
   name: founding-hypothesis-owner
   phase: a
   version: '1.0'
-  generated: '2026-01-07'
+  generated: '2026-01-08'
 charter:
-  path: c:\gitrepo\standard\charters.agents\std.agent.charter.a.founding-hypothesis-owner.md
+  path: C:\gitrepo\standard\artefacten\3-charters-agents\std.agent.charter.a.founding-hypothesis-owner.md
   location: https://github.com/hans-blok/standard/blob/main/charters.agents/a/std.agent.charter.a.founding-hypothesis-owner.md
 artifacts:
-  prompt: C:\gitrepo\agent-capabilities\scripts-agent-ecosysteem\agent-componenten\prompts\a.founding-hypothesis-owner.prompt.md
-  runner: C:\gitrepo\agent-capabilities\scripts-agent-ecosysteem\agent-componenten\runners\a.founding-hypothesis-owner.py
+  prompt: C:\gitrepo\agent-capabilities\agent-componenten\prompts\a.founding-hypothesis-owner.prompt.md
+  runner: C:\gitrepo\agent-capabilities\agent-componenten\runners\a.founding-hypothesis-owner.py
   outputRoot: <project-workspace>/artefacten
 runtime:
   llmProvider: anthropic
@@ -38,5 +38,5 @@ workflow:
     name: Valideer Kwaliteit
     description: Controleer output tegen quality gates
 metadata:
-  created: '2026-01-07'
-  buildPlan: C:\gitrepo\agent-capabilities\scripts-agent-ecosysteem\agent-componenten\buildplans\std.a.founding-hypothesis-owner.json
+  created: '2026-01-08'
+  buildPlan: C:\gitrepo\agent-capabilities\agent-componenten\buildplans\a.founding-hypothesis-owner.json
