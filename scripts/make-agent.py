@@ -140,6 +140,8 @@ class AgentMaker:
             # Map phase prefixes to SAFe phase names
             phase_mapping = {
                 'a': 'A. Trigger',
+                'a1': 'A. Trigger',
+                'a2': 'A. Trigger',
                 'b': 'B. Architectuur',
                 'c': 'C. Specificatie',
                 'd': 'D. Ontwerp',

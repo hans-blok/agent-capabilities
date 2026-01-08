@@ -1,0 +1,27 @@
+{
+  "agentName": "founding-hypothesis-owner",
+  "phase": "a1",
+  "agentId": "std.a1.founding-hypothesis-owner",
+  "repoRoot": "C:\\gitrepo\\agent-capabilities",
+  "charterRoot": "https://github.com/hans-blok/standard.git",
+  "charterPath": "C:\\gitrepo\\standard\\artefacten\\3-charters-agents\\std.agent.charter.a1.founding-hypothesis-owner.md",
+  "charterUrl": "https://github.com/hans-blok/standard/blob/main/artefacten/3-charters-agents/std.agent.charter.a1.founding-hypothesis-owner.md",
+  "promptPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\prompts\\a.founding-hypothesis-owner.prompt.md",
+  "runnerPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\runners\\a.founding-hypothesis-owner.py",
+  "orchestrationPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\orchestrations\\a1.founding-hypothesis-owner.orchestration.yaml",
+  "agentDefinitionPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\agents\\a.founding-hypothesis-owner.agent.md",
+  "outputRoot": "<project-workspace>/artefacten",
+  "buildPlanPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\buildplans\\a.founding-hypothesis-owner.json",
+  "qualityGates": [
+    "Nederlands B1",
+    "Geen technische implementatiedetails in prompt",
+    "Max 3 aannames (indien van toepassing)",
+    "Output is Markdown"
+  ],
+  "runtime": {
+    "llmProvider": "anthropic",
+    "model": "claude-sonnet",
+    "adapter": "Invoke-LLM (stub in runner)"
+  },
+  "generatedOn": "2026-01-08T21:49:48.227080"
+}
