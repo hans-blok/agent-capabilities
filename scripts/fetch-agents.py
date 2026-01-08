@@ -328,6 +328,33 @@ class AgentFetcher:
             target_file = target_scripts / script_file.name
             self.copy_file(script_file, target_file)
     
+    def fetch_workflows(self):
+        """Fetch workflow pipelines (multi-agent compositions)."""
+        if self.dry_run:
+            self.log("Would copy workflow pipelines", "DRY-RUN")
+            return
+        
+        pipelines_dir = self.source_root / "agent-componenten" / "pipelines" / "generated" / self.platform
+        if not pipelines_dir.exists():
+            self.log("Geen workflow pipelines directory gevonden", "WARNING")
+            return
+        
+        # Find all workflow pipelines (pattern: workflow.*.*)
+        workflow_count = 0
+        for workflow_file in pipelines_dir.glob("workflow.*"):
+            if self.platform == 'github-actions':
+                target_pipeline_dir = self.target_root / ".github" / "workflows"
+            elif self.platform == 'gitlab-ci':
+                target_pipeline_dir = self.target_root  # GitLab CI files in root
+            else:
+                target_pipeline_dir = self.target_root / ".pipelines"
+            
+            self.copy_file(workflow_file, target_pipeline_dir / workflow_file.name)
+            workflow_count += 1
+        
+        if workflow_count > 0:
+            self.log(f"Workflows opgehaald: {workflow_count}")
+    
     def fetch_agents_yaml(self):
         """Fetch agents.yaml configuration."""
         if self.dry_run:
@@ -397,6 +424,9 @@ class AgentFetcher:
             for agent_name in agents:
                 if self.fetch_agent(agent_name):
                     success_count += 1
+            
+            # Fetch workflows (multi-agent pipelines)
+            self.fetch_workflows()
             
             # Fetch agents.yaml
             self.fetch_agents_yaml()
