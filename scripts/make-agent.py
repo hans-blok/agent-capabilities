@@ -19,6 +19,7 @@ Datum: 04-01-2026
 import argparse
 import json
 import os
+import re
 import sys
 from pathlib import Path
 from datetime import datetime
@@ -50,7 +51,13 @@ class AgentMaker:
         }
         reset = "\033[0m"
         color = colors.get(prefix, "")
-        print(f"{color}[{prefix}] {message}{reset}")
+        # Encode for Windows console
+        try:
+            print(f"{color}[{prefix}] {message}{reset}")
+        except UnicodeEncodeError:
+            # Fallback for Windows console encoding issues
+            safe_message = message.encode('ascii', 'replace').decode('ascii')
+            print(f"{color}[{prefix}] {safe_message}{reset}")
     
     def _update_git_repo(self, repo_path: Path):
         """Update a git repository by pulling latest changes."""
@@ -124,10 +131,63 @@ class AgentMaker:
         
         raise ValueError(f"Kan phase niet bepalen uit charter naam: {charter_path.name}")
     
+    def validate_phase_from_charter_content(self, charter_path: Path, expected_phase: str) -> bool:
+        """Validate phase by reading SAFe Phase Alignment section from charter content."""
+        try:
+            with open(charter_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # Map phase prefixes to SAFe phase names
+            phase_mapping = {
+                'a': 'A. Trigger',
+                'b': 'B. Architectuur',
+                'c': 'C. Specificatie',
+                'd': 'D. Ontwerp',
+                'e': 'E. Bouw',
+                'f': 'F. Validatie',
+                'g': 'G. Deployment',
+                'u': 'U. Utility',
+                '0': '0. Setup'
+            }
+            
+            # Get phase prefix
+            phase_prefix = expected_phase.split('.')[0] if '.' in expected_phase else expected_phase[0]
+            expected_safe_phase = phase_mapping.get(phase_prefix)
+            
+            if not expected_safe_phase:
+                self.log(f"Onbekende fase prefix: {phase_prefix}", "WARNING")
+                return True  # Continue anyway
+            
+            # For utility agents, check for "Utility (U) agent" in the section
+            if phase_prefix == 'u':
+                if 'Utility (U) agent' in content or 'utility-agent' in content:
+                    self.log(f"✓ Charter fase validatie geslaagd: Utility Agent", "SUCCESS")
+                    return True
+            
+            # Check if the expected phase has "✅ Ja" in the SAFe Phase Alignment table
+            # Look for pattern like "| B. Architectuur | ✅ Ja"
+            pattern = rf'\|\s*{re.escape(expected_safe_phase)}\s*\|[^|]*✅\s*Ja'
+            
+            if re.search(pattern, content):
+                self.log(f"✓ Charter fase validatie geslaagd: {expected_safe_phase}", "SUCCESS")
+                return True
+            else:
+                self.log(f"Charter bevat mogelijk niet de verwachte fase: {expected_safe_phase}", "WARNING")
+                self.log(f"  Controleer '## 4. SAFe Phase Alignment' sectie in charter", "WARNING")
+                return True  # Continue anyway, maar met waarschuwing
+                
+        except Exception as e:
+            self.log(f"Kon charter inhoud niet valideren: {e}", "WARNING")
+            return True  # Continue anyway
+    
     def create_build_plan(self) -> Dict:
         """Create a build plan for the agent."""
         charter_path = self.resolve_charter_path()
         phase = self.get_phase_from_charter_path(charter_path)
+        
+        # Validate phase against charter content
+        self.validate_phase_from_charter_content(charter_path, phase)
+        
         agent_id = f"std.{phase}.{self.agent_name}"
         
         # Extract phase prefix (e.g., "d.ontwerp" -> "d")
