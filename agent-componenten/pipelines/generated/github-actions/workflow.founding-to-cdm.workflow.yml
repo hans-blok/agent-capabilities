@@ -1,0 +1,50 @@
+name: Founding Hypothesis to CDM Workflow
+'on':
+  workflow_dispatch:
+    inputs:
+      business_case:
+        description: Path to business case document
+        required: true
+        type: string
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v4
+    - name: setup-python
+      uses: actions/setup-python@v5
+      with:
+        version: ${{ environment.python-version }}
+    - name: install-deps
+      run: pip install -r requirements.txt
+    - name: run-founding-hypothesis
+      run: "echo \"=== Stap 1: Founding Hypothesis genereren ===\"\npython agent-componenten/runners/a.founding-hypothesis-owner.py\
+        \ \\\n  --input ${{ inputs.business_case }} \\\n  --output output/founding-hypothesis.md\n\
+        \necho \"\xE2\u0153\u201C Founding hypothesis gegenereerd\"\n"
+    - name: run-cdm-architect
+      run: "echo \"=== Stap 2: CDM genereren vanuit founding hypothesis ===\"\npython\
+        \ agent-componenten/runners/b.cdm-architect.py \\\n  --input output/founding-hypothesis.md\
+        \ \\\n  --output output/cdm.md\n\necho \"\xE2\u0153\u201C CDM gegenereerd\"\
+        \n"
+    - name: workflow-summary
+      run: 'echo "=== Workflow voltooid ==="
+
+        echo "1. Founding Hypothesis: output/founding-hypothesis.md"
+
+        echo "2. CDM: output/cdm.md"
+
+        ls -lh output/
+
+        '
+    - name: upload-artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: founding-to-cdm-workflow
+        path: output/
+    - name: Notify on Failure
+      if: failure()
+      uses: slackapi/slack-github-action@v1.25.0
+      with:
+        channel-id: agent-alerts
+        slack-message: Founding-to-CDM workflow failed
