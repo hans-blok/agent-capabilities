@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-workspace-moeder.py
+moeder-workspace.py
 
-Runner script voor workspace-moeder agent.
+Runner script voor moeder-workspace agent.
 
-Agent: std.u.workspace-moeder
+Agent: std.0.moeder-workspace
 Fase: u
-Charter: C:\gitrepo\standard\charters.agents\std.agent.charter.u.workspace-moeder.md
+Charter: C:\gitrepo\standard\artefacten\3-charters-agents\std.agent.charter.0.moeder-workspace.md
 Gegenereerd: 2026-01-08
 """
 
@@ -19,13 +19,13 @@ from typing import Dict, List, Optional
 
 
 class WorkspaceMoederAgent:
-    """Agent implementation for workspace-moeder."""
+    """Agent implementation for moeder-workspace."""
     
     def __init__(self, args):
         """Initialize the agent."""
         self.args = args
         self.output_root = Path("<project-workspace>/artefacten")
-        self.charter_path = Path("C:\gitrepo\standard\charters.agents\std.agent.charter.u.workspace-moeder.md")
+        self.charter_path = Path("C:\gitrepo\standard\artefacten\3-charters-agents\std.agent.charter.0.moeder-workspace.md")
     
     def log(self, message: str, msg_type: str = "INFO"):
         """Log a message."""
@@ -104,7 +104,7 @@ door de LLM op basis van:
 def main():
     """Main entry point."""
     parser = argparse.ArgumentParser(
-        description='Runner voor workspace-moeder agent',
+        description='Runner voor moeder-workspace agent',
         formatter_class=argparse.RawDescriptionHelpFormatter
     )
     

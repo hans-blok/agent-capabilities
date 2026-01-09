@@ -14,3 +14,4 @@ python scripts/make-agent.py --agent-name layout-optimizer
 # GEEN artefacten/: Deze workspace is alleen voor agent componenten!
 # Artefacten worden gemaakt in project workspaces waar sync-agents.py naar kopieert
 
+python scripts/optimizer-layout.py --input architectuur-agent-ecosysteem/.structurizr/workspace.dsl --format structurizr

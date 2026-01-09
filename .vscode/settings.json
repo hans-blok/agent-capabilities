@@ -6,5 +6,7 @@
     "activityBar.background": "#e6f2ff",
     "panel.background": "#e6f2ff",
     "terminal.background": "#ffffff"
-  }
+  },
+  "vscode-speech.autoCorrect": false,
+  "vscode-speech.punctuation": false
 }
