@@ -1,6 +1,9 @@
 # Agent-Capabilities - Herbruikbare Agent Repository
 # .gitignore
 
+# Scratch/temporary workspace
+even/
+
 # Input directory (working files, local data)
 #/input/
 
