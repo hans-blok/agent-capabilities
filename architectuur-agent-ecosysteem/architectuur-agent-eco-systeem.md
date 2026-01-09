@@ -148,7 +148,7 @@ De GitHub Agent-Capabilities workspace bevat agents georganiseerd per SAFe-fase:
 
 **Meta-agents (Ecosysteem-bouwers, U90-99)**:
 - **Moeder Agent Capabilities (u00)** - Agent factory, charter designer, orchestrator voor deze workspace
-- **Charter Writer (u90)** - Schrijft normatieve agent-charters conform agent-charter-normering.md
+- **Agent Charter Schrijver (u90)** - Schrijft normatieve agent-charters conform agent-charter-normering.md
 - **make-agent.py (u90)** - Genereert agent-componenten (prompts, runners, orchestrations) vanuit charters
 - **prompt-builder.py (u91)** - Genereert minimale prompts met charter-referentie
 - **runner-builder.py (u92)** - Genereert Python runner scripts
