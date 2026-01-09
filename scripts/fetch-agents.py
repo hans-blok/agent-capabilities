@@ -2,8 +2,12 @@
 """
 fetch-agents.py
 
-Haalt agents op vanuit de agent-capabilities repository en kopieert ze naar deze workspace.
+Haalt agent componenten op vanuit de agent-capabilities repository en kopieert ze naar deze workspace.
 Dit script is bedoeld voor initieel ophalen van agents vanuit een centrale bron repository.
+
+ARCHITECTUUR:
+  Charters worden NIET gefetched - deze zijn lokaal in governance/agent-charters/ en agent-charters/.
+  Alleen agent componenten worden gefetched: prompts, runners, orchestrations, buildplans, pipelines.
 
 GEBRUIK:
   # Dry-run (toon wat er opgehaald zou worden)
@@ -18,9 +22,9 @@ GEBRUIK:
   # Gebruik een andere bron repository
   python fetch-agents.py --source https://github.com/hans-blok/agent-capabilities.git
 
-Agent: fetch-agents.py
-Versie: 1.0
-Datum: 07-01-2026
+Agent: u95.python-script-schrijver
+Versie: 2.0
+Datum: 09-01-2026
 """
 
 import argparse
@@ -165,14 +169,19 @@ class AgentFetcher:
         return sorted(agents)
     
     def find_agent_files(self, agent_name: str) -> dict:
-        """Find all files belonging to an agent."""
+        """
+        Find all files belonging to an agent.
+        
+        NOTE: Charters worden NIET gefetched - deze zijn lokaal in governance/agent-charters/.
+        We fetchen alleen de gegenereerde componenten: prompts, runners, orchestrations, etc.
+        """
         files = {
             'prompt': None,
             'runner': None,
             'orchestration': None,
             'buildplan': None,
             'pipeline': None,
-            'agent': None
+            'agent': None  # Agent definition (.agent.md) - deprecated, kept for backward compatibility
         }
         
         if self.dry_run:
@@ -186,6 +195,8 @@ class AgentFetcher:
             break
         
         # Find agent definition (pattern: *.<agent-name>.agent.md)
+        # NOTE: Dit wordt deprecated - agent definitions (.agent.md) zijn verwijderd.
+        # Alleen charters (.agent.charter) blijven bestaan en die zijn lokaal in governance/agent-charters/.
         agents_dir = self.source_root / "agent-componenten" / "agents"
         if agents_dir.exists():
             for agent_file in agents_dir.glob(f"*.{agent_name}.agent.md"):
