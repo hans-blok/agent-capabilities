@@ -35,6 +35,16 @@ class AgentMaker:
                  charter_root: str = "https://github.com/hans-blok/standard.git",
                  local_charter_clone: Optional[str] = None):
         """Initialize the agent maker."""
+        # Strip phase prefix from agent_name if present (e.g., "u05.layout-optimizer" -> "layout-optimizer")
+        # This allows users to specify either "layout-optimizer" or "u05.layout-optimizer"
+        if '.' in agent_name and len(agent_name.split('.')[0]) <= 3:
+            # First part looks like a phase prefix (max 3 chars like "u05", "a1", "d2")
+            potential_prefix = agent_name.split('.')[0]
+            # Check if it matches known phase patterns
+            if (potential_prefix[0] in 'abcdefgu' and 
+                (len(potential_prefix) == 1 or potential_prefix[1:].isdigit())):
+                agent_name = '.'.join(agent_name.split('.')[1:])
+        
         self.agent_name = agent_name
         self.repo_root = Path(repo_root) if repo_root else Path.cwd()
         self.charter_root = charter_root
@@ -159,6 +169,7 @@ class AgentMaker:
                 'u01': 'U. Utility',
                 'u03': 'U. Utility',
                 'u04': 'U. Utility',
+                'u05': 'U. Utility',
                 'u90': 'U. Utility',
                 'u91': 'U. Utility',
                 'u92': 'U. Utility',
@@ -207,8 +218,8 @@ class AgentMaker:
         
         agent_id = f"std.{phase}.{self.agent_name}"
         
-        # Extract phase prefix (e.g., "d.ontwerp" -> "d")
-        phase_prefix = phase.split('.')[0] if '.' in phase else phase[0]
+        # Extract phase prefix (e.g., "d1.service-architect" -> "d1", "u05.layout-optimizer" -> "u05")
+        phase_prefix = phase.split('.')[0] if '.' in phase else phase
         
         # Create charter URL for GitHub reference
         charter_filename = charter_path.name

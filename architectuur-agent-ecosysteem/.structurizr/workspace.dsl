@@ -13,41 +13,61 @@ workspace "Agent Generation Pipeline" "C4 model van het agent generation proces"
         # Hoofd systeem: Agent-Capabilities
         agentCapabilities = softwareSystem "Agent-Capabilities" "Genereert en distribueert agent componenten" {
             
-            # Container: Scripts
-            scripts = container "Scripts" "Python scripts voor generation en distributie" "Python 3.11" {
-                makeAgent = component "make-agent.py" "Hoofdorchestrator voor agent generation" "Python Script" {
-                    tags "MainScript"
-                }
-                promptBuilder = component "prompt-builder.py" "Genereert minimale prompt files" "Python Script"
-                runnerBuilder = component "runner-builder.py" "Genereert Python CLI executables" "Python Script"
-                orchestrationBuilder = component "orchestration-builder.py" "Genereert YAML workflow configs" "Python Script"
-                pipelineGenerator = component "PipelineGenerator" "Translates platform-agnostic naar specifiek" "Python Class" {
-                    tags "Generator"
-                }
-                githubActionsGen = component "GitHubActionsGenerator" "Genereert GitHub Actions workflows" "Python Class"
-                gitlabCIGen = component "GitLabCIGenerator" "Genereert GitLab CI pipelines" "Python Class"
-                fetchAgents = component "fetch-agents.py" "Distribueert agents naar workspaces" "Python Script" {
-                    tags "Distribution"
-                }
+            # Container: Main Orchestrator
+            makeAgent = container "make-agent.py" "Hoofdorchestrator voor agent generation" "Python Script" {
+                tags "MainScript"
+                charterReader = component "Charter Reader" "Leest charter uit standard repo" "Python Function"
+                phaseValidator = component "Phase Validator" "Valideert fase uit charter" "Python Function"
+                buildPlanWriter = component "BuildPlan Writer" "Schrijft JSON buildplan" "Python Function"
+                builderOrchestrator = component "Builder Orchestrator" "Roept builders aan" "Python Function"
+                pipelineGenerator = component "Pipeline Generator" "Base class voor pipeline generation" "Python Class"
+                githubActionsGen = component "GitHub Actions Generator" "Translates naar GH Actions" "Python Class"
+                gitlabCIGen = component "GitLab CI Generator" "Translates naar GitLab CI" "Python Class"
+            }
+            
+            # Container: Prompt Builder
+            promptBuilder = container "prompt-builder.py" "Genereert minimale prompt files" "Python Script" {
+                tags "Builder"
+                promptGenerator = component "Prompt Generator" "Genereert prompt.md" "Python Function"
+                charterLinker = component "Charter Linker" "Linkt naar charter URL" "Python Function"
+            }
+            
+            # Container: Runner Builder
+            runnerBuilder = container "runner-builder.py" "Genereert Python CLI executables" "Python Script" {
+                tags "Builder"
+                cliGenerator = component "CLI Generator" "Genereert runner.py" "Python Function"
+                argparseBuilder = component "Argparse Builder" "Bouwt CLI interface" "Python Function"
+            }
+            
+            # Container: Orchestration Builder
+            orchestrationBuilder = container "orchestration-builder.py" "Genereert YAML workflow configs" "Python Script" {
+                tags "Builder"
+                yamlGenerator = component "YAML Generator" "Genereert orchestration.yaml" "Python Function"
+                workflowDefiner = component "Workflow Definer" "Definieert workflow structuur" "Python Function"
+            }
+            
+            # Container: Fetch Agents
+            fetchAgents = container "fetch-agents.py" "Distribueert agents naar workspaces" "Python Script" {
+                tags "Distribution"
+                repoCloner = component "Repo Cloner" "Kloont agent-capabilities" "Python Function"
+                fileCopier = component "File Copier" "Kopieert componenten" "Python Function"
+                platformSelector = component "Platform Selector" "Selecteert platform pipelines" "Python Function"
             }
 
-            # Container: Buildplans
+            # Container: Buildplans Storage
             buildplans = container "Buildplans" "JSON metadata met traceerbaarheid" "JSON Files" {
                 tags "Data"
             }
 
-            # Container: Agent Componenten
+            # Container: Agent Componenten Storage
             components = container "Agent Componenten" "Gegenereerde agent artefacten" "File System" {
+                tags "Data"
                 prompts = component "Prompts" "Minimale instructie files" "Markdown"
                 runners = component "Runners" "CLI executables" "Python"
                 orchestrations = component "Orchestrations" "Workflow definities" "YAML"
                 agentDefs = component "Agent Definitions" "Samenvatting documenten" "Markdown"
-                pipelineDefs = component "Pipeline Definitions" "Platform-agnostisch" "YAML" {
-                    tags "PlatformAgnostic"
-                }
-                generatedPipelines = component "Generated Pipelines" "Platform-specifiek" "YAML" {
-                    tags "Disposable"
-                }
+                pipelineDefs = component "Pipeline Definitions" "Platform-agnostisch" "YAML"
+                generatedPipelines = component "Generated Pipelines" "Platform-specifiek" "YAML"
             }
 
             # Container: Governance
@@ -58,55 +78,64 @@ workspace "Agent Generation Pipeline" "C4 model van het agent generation proces"
 
         # Relaties - Developer interactions
         developer -> standardRepo "Schrijft charter in" "Git"
-        developer -> makeAgent "Voert uit met agent-name" "CLI"
+        developer -> makeAgent "Voert uit met --agent-name" "CLI"
         developer -> fetchAgents "Voert uit in project" "CLI"
 
-        # Relaties - make-agent.py workflow
-        makeAgent -> standardRepo "Leest charter (auto git pull)" "File System"
+        # Relaties - make-agent.py workflow (container level)
+        makeAgent -> standardRepo "Leest charter (auto git pull)" "Git + File System"
         makeAgent -> buildplans "Schrijft buildplan" "JSON"
         makeAgent -> promptBuilder "Roept aan" "subprocess"
         makeAgent -> runnerBuilder "Roept aan" "subprocess"
         makeAgent -> orchestrationBuilder "Roept aan" "subprocess"
-        makeAgent -> pipelineGenerator "Gebruikt voor pipeline generation" "Python import"
+        makeAgent -> components "Schrijft pipelines + agent.md" "File System"
+        makeAgent -> governance "Volgt principes" "Reference"
 
-        # Relaties - Builders
+        # Relaties - Builders (container level)
         promptBuilder -> buildplans "Leest metadata" "JSON"
         promptBuilder -> standardRepo "Leest charter" "File System"
-        promptBuilder -> prompts "Schrijft prompt.md" "File System"
+        promptBuilder -> components "Schrijft prompt.md" "File System"
 
         runnerBuilder -> buildplans "Leest metadata" "JSON"
-        runnerBuilder -> runners "Schrijft runner.py" "File System"
+        runnerBuilder -> components "Schrijft runner.py" "File System"
 
         orchestrationBuilder -> buildplans "Leest metadata" "JSON"
-        orchestrationBuilder -> orchestrations "Schrijft orchestration.yaml" "File System"
+        orchestrationBuilder -> components "Schrijft orchestration.yaml" "File System"
 
-        # Relaties - Pipeline generation
-        pipelineGenerator -> pipelineDefs "Leest definitie" "YAML"
-        pipelineGenerator -> generatedPipelines "Genereert platform-specifieke pipelines" "File System"
-        githubActionsGen -> pipelineGenerator "Extends" "Inheritance"
-        gitlabCIGen -> pipelineGenerator "Extends" "Inheritance"
-        githubActionsGen -> generatedPipelines "Schrijft .workflow.yml" "File System"
-        gitlabCIGen -> generatedPipelines "Schrijft .gitlab-ci.yml" "File System"
-
-        # Relaties - Agent generation
-        makeAgent -> agentDefs "Genereert agent.md" "File System"
-
-        # Relaties - Distribution
-        fetchAgents -> projectWorkspace "Kopieert componenten naar" "File System"
-        fetchAgents -> prompts "Leest" "File System"
-        fetchAgents -> runners "Leest" "File System"
-        fetchAgents -> orchestrations "Leest" "File System"
-        fetchAgents -> generatedPipelines "Leest platform-specifieke" "File System"
-
-        # Relaties - Governance
-        makeAgent -> governance "Volgt principes" "Reference"
+        # Relaties - Distribution (container level)
+        fetchAgents -> components "Leest componenten" "File System"
+        fetchAgents -> projectWorkspace "Kopieert naar .github/ en agent-componenten/" "File System"
         fetchAgents -> governance "Volgt principes" "Reference"
+
+        # Relaties - make-agent.py internals (component level)
+        charterReader -> phaseValidator "Valideert fase" "Python call"
+        phaseValidator -> buildPlanWriter "Schrijft plan" "Python call"
+        buildPlanWriter -> builderOrchestrator "Roept builders aan" "Python call"
+        builderOrchestrator -> pipelineGenerator "Genereert pipelines" "Python call"
+        pipelineGenerator -> githubActionsGen "Translates" "Inheritance"
+        pipelineGenerator -> gitlabCIGen "Translates" "Inheritance"
+
+        # Relaties - prompt-builder.py internals (component level)
+        promptGenerator -> charterLinker "Linkt charter" "Python call"
+
+        # Relaties - runner-builder.py internals (component level)
+        cliGenerator -> argparseBuilder "Bouwt CLI" "Python call"
+
+        # Relaties - orchestration-builder.py internals (component level)
+        yamlGenerator -> workflowDefiner "Definieert workflow" "Python call"
+
+        # Relaties - fetch-agents.py internals (component level)
+        repoCloner -> fileCopier "Kopieert files" "Python call"
+        fileCopier -> platformSelector "Selecteert platform" "Python call"
 
         # Deployment
         deploymentEnvironment "Developer Machine" {
             deploymentNode "Windows 11" {
                 deploymentNode "Python 3.11" {
-                    scriptsInstance = containerInstance scripts
+                    makeAgentInstance = containerInstance makeAgent
+                    promptBuilderInstance = containerInstance promptBuilder
+                    runnerBuilderInstance = containerInstance runnerBuilder
+                    orchestrationBuilderInstance = containerInstance orchestrationBuilder
+                    fetchAgentsInstance = containerInstance fetchAgents
                 }
                 deploymentNode "File System" {
                     buildplansInstance = containerInstance buildplans
@@ -124,59 +153,87 @@ workspace "Agent Generation Pipeline" "C4 model van het agent generation proces"
     views {
         systemContext agentCapabilities "SystemContext" {
             include *
-            # autoLayout lr
+            # autolayout lr
+            title "Agent-Capabilities - System Context"
         }
 
         container agentCapabilities "Containers" {
             include *
-            # autoLayout tb
+            # autolayout tb
+            title "Agent Generation Pipeline - Container Diagram"
+            description "Layering: Developer → Orchestrators → Builders → Storage (Sugiyama framework)"
         }
 
-        component scripts "ScriptsComponents" {
+        component makeAgent "MakeAgentComponents" {
             include *
-            # autoLayout tb
-            title "Agent Generation Scripts - Component Diagram"
+            # autolayout tb
+            title "make-agent.py - Component Diagram"
         }
 
-        component components "AgentComponents" {
+        component promptBuilder "PromptBuilderComponents" {
             include *
-            # autoLayout lr
-            title "Generated Agent Components - Component Diagram"
+            # autolayout lr
+            title "prompt-builder.py - Component Diagram"
         }
 
-        dynamic agentCapabilities "GenerationFlow" "Agent generation workflow (container level)" {
-            developer -> scripts "1. Voert uit: make-agent.py --agent-name X"
-            scripts -> standardRepo "2. Git pull + lees charter"
-            scripts -> buildplans "3. Schrijft buildplan met metadata"
-            scripts -> components "4. Genereert prompts, runners, orchestrations"
-            # autoLayout lr
+        component runnerBuilder "RunnerBuilderComponents" {
+            include *
+            # autolayout lr
+            title "runner-builder.py - Component Diagram"
+        }
+
+        component orchestrationBuilder "OrchestrationBuilderComponents" {
+            include *
+            # autolayout lr
+            title "orchestration-builder.py - Component Diagram"
+        }
+
+        component fetchAgents "FetchAgentsComponents" {
+            include *
+            # autolayout lr
+            title "fetch-agents.py - Component Diagram"
+        }
+
+        component components "StorageComponents" {
+            include *
+            # autolayout tb
+            title "Agent Componenten Storage - Component Diagram"
+        }
+
+        dynamic agentCapabilities "GenerationFlow" "Agent generation workflow" {
+            developer -> makeAgent "1. Voert uit: make-agent.py --agent-name X"
+            makeAgent -> standardRepo "2. Git pull + lees charter"
+            makeAgent -> buildplans "3. Schrijft buildplan met metadata"
+            makeAgent -> promptBuilder "4. Roept prompt-builder.py aan"
+            promptBuilder -> components "5. Schrijft prompt.md"
+            makeAgent -> runnerBuilder "6. Roept runner-builder.py aan"
+            runnerBuilder -> components "7. Schrijft runner.py"
+            makeAgent -> orchestrationBuilder "8. Roept orchestration-builder.py aan"
+            orchestrationBuilder -> components "9. Schrijft orchestration.yaml"
+            makeAgent -> components "10. Genereert pipelines + agent.md"
             title "Agent Generation Flow - Container Level"
         }
 
-        dynamic scripts "DetailedGenerationFlow" "Agent generation workflow (component level)" {
-            makeAgent -> promptBuilder "1. Roept aan met buildplan"
-            promptBuilder -> prompts "2. Genereert prompt.md"
-            makeAgent -> runnerBuilder "3. Roept aan met buildplan"
-            runnerBuilder -> runners "4. Genereert runner.py"
-            makeAgent -> orchestrationBuilder "5. Roept aan met buildplan"
-            orchestrationBuilder -> orchestrations "6. Genereert orchestration.yaml"
-            makeAgent -> pipelineGenerator "7. Gebruikt voor pipelines"
-            pipelineGenerator -> generatedPipelines "8. Genereert platform-specifieke pipelines"
-            # autoLayout tb
-            title "Agent Generation Flow - Component Level"
+        dynamic agentCapabilities "DistributionFlow" "Agent distribution workflow" {
+            developer -> fetchAgents "1. Voert uit: fetch-agents.py in project"
+            fetchAgents -> components "2. Leest prompts, runners, orchestrations, pipelines"
+            fetchAgents -> projectWorkspace "3. Kopieert naar .github/ en agent-componenten/"
+            title "Agent Distribution Flow - Container Level"
         }
 
-        dynamic agentCapabilities "DistributionFlow" "Agent distribution workflow" {
-            developer -> scripts "1. Voert uit: fetch-agents.py in project"
-            scripts -> components "2. Leest prompts, runners, orchestrations, pipelines"
-            scripts -> projectWorkspace "3. Kopieert naar .github/ en agent-componenten/"
-            # autoLayout lr
-            title "Agent Distribution Flow - Container Level"
+        dynamic makeAgent "MakeAgentFlow" "Interne werking van make-agent.py" {
+            charterReader -> phaseValidator "1. Valideert fase"
+            phaseValidator -> buildPlanWriter "2. Schrijft buildplan"
+            buildPlanWriter -> builderOrchestrator "3. Orchestreert builders"
+            builderOrchestrator -> pipelineGenerator "4. Genereert pipelines"
+            pipelineGenerator -> githubActionsGen "5a. GitHub Actions"
+            pipelineGenerator -> gitlabCIGen "5b. GitLab CI"
+            title "make-agent.py Internals - Component Level"
         }
 
         deployment agentCapabilities "Developer Machine" "Deployment" {
             include *
-            # autoLayout tb
+            # autolayout tb
         }
 
         styles {
@@ -205,7 +262,7 @@ workspace "Agent Generation Pipeline" "C4 model van het agent generation proces"
                 background #ff6b6b
                 color #ffffff
             }
-            element "Generator" {
+            element "Builder" {
                 background #4ecdc4
                 color #ffffff
             }
@@ -217,14 +274,6 @@ workspace "Agent Generation Pipeline" "C4 model van het agent generation proces"
                 shape cylinder
                 background #f38181
                 color #ffffff
-            }
-            element "PlatformAgnostic" {
-                background #ffd93d
-                color #000000
-            }
-            element "Disposable" {
-                background #cccccc
-                color #000000
             }
             element "Documentation" {
                 shape folder

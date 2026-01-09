@@ -23,4 +23,5 @@ agents:
     description: "Utility: Converteert Markdown-bestanden naar Microsoft Word (DOCX)."
   u.md-to-dsl:
     description: "Utility: Converteert Markdown naar een Domain-Specific Language (DSL)."
-
+  u05.layout-optimizer:
+    description: "Utility: Optimaliseert layout van diagrammen (minimaliseer kruisingen, consistente leesrichting)."
