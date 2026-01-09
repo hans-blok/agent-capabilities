@@ -1,15 +1,17 @@
 # Plan: Git Repository Opschoning naar v1.0.0
 
 **Doel**: Repository opschonen tot één initiële commit en taggen als versie 1.0.0  
+**Repository**: agent-capabilities  
 **Datum**: 2026-01-09  
-**Verantwoordelijk**: Moeder Standard Agent + Menselijke review
+**Verantwoordelijk**: Moeder Agent Capabilities + Menselijke review
 
 ---
 
 ## 1. Huidige Situatie
 
-- Repository heeft 20+ commits met verschillende wijzigingen
-- Huidige HEAD: `9fa21df - De 7 principes toegevoegd`
+- Repository heeft 15+ commits met iteratieve ontwikkeling
+- Huidige HEAD: `e9e6f90 - Verbeter scripts en realiseer eerste taak`
+- Ontwikkelingshistorie: charter refactoring, workflow orchestrator, Git expertise toevoegingen
 - Gewenst: Schone history met één commit voor v1.0.0
 
 ---
@@ -51,24 +53,43 @@ git add .
 # Commit als initiële versie met uitgebreide message
 git commit -m "Initial release v1.0.0
 
-Standards Repository - Agent Eco-systeem
+Agent-Capabilities Repository - SAFe DVS Agent Ecosysteem
 
-Dit is de eerste officiële release van de Standards repository,
-die het fundament legt voor het Agent Eco-systeem.
+Dit is de eerste officiële release van de Agent-Capabilities repository,
+die herbruikbare agent-componenten beheert voor het SAFe DVS ecosysteem.
 
 Bevat:
-- Governance (Constitutie, Workspace Architectuur, Beleid)
-- Agent Charter Normering
-- Delivery Framework (SAFe-gebaseerd)
-- Meta-agent charters (Moeder Standard, Charter Schrijver)
-- Templates voor agent-ontwikkeling
-- Fase-charters (A-G)
+- Governance (Beleid, Workspace Architectuur)
+- 19 Agent Charters (governance/agent-charters/)
+  * Fase A-E: founding-hypothesis-owner, business-case-analyst, cdm-architect, etc.
+  * Utilities U01-89: moeder-workspace, c4-modelleur, md-to-archi-xml, layout-optimizer
+  * Meta U90-99: make-agent, prompt-builder, runner-builder, orchestration-builder, pipeline-bouwer, python-script-schrijver
+  * Phase 0: logos
+- Agent Componenten (agent-componenten/)
+  * Prompts: minimale contract-based prompts
+  * Runners: Python executables met argparse CLI
+  * Orchestrations: YAML workflow definities
+  * Buildplans: JSON metadata met charter-path traceerbaarheid
+  * Pipelines: GitHub Actions + GitLab CI (multi-platform)
+- Workspace Meta-Agents (agent-charters/)
+  * moeder-agent-capabilities: orchestrator met Git/GitHub/GitLab expertise
+  * agent-charter-schrijver: charter author volgens normering
+- Infrastructure Scripts (scripts/)
+  * make-agent.py: component generator
+  * sync-agents.py: distributie naar project workspaces
+  * pipeline-builder.py: CI/CD pipeline generator
+  * fetch-agents.py: component fetcher
+  * run-workflow.py: workflow orchestrator (hypothesis-to-cdm)
+- Theorie & Documentatie
+  * een-lerend-agent-ecosysteem.md: evolutionair leren principes
 
 Architectuur:
-- Centrale governance voor workspace-overstijgende standaarden
-- Meta-agents voor agent-landschap beheer
-- Scheiding tussen standards en agent-capabilities
-- Git/GitHub kennerbasis met toekomst-focus op GitLab
+- Charter-first: charters zijn single source of truth
+- Component generatie vanuit charters (make-agent.py)
+- Distributie naar project workspaces (sync-agents.py)
+- Multi-platform CI/CD: GitHub Actions + GitLab CI parallel
+- Git/GitHub expertise met GitLab migratie readiness
+- Workflow orchestration: chain agents together (run-workflow.py)
 
 Version: 1.0.0
 Date: 2026-01-09"
@@ -77,9 +98,10 @@ Date: 2026-01-09"
 ### Stap 3: Tag creëren
 ```powershell
 # Maak annotated tag (aanbevolen voor releases)
-git tag -a v1.0.0 -m "Release v1.0.0 - Initial Standards Repository
+git tag -a v1.0.0 -m "Release v1.0.0 - Initial Agent-Capabilities Repository
 
-Eerste officiële release van het Agent Eco-systeem Standards repository.
+Eerste officiële release van de Agent-Capabilities repository.
+Bevat 19 agent charters, component generators, workflow orchestrator.
 
 Zie CHANGELOG.md voor details."
 ```
@@ -131,11 +153,16 @@ git push origin main --force
 
 ### Na force push:
 1. **GitHub Release creëren**:
-   - Ga naar repository op GitHub
+   - Ga naar repository op GitHub (agent-capabilities)
    - Releases → Draft a new release
    - Tag: v1.0.0
-   - Title: "v1.0.0 - Initial Standards Repository"
-   - Beschrijving: Zie commit message
+   - Title: "v1.0.0 - Initial Agent-Capabilities Repository"
+   - Beschrijving: Agent component management voor SAFe DVS ecosysteem
+     * 19 agent charters
+     * Component generators (make-agent, prompt-builder, runner-builder, orchestration-builder, pipeline-builder)
+     * Workflow orchestrator (run-workflow)
+     * Multi-platform CI/CD (GitHub Actions + GitLab CI)
+     * Git/GitHub/GitLab expertise
    - Publish release
 
 2. **Branch Protection updaten** (optioneel):
@@ -150,11 +177,11 @@ git push origin main --force
 
 ## 6. GitLab Compatibiliteit
 
-**Waarom denken we nu al aan GitLab?**
-- Moeder Standard is kenner van Git en platforms
+**Waarom Agent Capabilities heeft Git/GitHub/GitLab expertise (charter v2.0)
 - Strategische flexibiliteit voor de toekomst
 - Self-hosted mogelijkheden
 - Betere CI/CD integratie (GitLab CI)
+- Multi-platform pipelines al in plaats (GitHub Actions + GitLab CI)
 
 **Dit plan werkt identiek voor GitLab**:
 - Orphan branch methode is platform-agnostisch
@@ -165,13 +192,19 @@ git push origin main --force
 **Toekomstige migratie naar GitLab**:
 ```powershell
 # Voeg GitLab remote toe (toekomstig)
-git remote add gitlab https://gitlab.com/org/standard.git
+git remote add gitlab https://gitlab.com/org/agent-capabilities.git
 
 # Push naar beide platforms
 git push origin main --force
 git push gitlab main --force
 git push origin --tags
 git push gitlab --tags
+```
+
+**Agent-Capabilities is GitLab-ready**:
+- .gitlab-ci.yml templates in pipeline-builder.py
+- Platform-agnostic repository structuur
+- Geen GitHub vendor lock-in push gitlab --tags
 ```
 
 ---
@@ -182,14 +215,26 @@ Na succesvolle cleanup:
 
 ### Te creëren/updaten:
 1. **CHANGELOG.md** (nieuw):
-   ```markdown
-   # Changelog
+   ```markdownAgent-Capabilities Repository
+   - 19 Agent charters in governance/agent-charters/
+   - Agent component generators (make-agent.py, prompt-builder.py, runner-builder.py, orchestration-builder.py)
+   - Pipeline builder met multi-platform support (GitHub Actions + GitLab CI)
+   - Workflow orchestrator (run-workflow.py) met hypothesis-to-cdm workflow
+   - Workspace meta-agents (moeder-agent-capabilities, agent-charter-schrijver)
+   - Git/GitHub/GitLab expertise in moeder-agent charter v2.0
+   - Governance framework (beleid.md, workspace-architectuur.md)
+   - Theorie: evolutionair leren (een-lerend-agent-ecosysteem.md)
+   - Sync mechanism naar project workspaces (sync-agents.py)
+   - Fetch mechanism voor components (fetch-agents.py)
    
-   ## [1.0.0] - 2026-01-09
-   
-   ### Added
-   - Initial release Standards Repository
-   - Governance framework (Constitutie, Workspace Architectuur)
+   ### Architecture
+   - Charter-first development
+   - Component generation from charters
+   - Multi-platform CI/CD (GitHub + GitLab ready)
+   - Workflow orchestration capability
+   ```
+
+2. **README.md**: Update met v1.0.0 referentie en agent inventoryace Architectuur)
    - Agent Charter Normering
    - Delivery Framework (SAFe)
    - Meta-agent charters (Moeder Standard, Charter Schrijver)
@@ -235,22 +280,26 @@ Na succesvolle cleanup:
 
 ## 10. Post-Cleanup Checklist
 
-- [ ] Backup branch bestaat: `backup-before-v1.0`
-- [ ] Main branch heeft 1 commit
-- [ ] Tag v1.0.0 bestaat lokaal
-- [ ] Tag v1.0.0 bestaat op remote
-- [ ] GitHub Release is gepubliceerd
-- [ ] CHANGELOG.md is toegevoegd
-- [ ] README.md is bijgewerkt
-- [ ] Team is geïnformeerd
-- [ ] Moeder Standard charter is bijgewerkt met Git/GitHub kennis
+- [ ] BStatus Moeder Agent Capabilities Charter
 
----
+**Charter is al bijgewerkt** (v2.0, commit 45a3afe):
 
-## 11. Moeder Standard Charter Aanpassingen
+✅ **Binnen Scope (reeds toegevoegd)**:
+- Git/GitHub repository beheer en best practices
+- Git history management en cleanup operaties
+- Tag en release management
+- Platform-agAgent Capabilities charter v2.0 is actief (✅ reeds gedaan)
+- Repository structuur optimalisatie
+- Multi-platform CI/CD (GitHub Actions + GitLab CI)
 
-Voeg toe aan charter:
+✅ **Expertise (reeds in charter)**:
+- Git expert: branching, tagging, history management
+- GitHub kennis: releases, actions, branch protection
+- GitLab awareness: toekomstige migratie-ready
+- Repository governance en best practices
+- Repository hygiene checklist (10 items)
 
+**Charter locatie**: `agent-charters/0.moeder-agent-capabilities.agent.charter`
 **Binnen Scope (toevoegen)**:
 - Git/GitHub repository beheer en best practices
 - Git history management en cleanup operaties
