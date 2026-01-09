@@ -1,6 +1,6 @@
 ---
 agent: moeder-agent-capabilities
-charter: agent-charters/0.moeder-agent-capabilities.agent.charter
+charter: agent-charters/moeder-agent-capabilities.agent.charter
 ---
 
 ## Je Advies Benadering
