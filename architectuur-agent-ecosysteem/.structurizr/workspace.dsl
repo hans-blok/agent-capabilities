@@ -1,228 +1,238 @@
-workspace "Agent Ecosysteem" "Gegoverned ecosysteem van gespecialiseerde AI-agents voor software delivery" {
-
-    !identifiers hierarchical
+workspace "Agent Generation Pipeline" "C4 model van het agent generation proces" {
 
     model {
-        user = person "Gebruiker" "Software engineer, architect, product owner die opdrachten geeft aan het agent ecosysteem"
-        
-        llmProvider = softwareSystem "LLM Provider" "Claude, GPT-4 - AI inference" "External"
-        github = softwareSystem "GitHub" "Code repository, standards repository" "External"
-        
-        agentEcosysteem = softwareSystem "Agent Ecosysteem" "Gegoverned netwerk van AI-agents voor software delivery" {
+        # Externe systemen
+        developer = person "Developer" "Schrijft charters en voert scripts uit"
+        standardRepo = softwareSystem "Standard Repository" "Bevat agent charters als single source of truth" {
+            tags "External"
+        }
+        projectWorkspace = softwareSystem "Project Workspace" "Gebruikt gegenereerde agents voor development" {
+            tags "External"
+        }
+
+        # Hoofd systeem: Agent-Capabilities
+        agentCapabilities = softwareSystem "Agent-Capabilities" "Genereert en distribueert agent componenten" {
             
-            # GitHub Standards Container
-            standards = container "GitHub Standards" "Git Repository" "Governance regels, charters, templates" {
-                constitutie = component "Constitutie" "Markdown" "Universele principes"
-                beleid = component "Beleid" "Markdown" "Repository-specifieke regels"
-                agentCharters = component "Agent Charters" "Markdown" "Operationele bevoegdheden per agent (std.agent.charter.*.md)"
-                faseCharters = component "Fase Charters" "Markdown" "Kwaliteitseisen per SAFe-fase (std.fase.charter.*.md)"
-                deliveryFramework = component "Delivery Framework" "Markdown" "SAFe Development Value Stream definitie (A-G+U fases)"
-                templates = component "Templates" "Markdown" "Charter templates"
+            # Container: Scripts
+            scripts = container "Scripts" "Python scripts voor generation en distributie" "Python 3.11" {
+                makeAgent = component "make-agent.py" "Hoofdorchestrator voor agent generation" "Python Script" {
+                    tags "MainScript"
+                }
+                promptBuilder = component "prompt-builder.py" "Genereert minimale prompt files" "Python Script"
+                runnerBuilder = component "runner-builder.py" "Genereert Python CLI executables" "Python Script"
+                orchestrationBuilder = component "orchestration-builder.py" "Genereert YAML workflow configs" "Python Script"
+                pipelineGenerator = component "PipelineGenerator" "Translates platform-agnostic naar specifiek" "Python Class" {
+                    tags "Generator"
+                }
+                githubActionsGen = component "GitHubActionsGenerator" "Genereert GitHub Actions workflows" "Python Class"
+                gitlabCIGen = component "GitLabCIGenerator" "Genereert GitLab CI pipelines" "Python Class"
+                fetchAgents = component "fetch-agents.py" "Distribueert agents naar workspaces" "Python Script" {
+                    tags "Distribution"
+                }
             }
-            
-            # GitHub Agent-Capabilities Container
-            capabilities = container "GitHub Agent-Capabilities" "Git Repository" "Agent-definities en prompts" {
-                moeder = component "Moeder Agent" "Meta-agent" "Agent factory, charter designer"
-                agentA = component "Fase A Agents" "Trigger" "Business case analyse"
-                agentB = component "Fase B Agents" "Architectuur" "ADR's, patterns"
-                agentC = component "Fase C Agents" "Specificatie" "Features, datamodellen"
-                agentD = component "Fase D Agents" "Ontwerp" "Solution design"
-                agentE = component "Fase E Agents" "Bouw" "Code generatie"
-                agentF = component "Fase F Agents" "Validatie" "Testing"
-                agentG = component "Fase G Agents" "Deployment" "Release management"
-                agentU = component "Utility Agents" "Utility" "Charter schrijver, MD-to-DSL converter"
+
+            # Container: Buildplans
+            buildplans = container "Buildplans" "JSON metadata met traceerbaarheid" "JSON Files" {
+                tags "Data"
             }
-            
-            # Project Workspace Container
-            workspace = container "Project Workspace" "Git Repository" "Gegenereerde artefacten per project" {
-                specs = component "Specificaties" "Markdown" "Requirements, features, user stories"
-                designs = component "Designs" "Markdown/Diagrams" "Solution designs, API contracts"
-                code = component "Code" "Source files" "Gegenereerde en handgeschreven code"
-                tests = component "Tests" "Test files" "Test cases en validatie resultaten"
-                docs = component "Documentatie" "Markdown" "Technische documentatie en runbooks"
+
+            # Container: Agent Componenten
+            components = container "Agent Componenten" "Gegenereerde agent artefacten" "File System" {
+                prompts = component "Prompts" "Minimale instructie files" "Markdown"
+                runners = component "Runners" "CLI executables" "Python"
+                orchestrations = component "Orchestrations" "Workflow definities" "YAML"
+                agentDefs = component "Agent Definitions" "Samenvatting documenten" "Markdown"
+                pipelineDefs = component "Pipeline Definitions" "Platform-agnostisch" "YAML" {
+                    tags "PlatformAgnostic"
+                }
+                generatedPipelines = component "Generated Pipelines" "Platform-specifiek" "YAML" {
+                    tags "Disposable"
+                }
+            }
+
+            # Container: Governance
+            governance = container "Governance" "Beleid en principes" "Markdown" {
+                tags "Documentation"
             }
         }
-        
-        # User interactions
-        user -> agentEcosysteem "Geeft opdracht (≤5 regels)" "Natural language"
-        agentEcosysteem -> user "Levert artefacten" "Markdown, code"
-        
-        # External system interactions
-        agentEcosysteem -> llmProvider "Gebruikt voor inferentie" "API"
-        agentEcosysteem -> github "Leest standards, persisteert output" "Git"
-        
-        # User to Capabilities
-        user -> agentEcosysteem.capabilities "Activeert agent via prompt" "Natural language"
-        
-        # Capabilities to Standards
-        agentEcosysteem.capabilities -> agentEcosysteem.standards "Leest charters en regels" "File I/O"
-        agentEcosysteem.capabilities.moeder -> agentEcosysteem.standards "Leest governance" "File I/O"
-        agentEcosysteem.capabilities.agentA -> agentEcosysteem.standards.agentCharters "Leest eigen charter" "Read"
-        agentEcosysteem.capabilities.agentB -> agentEcosysteem.standards.agentCharters "Leest eigen charter" "Read"
-        agentEcosysteem.capabilities.agentC -> agentEcosysteem.standards.agentCharters "Leest eigen charter" "Read"
-        agentEcosysteem.capabilities.agentD -> agentEcosysteem.standards.agentCharters "Leest eigen charter" "Read"
-        agentEcosysteem.capabilities.agentE -> agentEcosysteem.standards.agentCharters "Leest eigen charter" "Read"
-        agentEcosysteem.capabilities.agentF -> agentEcosysteem.standards.agentCharters "Leest eigen charter" "Read"
-        agentEcosysteem.capabilities.agentG -> agentEcosysteem.standards.agentCharters "Leest eigen charter" "Read"
-        agentEcosysteem.capabilities.agentU -> agentEcosysteem.standards.agentCharters "Leest eigen charter" "Read"
-        
-        # Capabilities to Delivery Framework
-        agentEcosysteem.capabilities.agentA -> agentEcosysteem.standards.deliveryFramework "Opereert in Fase A" "Process adherence"
-        agentEcosysteem.capabilities.agentB -> agentEcosysteem.standards.deliveryFramework "Opereert in Fase B" "Process adherence"
-        agentEcosysteem.capabilities.agentC -> agentEcosysteem.standards.deliveryFramework "Opereert in Fase C" "Process adherence"
-        agentEcosysteem.capabilities.agentD -> agentEcosysteem.standards.deliveryFramework "Opereert in Fase D" "Process adherence"
-        agentEcosysteem.capabilities.agentE -> agentEcosysteem.standards.deliveryFramework "Opereert in Fase E" "Process adherence"
-        agentEcosysteem.capabilities.agentF -> agentEcosysteem.standards.deliveryFramework "Opereert in Fase F" "Process adherence"
-        agentEcosysteem.capabilities.agentG -> agentEcosysteem.standards.deliveryFramework "Opereert in Fase G" "Process adherence"
-        agentEcosysteem.capabilities.agentU -> agentEcosysteem.standards.deliveryFramework "Opereert in Fase U" "Process adherence"
-        
-        # Capabilities to Workspace
-        agentEcosysteem.capabilities -> agentEcosysteem.workspace "Schrijft/leest artefacten" "File I/O"
-        agentEcosysteem.capabilities.agentC -> agentEcosysteem.workspace.specs "Schrijft features, user stories" "Write"
-        agentEcosysteem.capabilities.agentC -> agentEcosysteem.workspace.designs "Leest datamodel" "Read"
-        agentEcosysteem.capabilities.agentD -> agentEcosysteem.workspace.designs "Schrijft solution design, contracts" "Write"
-        agentEcosysteem.capabilities.agentE -> agentEcosysteem.workspace.code "Schrijft code" "Write"
-        agentEcosysteem.capabilities.agentF -> agentEcosysteem.workspace.tests "Schrijft en voert tests uit" "Write"
-        
-        # Capabilities to LLM
-        agentEcosysteem.capabilities -> llmProvider "Gebruikt voor inferentie" "API"
-        
-        # Workspace to LLM (voor intelligent workspace features)
-        agentEcosysteem.workspace -> llmProvider "Semantische zoeken, validatie, cross-referencing" "API"
-        
-        # Standards to GitHub
-        agentEcosysteem.standards -> github "Gepersisteerd in standards repo" "Git"
-        agentEcosysteem.capabilities -> github "Gepersisteerd in standards repo" "Git"
-        
-        # Workspace to GitHub
-        agentEcosysteem.workspace -> github "Gepersisteerd in project repo" "Git"
-        
-        # Governance hierarchy within Standards
-        agentEcosysteem.standards.constitutie -> agentEcosysteem.standards.beleid "Overschrijft" "Hierarchy"
-        agentEcosysteem.standards.beleid -> agentEcosysteem.standards.agentCharters "Overschrijft" "Hierarchy"
-        agentEcosysteem.standards.deliveryFramework -> agentEcosysteem.standards.faseCharters "Definieert fases voor" "Reference"
-        agentEcosysteem.standards.faseCharters -> agentEcosysteem.standards.agentCharters "Definieert kwaliteitseisen voor" "Reference"
-        
-        # Moeder Agent orchestration
-        agentEcosysteem.capabilities.moeder -> agentEcosysteem.capabilities.agentA "Activeert" "Orchestration"
-        agentEcosysteem.capabilities.moeder -> agentEcosysteem.capabilities.agentB "Activeert" "Orchestration"
+
+        # Relaties - Developer interactions
+        developer -> standardRepo "Schrijft charter in" "Git"
+        developer -> makeAgent "Voert uit met agent-name" "CLI"
+        developer -> fetchAgents "Voert uit in project" "CLI"
+
+        # Relaties - make-agent.py workflow
+        makeAgent -> standardRepo "Leest charter (auto git pull)" "File System"
+        makeAgent -> buildplans "Schrijft buildplan" "JSON"
+        makeAgent -> promptBuilder "Roept aan" "subprocess"
+        makeAgent -> runnerBuilder "Roept aan" "subprocess"
+        makeAgent -> orchestrationBuilder "Roept aan" "subprocess"
+        makeAgent -> pipelineGenerator "Gebruikt voor pipeline generation" "Python import"
+
+        # Relaties - Builders
+        promptBuilder -> buildplans "Leest metadata" "JSON"
+        promptBuilder -> standardRepo "Leest charter" "File System"
+        promptBuilder -> prompts "Schrijft prompt.md" "File System"
+
+        runnerBuilder -> buildplans "Leest metadata" "JSON"
+        runnerBuilder -> runners "Schrijft runner.py" "File System"
+
+        orchestrationBuilder -> buildplans "Leest metadata" "JSON"
+        orchestrationBuilder -> orchestrations "Schrijft orchestration.yaml" "File System"
+
+        # Relaties - Pipeline generation
+        pipelineGenerator -> pipelineDefs "Leest definitie" "YAML"
+        pipelineGenerator -> generatedPipelines "Genereert platform-specifieke pipelines" "File System"
+        githubActionsGen -> pipelineGenerator "Extends" "Inheritance"
+        gitlabCIGen -> pipelineGenerator "Extends" "Inheritance"
+        githubActionsGen -> generatedPipelines "Schrijft .workflow.yml" "File System"
+        gitlabCIGen -> generatedPipelines "Schrijft .gitlab-ci.yml" "File System"
+
+        # Relaties - Agent generation
+        makeAgent -> agentDefs "Genereert agent.md" "File System"
+
+        # Relaties - Distribution
+        fetchAgents -> projectWorkspace "Kopieert componenten naar" "File System"
+        fetchAgents -> prompts "Leest" "File System"
+        fetchAgents -> runners "Leest" "File System"
+        fetchAgents -> orchestrations "Leest" "File System"
+        fetchAgents -> generatedPipelines "Leest platform-specifieke" "File System"
+
+        # Relaties - Governance
+        makeAgent -> governance "Volgt principes" "Reference"
+        fetchAgents -> governance "Volgt principes" "Reference"
+
+        # Deployment
+        deploymentEnvironment "Developer Machine" {
+            deploymentNode "Windows 11" {
+                deploymentNode "Python 3.11" {
+                    scriptsInstance = containerInstance scripts
+                }
+                deploymentNode "File System" {
+                    buildplansInstance = containerInstance buildplans
+                    componentsInstance = containerInstance components
+                    governanceInstance = containerInstance governance
+                }
+            }
+            deploymentNode "Git Repositories" {
+                standardRepoInstance = softwareSystemInstance standardRepo
+                projectWorkspaceInstance = softwareSystemInstance projectWorkspace
+            }
+        }
     }
 
     views {
-        systemContext agentEcosysteem "SystemContext" {
+        systemContext agentCapabilities "SystemContext" {
             include *
+            # autoLayout lr
         }
 
-        container agentEcosysteem "Containers" {
+        container agentCapabilities "Containers" {
             include *
+            # autoLayout tb
         }
-        
-        component agentEcosysteem.standards "GitHubStandards" {
+
+        component scripts "ScriptsComponents" {
             include *
+            # autoLayout tb
+            title "Agent Generation Scripts - Component Diagram"
         }
-        
-        component agentEcosysteem.capabilities "GitHubAgentCapabilities" {
+
+        component components "AgentComponents" {
             include *
+            # autoLayout lr
+            title "Generated Agent Components - Component Diagram"
         }
-        
-        component agentEcosysteem.workspace "ProjectWorkspace" {
+
+        dynamic agentCapabilities "GenerationFlow" "Agent generation workflow (container level)" {
+            developer -> scripts "1. Voert uit: make-agent.py --agent-name X"
+            scripts -> standardRepo "2. Git pull + lees charter"
+            scripts -> buildplans "3. Schrijft buildplan met metadata"
+            scripts -> components "4. Genereert prompts, runners, orchestrations"
+            # autoLayout lr
+            title "Agent Generation Flow - Container Level"
+        }
+
+        dynamic scripts "DetailedGenerationFlow" "Agent generation workflow (component level)" {
+            makeAgent -> promptBuilder "1. Roept aan met buildplan"
+            promptBuilder -> prompts "2. Genereert prompt.md"
+            makeAgent -> runnerBuilder "3. Roept aan met buildplan"
+            runnerBuilder -> runners "4. Genereert runner.py"
+            makeAgent -> orchestrationBuilder "5. Roept aan met buildplan"
+            orchestrationBuilder -> orchestrations "6. Genereert orchestration.yaml"
+            makeAgent -> pipelineGenerator "7. Gebruikt voor pipelines"
+            pipelineGenerator -> generatedPipelines "8. Genereert platform-specifieke pipelines"
+            # autoLayout tb
+            title "Agent Generation Flow - Component Level"
+        }
+
+        dynamic agentCapabilities "DistributionFlow" "Agent distribution workflow" {
+            developer -> scripts "1. Voert uit: fetch-agents.py in project"
+            scripts -> components "2. Leest prompts, runners, orchestrations, pipelines"
+            scripts -> projectWorkspace "3. Kopieert naar .github/ en agent-componenten/"
+            # autoLayout lr
+            title "Agent Distribution Flow - Container Level"
+        }
+
+        deployment agentCapabilities "Developer Machine" "Deployment" {
             include *
+            # autoLayout tb
         }
 
         styles {
             element "Software System" {
                 background #1168bd
                 color #ffffff
-                shape roundedbox
             }
             element "External" {
                 background #999999
                 color #ffffff
+            }
+            element "Container" {
+                background #438dd5
+                color #ffffff
+            }
+            element "Component" {
+                background #85bbf0
+                color #000000
             }
             element "Person" {
                 shape person
                 background #08427b
                 color #ffffff
             }
-            element "Container" {
-                background #438dd5
+            element "MainScript" {
+                background #ff6b6b
                 color #ffffff
-                shape roundedbox
             }
-            element "Component" {
-                background #85bbf0
+            element "Generator" {
+                background #4ecdc4
+                color #ffffff
+            }
+            element "Distribution" {
+                background #95e1d3
                 color #000000
-                shape roundedbox
             }
-            element "Git Repository" {
+            element "Data" {
                 shape cylinder
-                background #2e7d32
+                background #f38181
                 color #ffffff
             }
-            element "Proces Model" {
-                background #fff3e0
-                color #000000
-                shape hexagon
-            }
-            element "Meta-agent" {
-                background #fff9c4
+            element "PlatformAgnostic" {
+                background #ffd93d
                 color #000000
             }
-            element "Trigger" {
-                background #ffebee
+            element "Disposable" {
+                background #cccccc
                 color #000000
             }
-            element "Architectuur" {
-                background #e3f2fd
+            element "Documentation" {
+                shape folder
+                background #a8e6cf
                 color #000000
-            }
-            element "Specificatie" {
-                background #f3e5f5
-                color #000000
-            }
-            element "Ontwerp" {
-                background #e0f2f1
-                color #000000
-            }
-            element "Bouw" {
-                background #fff9c4
-                color #000000
-            }
-            element "Validatie" {
-                background #fce4ec
-                color #000000
-            }
-            element "Deployment" {
-                background #e8f5e9
-                color #000000
-            }
-            element "Utility" {
-                background #f5f5f5
-                color #000000
-            }
-            relationship "Relationship" {
-                thickness 2
-                color #707070
-            }
-            relationship "Hierarchy" {
-                thickness 3
-                color #d9232b
-                style dashed
-            }
-            relationship "Process adherence" {
-                thickness 2
-                color #ff9800
-                style dotted
-            }
-            relationship "Orchestration" {
-                thickness 3
-                color #4caf50
             }
         }
-    }
 
-    configuration {
-        scope softwaresystem
+        theme default
     }
-
 }
