@@ -144,21 +144,36 @@ De GitHub Standards container bevat 6 componenten:
 
 ## 5. Component Diagram: GitHub Agent-Capabilities
 
-De GitHub Agent-Capabilities container bevat agents georganiseerd per SAFe-fase:
+De GitHub Agent-Capabilities workspace bevat agents georganiseerd per SAFe-fase:
 
-**Meta-agent**:
-- **Moeder Agent** - Agent factory, charter designer, orchestrator
+**Meta-agents (Ecosysteem-bouwers, U90-99)**:
+- **Moeder Agent Capabilities (u00)** - Agent factory, charter designer, orchestrator voor deze workspace
+- **Charter Writer (u90)** - Schrijft normatieve agent-charters conform agent-charter-normering.md
+- **make-agent.py (u90)** - Genereert agent-componenten (prompts, runners, orchestrations) vanuit charters
+- **prompt-builder.py (u91)** - Genereert minimale prompts met charter-referentie
+- **runner-builder.py (u92)** - Genereert Python runner scripts
+- **orchestration-builder.py (u93)** - Genereert orchestration YAML configuraties
+- **pipeline-bouwer (u94)** - Genereert CI/CD pipeline templates
+
+**Moeder Workspace (u01)**:
+- **Moeder Workspace** - Waarborgt workspace-architectuur compliance, Git/VS Code configuratie
 
 **Fase Agents** (A-G):
 - Exact 1 fase per agent-groep
 - Single Responsibility per agent
 - Lezen charter voor uitvoering
 - Schrijven artefacten naar Project Workspace
+- Voorbeelden: founding-hypothesis-owner (a1), cdm-architect (b1), logisch-data-modelleur (c2), service-architect (d1)
 
-**Utility Agents** (U):
+**Utility Agents** (U01-89):
 - Geen fase-binding
 - Cross-cutting concerns
-- Voorbeelden: Charter Schrijver, MD-to-DSL Converter
+- Voorbeelden: C4-modelleur (u03), Layout Optimizer (u05), MD-to-Archimate-XML (u04)
+
+**Architectuur Principe**: 
+- **Charter Writer leeft ALLEEN in agent-capabilities**: Dit is een workspace-specifieke meta-agent
+- **Alle andere charters leven in standard repository**: Single source of truth principe
+- **Separation of concerns**: standard/ (definities), agent-capabilities/ (generator), project-workspaces/ (executie)
 
 ---
 
