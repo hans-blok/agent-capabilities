@@ -1,0 +1,42 @@
+agent:
+  id: std.u95.python-script-schrijver
+  name: python-script-schrijver
+  phase: u95
+  version: '1.0'
+  generated: '2026-01-09'
+charter:
+  path: C:\gitrepo\agent-capabilities\governance\agent-charters\.u95.python-script-schrijver.agent.charter
+  location: https://github.com/hans-blok/standard/blob/main/charters.agents/u95/std.agent.charter.u95.python-script-schrijver.md
+artifacts:
+  prompt: C:\gitrepo\agent-capabilities\agent-componenten\prompts\u95.python-script-schrijver.prompt.md
+  runner: C:\gitrepo\agent-capabilities\agent-componenten\runners\u95.python-script-schrijver.py
+  outputRoot: <project-workspace>/artefacten
+runtime:
+  llmProvider: anthropic
+  model: claude-sonnet
+  adapter: Invoke-LLM (stub in runner)
+qualityGates:
+- Nederlands B1
+- Geen technische implementatiedetails in prompt
+- Max 3 aannames (indien van toepassing)
+- Output is Markdown
+workflow:
+  steps:
+  - id: 1
+    name: Valideer Input
+    description: Controleer dat alle vereiste input bestanden aanwezig zijn
+  - id: 2
+    name: Lees Charter
+    description: Laad charter en prompt definitie
+  - id: 3
+    name: Voer Agent Uit
+    description: Roep LLM aan met prompt en input
+  - id: 4
+    name: Genereer Output
+    description: Schrijf output naar bestand in outputRoot
+  - id: 5
+    name: Valideer Kwaliteit
+    description: Controleer output tegen quality gates
+metadata:
+  created: '2026-01-09'
+  buildPlan: C:\gitrepo\agent-capabilities\agent-componenten\buildplans\u95.python-script-schrijver.json

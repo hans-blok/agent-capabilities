@@ -90,37 +90,16 @@ class AgentMaker:
     
     def resolve_charter_path(self) -> Path:
         """Find the charter file for the given agent name."""
-        # Check if local clone path is provided
-        if self.local_charter_clone:
-            charters_path = Path(self.local_charter_clone) / "artefacten" / "3-charters-agents"
-            # Update local clone
-            self._update_git_repo(Path(self.local_charter_clone))
-        # Check if charter_root is a GitHub URL
-        elif self.charter_root.startswith("https://github.com"):
-            # Expect local clone in parent directory
-            repo_name = self.charter_root.rstrip('.git').split('/')[-1]
-            potential_path = self.repo_root.parent / repo_name / "artefacten" / "3-charters-agents"
-            
-            if not potential_path.exists():
-                raise FileNotFoundError(
-                    f"Charter repository niet gekloond. Voer uit:\n"
-                    f"  cd {self.repo_root.parent}\n"
-                    f"  git clone {self.charter_root}\n"
-                    f"Of specificeer --local-charter-clone pad"
-                )
-            # Update local clone before using it
-            self._update_git_repo(self.repo_root.parent / repo_name)
-            charters_path = potential_path
-        else:
-            # Treat as relative path
-            charters_path = self.repo_root / self.charter_root
+        # Charters are now local in governance/agent-charters/
+        charters_path = self.repo_root / "governance" / "agent-charters"
         
         if not charters_path.exists():
-            raise FileNotFoundError(f"CharterRoot niet gevonden: {charters_path}")
+            raise FileNotFoundError(f"Charter directory niet gevonden: {charters_path}")
         
-        # Search for file ending with ".<agentname>.md"
-        pattern = f"*.{self.agent_name}.md"
-        matches = list(charters_path.rglob(pattern))
+        # Search for file matching ".<phase>.<agentname>.agent.charter"
+        # We don't know the phase yet, so search for any file ending with the agent name
+        pattern = f"*.{self.agent_name}.agent.charter"
+        matches = list(charters_path.glob(pattern))
         
         if not matches:
             raise FileNotFoundError(
@@ -132,12 +111,15 @@ class AgentMaker:
     
     def get_phase_from_charter_path(self, charter_path: Path) -> str:
         """Extract phase from charter path."""
-        # Try to extract from filename pattern: std.agent.charter.<phase>.<name>.md
-        filename = charter_path.stem  # Without .md
+        # New naming convention: .<phase>.<name>.agent.charter
+        filename = charter_path.stem  # Without extension
         parts_name = filename.split('.')
-        if len(parts_name) >= 5 and parts_name[2] == 'charter':
-            # Format: std.agent.charter.<phase>.<name>
-            return parts_name[3]  # The phase part
+        
+        # Format: .<phase>.<name>.agent (charter_path.stem removes last extension)
+        # Example: .u95.python-script-schrijver.agent -> ['', 'u95', 'python-script-schrijver', 'agent']
+        if len(parts_name) >= 3 and parts_name[0] == '':
+            # The phase is the second element (after leading dot)
+            return parts_name[1]  # The phase part
         
         raise ValueError(f"Kan phase niet bepalen uit charter naam: {charter_path.name}")
     
@@ -175,6 +157,7 @@ class AgentMaker:
                 'u92': 'U. Utility',
                 'u93': 'U. Utility',
                 'u94': 'U. Utility',
+                'u95': 'U. Utility',
                 '0': '0. Setup'
             }
             
@@ -221,9 +204,9 @@ class AgentMaker:
         # Extract phase prefix (e.g., "d1.service-architect" -> "d1", "u05.layout-optimizer" -> "u05")
         phase_prefix = phase.split('.')[0] if '.' in phase else phase
         
-        # Create charter URL for GitHub reference
+        # Create charter reference for local workspace
         charter_filename = charter_path.name
-        charter_url = f"https://github.com/hans-blok/standard/blob/main/artefacten/3-charters-agents/{charter_filename}"
+        charter_url = f"governance/agent-charters/{charter_filename}"
         
         plan = {
             "agentName": self.agent_name,
