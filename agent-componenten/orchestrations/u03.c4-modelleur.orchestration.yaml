@@ -1,0 +1,42 @@
+agent:
+  id: std.u03.c4-modelleur
+  name: c4-modelleur
+  phase: u03
+  version: '1.0'
+  generated: '2026-01-09'
+charter:
+  path: C:\gitrepo\standard\artefacten\3-charters-agents\std.agent.charter.u03.c4-modelleur.md
+  location: https://github.com/hans-blok/standard/blob/main/charters.agents/u03/std.agent.charter.u03.c4-modelleur.md
+artifacts:
+  prompt: C:\gitrepo\agent-capabilities\agent-componenten\prompts\u.c4-modelleur.prompt.md
+  runner: C:\gitrepo\agent-capabilities\agent-componenten\runners\u.c4-modelleur.py
+  outputRoot: <project-workspace>/artefacten
+runtime:
+  llmProvider: anthropic
+  model: claude-sonnet
+  adapter: Invoke-LLM (stub in runner)
+qualityGates:
+- Nederlands B1
+- Geen technische implementatiedetails in prompt
+- Max 3 aannames (indien van toepassing)
+- Output is Markdown
+workflow:
+  steps:
+  - id: 1
+    name: Valideer Input
+    description: Controleer dat alle vereiste input bestanden aanwezig zijn
+  - id: 2
+    name: Lees Charter
+    description: Laad charter en prompt definitie
+  - id: 3
+    name: Voer Agent Uit
+    description: Roep LLM aan met prompt en input
+  - id: 4
+    name: Genereer Output
+    description: Schrijf output naar bestand in outputRoot
+  - id: 5
+    name: Valideer Kwaliteit
+    description: Controleer output tegen quality gates
+metadata:
+  created: '2026-01-09'
+  buildPlan: C:\gitrepo\agent-capabilities\agent-componenten\buildplans\u.c4-modelleur.json

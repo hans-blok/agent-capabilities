@@ -143,17 +143,32 @@ class AgentMaker:
                 'a1': 'A. Trigger',
                 'a2': 'A. Trigger',
                 'b': 'B. Architectuur',
+                'b1': 'B. Architectuur',
                 'c': 'C. Specificatie',
+                'c1': 'C. Specificatie',
+                'c2': 'C. Specificatie',
+                'c3': 'C. Specificatie',
                 'd': 'D. Ontwerp',
+                'd1': 'D. Ontwerp',
+                'd2': 'D. Ontwerp',
                 'e': 'E. Bouw',
+                'e1': 'E. Bouw',
                 'f': 'F. Validatie',
                 'g': 'G. Deployment',
                 'u': 'U. Utility',
+                'u01': 'U. Utility',
+                'u03': 'U. Utility',
+                'u04': 'U. Utility',
+                'u90': 'U. Utility',
+                'u91': 'U. Utility',
+                'u92': 'U. Utility',
+                'u93': 'U. Utility',
+                'u94': 'U. Utility',
                 '0': '0. Setup'
             }
             
             # Get phase prefix
-            phase_prefix = expected_phase.split('.')[0] if '.' in expected_phase else expected_phase[0]
+            phase_prefix = expected_phase.split('.')[0] if '.' in expected_phase else expected_phase
             expected_safe_phase = phase_mapping.get(phase_prefix)
             
             if not expected_safe_phase:
@@ -161,7 +176,7 @@ class AgentMaker:
                 return True  # Continue anyway
             
             # For utility agents, check for "Utility (U) agent" in the section
-            if phase_prefix == 'u':
+            if phase_prefix.startswith('u'):
                 if 'Utility (U) agent' in content or 'utility-agent' in content:
                     self.log(f"✓ Charter fase validatie geslaagd: Utility Agent", "SUCCESS")
                     return True
