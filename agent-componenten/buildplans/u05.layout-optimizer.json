@@ -1,0 +1,27 @@
+{
+  "agentName": "layout-optimizer",
+  "phase": "u05",
+  "agentId": "std.u05.layout-optimizer",
+  "repoRoot": "C:\\gitrepo\\agent-capabilities",
+  "charterRoot": "https://github.com/hans-blok/standard.git",
+  "charterPath": "C:\\gitrepo\\standard\\artefacten\\3-charters-agents\\std.agent.charter.u05.layout-optimizer.md",
+  "charterUrl": "https://github.com/hans-blok/standard/blob/main/artefacten/3-charters-agents/std.agent.charter.u05.layout-optimizer.md",
+  "promptPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\prompts\\u05.layout-optimizer.prompt.md",
+  "runnerPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\runners\\u05.layout-optimizer.py",
+  "orchestrationPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\orchestrations\\u05.layout-optimizer.orchestration.yaml",
+  "agentDefinitionPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\agents\\u05.layout-optimizer.agent.md",
+  "outputRoot": "<project-workspace>/artefacten",
+  "buildPlanPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\buildplans\\u05.layout-optimizer.json",
+  "qualityGates": [
+    "Nederlands B1",
+    "Geen technische implementatiedetails in prompt",
+    "Max 3 aannames (indien van toepassing)",
+    "Output is Markdown"
+  ],
+  "runtime": {
+    "llmProvider": "anthropic",
+    "model": "claude-sonnet",
+    "adapter": "Invoke-LLM (stub in runner)"
+  },
+  "generatedOn": "2026-01-09T11:42:13.406363"
+}

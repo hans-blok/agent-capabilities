@@ -1,0 +1,12 @@
+{
+  "workbench.colorCustomizations": {
+    "editor.background": "#ffffff",
+    "editorGroupHeader.tabsBackground": "#e6f2ff",
+    "sideBar.background": "#e6f2ff",
+    "activityBar.background": "#e6f2ff",
+    "panel.background": "#e6f2ff",
+    "terminal.background": "#ffffff"
+  },
+  "vscode-speech.autoCorrect": false,
+  "vscode-speech.punctuation": false
+}

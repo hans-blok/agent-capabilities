@@ -1,0 +1,27 @@
+{
+  "agentName": "python-script-schrijver",
+  "phase": "u95",
+  "agentId": "std.u95.python-script-schrijver",
+  "repoRoot": "C:\\gitrepo\\agent-capabilities",
+  "charterRoot": "https://github.com/hans-blok/standard.git",
+  "charterPath": "C:\\gitrepo\\agent-capabilities\\agent-charters\\u95.python-script-schrijver.agent.charter",
+  "charterUrl": "agent-charters/u95.python-script-schrijver.agent.charter",
+  "promptPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\prompts\\u95.python-script-schrijver.prompt.md",
+  "runnerPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\runners\\u95.python-script-schrijver.py",
+  "orchestrationPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\orchestrations\\u95.python-script-schrijver.orchestration.yaml",
+  "agentDefinitionPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\agents\\u95.python-script-schrijver.agent.md",
+  "outputRoot": "<project-workspace>/artefacten",
+  "buildPlanPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\buildplans\\u95.python-script-schrijver.json",
+  "qualityGates": [
+    "Nederlands B1",
+    "Geen technische implementatiedetails in prompt",
+    "Max 3 aannames (indien van toepassing)",
+    "Output is Markdown"
+  ],
+  "runtime": {
+    "llmProvider": "anthropic",
+    "model": "claude-sonnet",
+    "adapter": "Invoke-LLM (stub in runner)"
+  },
+  "generatedOn": "2026-01-09T18:04:02.143246"
+}

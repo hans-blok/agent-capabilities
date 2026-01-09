@@ -1,0 +1,381 @@
+#!/usr/bin/env python3
+"""
+make-agent.py
+
+V1 orchestrator: maakt (of ververst) agent artefacten op basis van een bestaand charter.
+
+VOORWAARDEN:
+  - Er moet een charter bestaan onder: <repoRoot>/charters.agents/<phase>/std.agent.charter.<phase>.<agentName>.md
+    (Phase is bv: a.trigger, b.architectuur, c.specificatie, etc.)
+
+GEBRUIK:
+  python scripts-agent-ecosysteem/make-agent.py --agent-name "founding-hypothesis-owner"
+
+Agent: make-agent.py
+Versie: 1.0
+Datum: 04-01-2026
+"""
+
+import argparse
+import json
+import os
+import re
+import sys
+from pathlib import Path
+from datetime import datetime
+from typing import Dict, List, Optional
+import subprocess
+import yaml
+
+
+class AgentMaker:
+    """Creates or refreshes agent artifacts based on an existing charter."""
+    
+    def __init__(self, agent_name: str, repo_root: Optional[str] = None, 
+                 charter_root: str = "https://github.com/hans-blok/standard.git",
+                 local_charter_clone: Optional[str] = None):
+        """Initialize the agent maker."""
+        # Strip phase prefix from agent_name if present (e.g., "u05.layout-optimizer" -> "layout-optimizer")
+        # This allows users to specify either "layout-optimizer" or "u05.layout-optimizer"
+        if '.' in agent_name and len(agent_name.split('.')[0]) <= 3:
+            # First part looks like a phase prefix (max 3 chars like "u05", "a1", "d2")
+            potential_prefix = agent_name.split('.')[0]
+            # Check if it matches known phase patterns
+            if (potential_prefix[0] in 'abcdefgu' and 
+                (len(potential_prefix) == 1 or potential_prefix[1:].isdigit())):
+                agent_name = '.'.join(agent_name.split('.')[1:])
+        
+        self.agent_name = agent_name
+        self.repo_root = Path(repo_root) if repo_root else Path.cwd()
+        self.charter_root = charter_root
+        self.local_charter_clone = local_charter_clone
+        self.plan = None
+    
+    def log(self, message: str, prefix: str = "INFO"):
+        """Log a message with prefix."""
+        colors = {
+            "INFO": "\033[96m",      # Cyan
+            "SUCCESS": "\033[92m",   # Green
+            "WARNING": "\033[93m",   # Yellow
+            "ERROR": "\033[91m"      # Red
+        }
+        reset = "\033[0m"
+        color = colors.get(prefix, "")
+        # Encode for Windows console
+        try:
+            print(f"{color}[{prefix}] {message}{reset}")
+        except UnicodeEncodeError:
+            # Fallback for Windows console encoding issues
+            safe_message = message.encode('ascii', 'replace').decode('ascii')
+            print(f"{color}[{prefix}] {safe_message}{reset}")
+    
+    def _update_git_repo(self, repo_path: Path):
+        """Update a git repository by pulling latest changes."""
+        try:
+            self.log(f"Updaten charter repository: {repo_path.name}", "INFO")
+            result = subprocess.run(
+                ["git", "pull"],
+                cwd=str(repo_path),
+                capture_output=True,
+                text=True,
+                timeout=30
+            )
+            if result.returncode == 0:
+                if "Already up to date" not in result.stdout:
+                    self.log(f"Charter repository geüpdatet", "SUCCESS")
+            else:
+                self.log(f"Git pull warning: {result.stderr.strip()}", "WARNING")
+        except Exception as e:
+            self.log(f"Kon charter repository niet updaten: {e}", "WARNING")
+    
+    def resolve_charter_path(self) -> Path:
+        """Find the charter file for the given agent name."""
+        # Charters are now local in governance/agent-charters/
+        charters_path = self.repo_root / "governance" / "agent-charters"
+        
+        if not charters_path.exists():
+            raise FileNotFoundError(f"Charter directory niet gevonden: {charters_path}")
+        
+        # Search for file matching ".<phase>.<agentname>.agent.charter"
+        # We don't know the phase yet, so search for any file ending with the agent name
+        pattern = f"*.{self.agent_name}.agent.charter"
+        matches = list(charters_path.glob(pattern))
+        
+        if not matches:
+            raise FileNotFoundError(
+                f"Geen charter gevonden voor AgentName '{self.agent_name}' "
+                f"onder {charters_path} (pattern: {pattern})."
+            )
+        
+        return matches[0]
+    
+    def get_phase_from_charter_path(self, charter_path: Path) -> str:
+        """Extract phase from charter path."""
+        # New naming convention: .<phase>.<name>.agent.charter
+        filename = charter_path.stem  # Without extension
+        parts_name = filename.split('.')
+        
+        # Format: .<phase>.<name>.agent (charter_path.stem removes last extension)
+        # Example: .u95.python-script-schrijver.agent -> ['', 'u95', 'python-script-schrijver', 'agent']
+        if len(parts_name) >= 3 and parts_name[0] == '':
+            # The phase is the second element (after leading dot)
+            return parts_name[1]  # The phase part
+        
+        raise ValueError(f"Kan phase niet bepalen uit charter naam: {charter_path.name}")
+    
+    def validate_phase_from_charter_content(self, charter_path: Path, expected_phase: str) -> bool:
+        """Validate phase by reading SAFe Phase Alignment section from charter content."""
+        try:
+            with open(charter_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # Map phase prefixes to SAFe phase names
+            phase_mapping = {
+                'a': 'A. Trigger',
+                'a1': 'A. Trigger',
+                'a2': 'A. Trigger',
+                'b': 'B. Architectuur',
+                'b1': 'B. Architectuur',
+                'c': 'C. Specificatie',
+                'c1': 'C. Specificatie',
+                'c2': 'C. Specificatie',
+                'c3': 'C. Specificatie',
+                'd': 'D. Ontwerp',
+                'd1': 'D. Ontwerp',
+                'd2': 'D. Ontwerp',
+                'e': 'E. Bouw',
+                'e1': 'E. Bouw',
+                'f': 'F. Validatie',
+                'g': 'G. Deployment',
+                'u': 'U. Utility',
+                'u01': 'U. Utility',
+                'u03': 'U. Utility',
+                'u04': 'U. Utility',
+                'u05': 'U. Utility',
+                'u90': 'U. Utility',
+                'u91': 'U. Utility',
+                'u92': 'U. Utility',
+                'u93': 'U. Utility',
+                'u94': 'U. Utility',
+                'u95': 'U. Utility',
+                '0': '0. Setup'
+            }
+            
+            # Get phase prefix
+            phase_prefix = expected_phase.split('.')[0] if '.' in expected_phase else expected_phase
+            expected_safe_phase = phase_mapping.get(phase_prefix)
+            
+            if not expected_safe_phase:
+                self.log(f"Onbekende fase prefix: {phase_prefix}", "WARNING")
+                return True  # Continue anyway
+            
+            # For utility agents, check for "Utility (U) agent" in the section
+            if phase_prefix.startswith('u'):
+                if 'Utility (U) agent' in content or 'utility-agent' in content:
+                    self.log(f"✓ Charter fase validatie geslaagd: Utility Agent", "SUCCESS")
+                    return True
+            
+            # Check if the expected phase has "✅ Ja" in the SAFe Phase Alignment table
+            # Look for pattern like "| B. Architectuur | ✅ Ja"
+            pattern = rf'\|\s*{re.escape(expected_safe_phase)}\s*\|[^|]*✅\s*Ja'
+            
+            if re.search(pattern, content):
+                self.log(f"✓ Charter fase validatie geslaagd: {expected_safe_phase}", "SUCCESS")
+                return True
+            else:
+                self.log(f"Charter bevat mogelijk niet de verwachte fase: {expected_safe_phase}", "WARNING")
+                self.log(f"  Controleer '## 4. SAFe Phase Alignment' sectie in charter", "WARNING")
+                return True  # Continue anyway, maar met waarschuwing
+                
+        except Exception as e:
+            self.log(f"Kon charter inhoud niet valideren: {e}", "WARNING")
+            return True  # Continue anyway
+    
+    def create_build_plan(self) -> Dict:
+        """Create a build plan for the agent."""
+        charter_path = self.resolve_charter_path()
+        phase = self.get_phase_from_charter_path(charter_path)
+        
+        # Validate phase against charter content
+        self.validate_phase_from_charter_content(charter_path, phase)
+        
+        agent_id = f"std.{phase}.{self.agent_name}"
+        
+        # Extract phase prefix (e.g., "d1.service-architect" -> "d1", "u05.layout-optimizer" -> "u05")
+        phase_prefix = phase.split('.')[0] if '.' in phase else phase
+        
+        # Create charter reference for local workspace
+        charter_filename = charter_path.name
+        charter_url = f"governance/agent-charters/{charter_filename}"
+        
+        plan = {
+            "agentName": self.agent_name,
+            "phase": phase,
+            "agentId": agent_id,
+            "repoRoot": str(self.repo_root.resolve()),
+            "charterRoot": self.charter_root,
+            "charterPath": str(charter_path),
+            "charterUrl": charter_url,
+            "promptPath": str(self.repo_root / "agent-componenten" / "prompts" / f"{phase_prefix}.{self.agent_name}.prompt.md"),
+            "runnerPath": str(self.repo_root / "agent-componenten" / "runners" / f"{phase_prefix}.{self.agent_name}.py"),
+            "orchestrationPath": str(self.repo_root / "agent-componenten" / "orchestrations" / f"{phase}.{self.agent_name}.orchestration.yaml"),
+            "agentDefinitionPath": str(self.repo_root / "agent-componenten" / "agents" / f"{phase_prefix}.{self.agent_name}.agent.md"),
+            "outputRoot": "<project-workspace>/artefacten",
+            "buildPlanPath": str(self.repo_root / "agent-componenten" / "buildplans" / f"{phase_prefix}.{self.agent_name}.json"),
+            "qualityGates": [
+                "Nederlands B1",
+                "Geen technische implementatiedetails in prompt",
+                "Max 3 aannames (indien van toepassing)",
+                "Output is Markdown"
+            ],
+            "runtime": {
+                "llmProvider": "anthropic",
+                "model": "claude-sonnet",
+                "adapter": "Invoke-LLM (stub in runner)"
+            },
+            "generatedOn": datetime.now().isoformat()
+        }
+        
+        return plan
+    
+    def write_plan_json(self, plan: Dict):
+        """Write the build plan to a JSON file."""
+        plan_path = Path(plan["buildPlanPath"])
+        plan_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        with open(plan_path, 'w', encoding='utf-8') as f:
+            json.dump(plan, f, indent=2, ensure_ascii=False)
+        
+        self.log(f"Build plan geschreven naar: {plan_path}")
+    
+    def invoke_builder(self, script_name: str, plan_path: str):
+        """Invoke a builder script."""
+        scripts_dir = self.repo_root / "scripts"
+        script_path = scripts_dir / script_name
+        
+        if not script_path.exists():
+            raise FileNotFoundError(f"Builder script ontbreekt: {script_path}")
+        
+        self.log(f"Aanroepen builder: {script_name}")
+        
+        # Call Python builder
+        result = subprocess.run(
+            [sys.executable, str(script_path), "--plan-path", plan_path],
+            capture_output=True,
+            text=True
+        )
+        
+        if result.returncode != 0:
+            self.log(f"Builder fout: {result.stderr}", "ERROR")
+            raise RuntimeError(f"Builder {script_name} gefaald met code {result.returncode}")
+        
+        if result.stdout:
+            print(result.stdout)
+    
+    def test_agent_completion(self, plan: Dict):
+        """Test that all required agent files exist."""
+        required_paths = [
+            plan["promptPath"],
+            plan["runnerPath"],
+            plan["orchestrationPath"],
+            plan["buildPlanPath"]
+        ]
+        
+        missing = [p for p in required_paths if not Path(p).exists()]
+        
+        if missing:
+            missing_str = "\n- ".join(missing)
+            raise FileNotFoundError(
+                f"Agent completion faalt. Ontbrekende bestanden:\n- {missing_str}"
+            )
+    
+    def run(self):
+        """Execute the agent creation process."""
+        try:
+            self.log(f"Starten agent build voor: {self.agent_name}")
+            
+            # Create build plan
+            self.plan = self.create_build_plan()
+            self.write_plan_json(self.plan)
+            
+            # Invoke builders
+            self.invoke_builder("prompt-builder.py", self.plan["buildPlanPath"])
+            self.invoke_builder("runner-builder.py", self.plan["buildPlanPath"])
+            self.invoke_builder("orchestration-builder.py", self.plan["buildPlanPath"])
+            
+            # Generate agent definition
+            self.generate_agent_definition()
+            
+            # Test completion
+            self.test_agent_completion(self.plan)
+            
+            # Success message
+            self.log(f"Agent build klaar: {self.plan['agentId']}", "SUCCESS")
+            print(f" - Prompt:        {self.plan['promptPath']}")
+            print(f" - Runner:        {self.plan['runnerPath']}")
+            print(f" - Orchestration: {self.plan['orchestrationPath']}")
+            print(f" - Agent def:     {self.plan['agentDefinitionPath']}")
+            print(f" - Build plan:    {self.plan['buildPlanPath']}")
+            
+            return 0
+        
+        except Exception as e:
+            self.log(f"Fout tijdens agent build: {e}", "ERROR")
+            raise
+    
+    def generate_agent_definition(self):
+        """Generate agent definition markdown file."""
+        self.log("Genereren agent definitie...")
+        
+        agent_def_path = Path(self.plan['agentDefinitionPath'])
+        agent_def_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        agent_id = self.plan['agentId']
+        agent_name = self.plan['agentName']
+        charter_url = self.plan['charterUrl']
+        runner_filename = Path(self.plan['runnerPath']).name
+        
+        content = f"""# {agent_name}
+
+**Agent ID:** `{agent_id}`
+
+## Beschrijving
+Deze agent is gegenereerd vanuit het charter in de standard repository.
+
+## Charter
+Voor de volledige specificatie, zie: [{charter_url}]({charter_url})
+
+## Componenten
+- **Prompt:** Minimale prompt met charter referentie
+- **Runner:** Python script voor command-line executie
+- **Orchestration:** YAML configuratie voor workflow
+- **Build Plan:** JSON metadata voor regeneratie
+
+## Gebruik
+Activeer via:
+- Command line: `python agent-componenten/runners/{runner_filename}`
+- Als workspace agent (na sync)
+"""
+        
+        with open(agent_def_path, 'w', encoding='utf-8') as f:
+            f.write(content)
+        
+        self.log(f"Agent definitie geschreven: {agent_def_path.relative_to(self.repo_root)}")
+def main():
+    """Main entry point."""
+    parser = argparse.ArgumentParser(
+        description='Maakt (of ververst) agent artefacten op basis van een bestaand charter',
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    
+    parser.add_argument("--agent-name", required=True, help="De naam van de agent (bv. 'founding-hypothesis-owner').")
+    
+    args = parser.parse_args()
+    
+    maker = AgentMaker(agent_name=args.agent_name)
+    
+    return maker.run()
+
+
+if __name__ == '__main__':
+    sys.exit(main())

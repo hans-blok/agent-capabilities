@@ -1,0 +1,71 @@
+pipeline:
+  name: Founding Hypothesis to CDM Workflow
+  description: Volledige flow van business case naar founding hypothesis naar CDM (zonder onderbrekingen)
+  
+  trigger:
+    type: manual
+    inputs:
+      business_case:
+        description: Path to business case document
+        required: true
+        type: string
+  
+  environment:
+    runner: ubuntu-latest
+    python-version: "3.11"
+  
+  steps:
+    - id: checkout
+      action: checkout
+    
+    - id: setup-python
+      action: setup-python
+      with:
+        version: ${{ environment.python-version }}
+    
+    - id: install-deps
+      action: run
+      command: pip install -r requirements.txt
+    
+    # Stap 1: Founding Hypothesis
+    - id: run-founding-hypothesis
+      action: run
+      command: |
+        echo "=== Stap 1: Founding Hypothesis genereren ==="
+        python agent-componenten/runners/a.founding-hypothesis-owner.py \
+          --input ${{ inputs.business_case }} \
+          --output output/founding-hypothesis.md
+        
+        echo "✓ Founding hypothesis gegenereerd"
+    
+    # Stap 2: CDM (gebruikt output van stap 1)
+    - id: run-cdm-architect
+      action: run
+      command: |
+        echo "=== Stap 2: CDM genereren vanuit founding hypothesis ==="
+        python agent-componenten/runners/b.cdm-architect.py \
+          --input output/founding-hypothesis.md \
+          --output output/cdm.md
+        
+        echo "✓ CDM gegenereerd"
+    
+    # Workflow summary
+    - id: workflow-summary
+      action: run
+      command: |
+        echo "=== Workflow voltooid ==="
+        echo "1. Founding Hypothesis: output/founding-hypothesis.md"
+        echo "2. CDM: output/cdm.md"
+        ls -lh output/
+    
+    - id: upload-artifacts
+      action: upload-artifact
+      with:
+        name: founding-to-cdm-workflow
+        path: output/
+  
+  notifications:
+    on-failure:
+      slack:
+        channel: agent-alerts
+        message: Founding-to-CDM workflow failed

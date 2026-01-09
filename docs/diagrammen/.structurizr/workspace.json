@@ -1,0 +1,1580 @@
+{
+  "configuration" : { },
+  "description" : "C4 model van het agent generation proces",
+  "documentation" : { },
+  "id" : 1,
+  "lastModifiedAgent" : "structurizr-ui",
+  "lastModifiedDate" : "2026-01-09T10:32:25Z",
+  "model" : {
+    "deploymentNodes" : [ {
+      "children" : [ {
+        "containerInstances" : [ {
+          "containerId" : "5",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Developer Machine",
+          "id" : "71",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "makeAgentInstance"
+          },
+          "relationships" : [ {
+            "description" : "Roept aan",
+            "destinationId" : "72",
+            "id" : "73",
+            "linkedRelationshipId" : "42",
+            "sourceId" : "71",
+            "technology" : "subprocess"
+          }, {
+            "description" : "Roept aan",
+            "destinationId" : "74",
+            "id" : "75",
+            "linkedRelationshipId" : "43",
+            "sourceId" : "71",
+            "technology" : "subprocess"
+          }, {
+            "description" : "Roept aan",
+            "destinationId" : "76",
+            "id" : "77",
+            "linkedRelationshipId" : "44",
+            "sourceId" : "71",
+            "technology" : "subprocess"
+          }, {
+            "description" : "Schrijft buildplan",
+            "destinationId" : "80",
+            "id" : "81",
+            "linkedRelationshipId" : "41",
+            "sourceId" : "71",
+            "technology" : "JSON"
+          }, {
+            "description" : "Schrijft pipelines + agent.md",
+            "destinationId" : "85",
+            "id" : "86",
+            "linkedRelationshipId" : "45",
+            "sourceId" : "71",
+            "technology" : "File System"
+          }, {
+            "description" : "Volgt principes",
+            "destinationId" : "91",
+            "id" : "92",
+            "linkedRelationshipId" : "46",
+            "sourceId" : "71",
+            "technology" : "Reference"
+          }, {
+            "description" : "Leest charter (auto git pull)",
+            "destinationId" : "95",
+            "id" : "96",
+            "linkedRelationshipId" : "39",
+            "sourceId" : "71",
+            "technology" : "Git + File System"
+          } ],
+          "tags" : "Container Instance"
+        }, {
+          "containerId" : "13",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Developer Machine",
+          "id" : "72",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "promptBuilderInstance"
+          },
+          "relationships" : [ {
+            "description" : "Leest metadata",
+            "destinationId" : "80",
+            "id" : "82",
+            "linkedRelationshipId" : "47",
+            "sourceId" : "72",
+            "technology" : "JSON"
+          }, {
+            "description" : "Schrijft prompt.md",
+            "destinationId" : "85",
+            "id" : "87",
+            "linkedRelationshipId" : "49",
+            "sourceId" : "72",
+            "technology" : "File System"
+          }, {
+            "description" : "Leest charter",
+            "destinationId" : "95",
+            "id" : "97",
+            "linkedRelationshipId" : "48",
+            "sourceId" : "72",
+            "technology" : "File System"
+          } ],
+          "tags" : "Container Instance"
+        }, {
+          "containerId" : "16",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Developer Machine",
+          "id" : "74",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "runnerBuilderInstance"
+          },
+          "relationships" : [ {
+            "description" : "Leest metadata",
+            "destinationId" : "80",
+            "id" : "83",
+            "linkedRelationshipId" : "50",
+            "sourceId" : "74",
+            "technology" : "JSON"
+          }, {
+            "description" : "Schrijft runner.py",
+            "destinationId" : "85",
+            "id" : "88",
+            "linkedRelationshipId" : "51",
+            "sourceId" : "74",
+            "technology" : "File System"
+          } ],
+          "tags" : "Container Instance"
+        }, {
+          "containerId" : "19",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Developer Machine",
+          "id" : "76",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "orchestrationBuilderInstance"
+          },
+          "relationships" : [ {
+            "description" : "Leest metadata",
+            "destinationId" : "80",
+            "id" : "84",
+            "linkedRelationshipId" : "52",
+            "sourceId" : "76",
+            "technology" : "JSON"
+          }, {
+            "description" : "Schrijft orchestration.yaml",
+            "destinationId" : "85",
+            "id" : "89",
+            "linkedRelationshipId" : "53",
+            "sourceId" : "76",
+            "technology" : "File System"
+          } ],
+          "tags" : "Container Instance"
+        }, {
+          "containerId" : "22",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Developer Machine",
+          "id" : "78",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "fetchAgentsInstance"
+          },
+          "relationships" : [ {
+            "description" : "Leest componenten",
+            "destinationId" : "85",
+            "id" : "90",
+            "linkedRelationshipId" : "54",
+            "sourceId" : "78",
+            "technology" : "File System"
+          }, {
+            "description" : "Volgt principes",
+            "destinationId" : "91",
+            "id" : "93",
+            "linkedRelationshipId" : "57",
+            "sourceId" : "78",
+            "technology" : "Reference"
+          }, {
+            "description" : "Kopieert naar .github/ en agent-componenten/",
+            "destinationId" : "98",
+            "id" : "99",
+            "linkedRelationshipId" : "55",
+            "sourceId" : "78",
+            "technology" : "File System"
+          } ],
+          "tags" : "Container Instance"
+        } ],
+        "environment" : "Developer Machine",
+        "id" : "70",
+        "instances" : "1",
+        "name" : "Python 3.11",
+        "properties" : {
+          "structurizr.dsl.identifier" : "8cda4edd-c6ce-4aa7-992b-c8ddd0559bfb"
+        },
+        "tags" : "Element,Deployment Node"
+      }, {
+        "containerInstances" : [ {
+          "containerId" : "26",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Developer Machine",
+          "id" : "80",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "buildplansInstance"
+          },
+          "tags" : "Container Instance"
+        }, {
+          "containerId" : "27",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Developer Machine",
+          "id" : "85",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "componentsInstance"
+          },
+          "tags" : "Container Instance"
+        }, {
+          "containerId" : "34",
+          "deploymentGroups" : [ "Default" ],
+          "environment" : "Developer Machine",
+          "id" : "91",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "governanceInstance"
+          },
+          "tags" : "Container Instance"
+        } ],
+        "environment" : "Developer Machine",
+        "id" : "79",
+        "instances" : "1",
+        "name" : "File System",
+        "properties" : {
+          "structurizr.dsl.identifier" : "3b958746-ec5f-4f5d-b262-93314ecf4e71"
+        },
+        "tags" : "Element,Deployment Node"
+      } ],
+      "environment" : "Developer Machine",
+      "id" : "69",
+      "instances" : "1",
+      "name" : "Windows 11",
+      "properties" : {
+        "structurizr.dsl.identifier" : "849d6e1f-f476-4e57-a27e-b5eb27ba3ad3"
+      },
+      "tags" : "Element,Deployment Node"
+    }, {
+      "environment" : "Developer Machine",
+      "id" : "94",
+      "instances" : "1",
+      "name" : "Git Repositories",
+      "properties" : {
+        "structurizr.dsl.identifier" : "50185da0-0de2-49fd-a94e-f2eb4dd162b1"
+      },
+      "softwareSystemInstances" : [ {
+        "deploymentGroups" : [ "Default" ],
+        "environment" : "Developer Machine",
+        "id" : "95",
+        "instanceId" : 1,
+        "properties" : {
+          "structurizr.dsl.identifier" : "standardRepoInstance"
+        },
+        "softwareSystemId" : "2",
+        "tags" : "Software System Instance"
+      }, {
+        "deploymentGroups" : [ "Default" ],
+        "environment" : "Developer Machine",
+        "id" : "98",
+        "instanceId" : 1,
+        "properties" : {
+          "structurizr.dsl.identifier" : "projectWorkspaceInstance"
+        },
+        "softwareSystemId" : "3",
+        "tags" : "Software System Instance"
+      } ],
+      "tags" : "Element,Deployment Node"
+    } ],
+    "people" : [ {
+      "description" : "Schrijft charters en voert scripts uit",
+      "id" : "1",
+      "name" : "Developer",
+      "properties" : {
+        "structurizr.dsl.identifier" : "developer"
+      },
+      "relationships" : [ {
+        "description" : "Schrijft charter in",
+        "destinationId" : "2",
+        "id" : "35",
+        "sourceId" : "1",
+        "tags" : "Relationship",
+        "technology" : "Git"
+      }, {
+        "description" : "Voert uit met --agent-name",
+        "destinationId" : "5",
+        "id" : "36",
+        "sourceId" : "1",
+        "tags" : "Relationship",
+        "technology" : "CLI"
+      }, {
+        "description" : "Voert uit met --agent-name",
+        "destinationId" : "4",
+        "id" : "37",
+        "linkedRelationshipId" : "36",
+        "sourceId" : "1",
+        "technology" : "CLI"
+      }, {
+        "description" : "Voert uit in project",
+        "destinationId" : "22",
+        "id" : "38",
+        "sourceId" : "1",
+        "tags" : "Relationship",
+        "technology" : "CLI"
+      } ],
+      "tags" : "Element,Person"
+    } ],
+    "softwareSystems" : [ {
+      "description" : "Bevat agent charters als single source of truth",
+      "documentation" : { },
+      "id" : "2",
+      "name" : "Standard Repository",
+      "properties" : {
+        "structurizr.dsl.identifier" : "standardRepo"
+      },
+      "tags" : "Element,Software System,External"
+    }, {
+      "description" : "Gebruikt gegenereerde agents voor development",
+      "documentation" : { },
+      "id" : "3",
+      "name" : "Project Workspace",
+      "properties" : {
+        "structurizr.dsl.identifier" : "projectWorkspace"
+      },
+      "tags" : "Element,Software System,External"
+    }, {
+      "containers" : [ {
+        "components" : [ {
+          "description" : "Leest charter uit standard repo",
+          "documentation" : { },
+          "id" : "6",
+          "name" : "Charter Reader",
+          "properties" : {
+            "structurizr.dsl.identifier" : "charterReader"
+          },
+          "relationships" : [ {
+            "description" : "Valideert fase",
+            "destinationId" : "7",
+            "id" : "58",
+            "sourceId" : "6",
+            "tags" : "Relationship",
+            "technology" : "Python call"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Python Function"
+        }, {
+          "description" : "Valideert fase uit charter",
+          "documentation" : { },
+          "id" : "7",
+          "name" : "Phase Validator",
+          "properties" : {
+            "structurizr.dsl.identifier" : "phaseValidator"
+          },
+          "relationships" : [ {
+            "description" : "Schrijft plan",
+            "destinationId" : "8",
+            "id" : "59",
+            "sourceId" : "7",
+            "tags" : "Relationship",
+            "technology" : "Python call"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Python Function"
+        }, {
+          "description" : "Schrijft JSON buildplan",
+          "documentation" : { },
+          "id" : "8",
+          "name" : "BuildPlan Writer",
+          "properties" : {
+            "structurizr.dsl.identifier" : "buildPlanWriter"
+          },
+          "relationships" : [ {
+            "description" : "Roept builders aan",
+            "destinationId" : "9",
+            "id" : "60",
+            "sourceId" : "8",
+            "tags" : "Relationship",
+            "technology" : "Python call"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Python Function"
+        }, {
+          "description" : "Roept builders aan",
+          "documentation" : { },
+          "id" : "9",
+          "name" : "Builder Orchestrator",
+          "properties" : {
+            "structurizr.dsl.identifier" : "builderOrchestrator"
+          },
+          "relationships" : [ {
+            "description" : "Genereert pipelines",
+            "destinationId" : "10",
+            "id" : "61",
+            "sourceId" : "9",
+            "tags" : "Relationship",
+            "technology" : "Python call"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Python Function"
+        }, {
+          "description" : "Base class voor pipeline generation",
+          "documentation" : { },
+          "id" : "10",
+          "name" : "Pipeline Generator",
+          "properties" : {
+            "structurizr.dsl.identifier" : "pipelineGenerator"
+          },
+          "relationships" : [ {
+            "description" : "Translates",
+            "destinationId" : "11",
+            "id" : "62",
+            "sourceId" : "10",
+            "tags" : "Relationship",
+            "technology" : "Inheritance"
+          }, {
+            "description" : "Translates",
+            "destinationId" : "12",
+            "id" : "63",
+            "sourceId" : "10",
+            "tags" : "Relationship",
+            "technology" : "Inheritance"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Python Class"
+        }, {
+          "description" : "Translates naar GH Actions",
+          "documentation" : { },
+          "id" : "11",
+          "name" : "GitHub Actions Generator",
+          "properties" : {
+            "structurizr.dsl.identifier" : "githubActionsGen"
+          },
+          "tags" : "Element,Component",
+          "technology" : "Python Class"
+        }, {
+          "description" : "Translates naar GitLab CI",
+          "documentation" : { },
+          "id" : "12",
+          "name" : "GitLab CI Generator",
+          "properties" : {
+            "structurizr.dsl.identifier" : "gitlabCIGen"
+          },
+          "tags" : "Element,Component",
+          "technology" : "Python Class"
+        } ],
+        "description" : "Hoofdorchestrator voor agent generation",
+        "documentation" : { },
+        "id" : "5",
+        "name" : "make-agent.py",
+        "properties" : {
+          "structurizr.dsl.identifier" : "makeAgent"
+        },
+        "relationships" : [ {
+          "description" : "Leest charter (auto git pull)",
+          "destinationId" : "2",
+          "id" : "39",
+          "sourceId" : "5",
+          "tags" : "Relationship",
+          "technology" : "Git + File System"
+        }, {
+          "description" : "Schrijft buildplan",
+          "destinationId" : "26",
+          "id" : "41",
+          "sourceId" : "5",
+          "tags" : "Relationship",
+          "technology" : "JSON"
+        }, {
+          "description" : "Roept aan",
+          "destinationId" : "13",
+          "id" : "42",
+          "sourceId" : "5",
+          "tags" : "Relationship",
+          "technology" : "subprocess"
+        }, {
+          "description" : "Roept aan",
+          "destinationId" : "16",
+          "id" : "43",
+          "sourceId" : "5",
+          "tags" : "Relationship",
+          "technology" : "subprocess"
+        }, {
+          "description" : "Roept aan",
+          "destinationId" : "19",
+          "id" : "44",
+          "sourceId" : "5",
+          "tags" : "Relationship",
+          "technology" : "subprocess"
+        }, {
+          "description" : "Schrijft pipelines + agent.md",
+          "destinationId" : "27",
+          "id" : "45",
+          "sourceId" : "5",
+          "tags" : "Relationship",
+          "technology" : "File System"
+        }, {
+          "description" : "Volgt principes",
+          "destinationId" : "34",
+          "id" : "46",
+          "sourceId" : "5",
+          "tags" : "Relationship",
+          "technology" : "Reference"
+        } ],
+        "tags" : "Element,Container,MainScript",
+        "technology" : "Python Script"
+      }, {
+        "components" : [ {
+          "description" : "Genereert prompt.md",
+          "documentation" : { },
+          "id" : "14",
+          "name" : "Prompt Generator",
+          "properties" : {
+            "structurizr.dsl.identifier" : "promptGenerator"
+          },
+          "relationships" : [ {
+            "description" : "Linkt charter",
+            "destinationId" : "15",
+            "id" : "64",
+            "sourceId" : "14",
+            "tags" : "Relationship",
+            "technology" : "Python call"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Python Function"
+        }, {
+          "description" : "Linkt naar charter URL",
+          "documentation" : { },
+          "id" : "15",
+          "name" : "Charter Linker",
+          "properties" : {
+            "structurizr.dsl.identifier" : "charterLinker"
+          },
+          "tags" : "Element,Component",
+          "technology" : "Python Function"
+        } ],
+        "description" : "Genereert minimale prompt files",
+        "documentation" : { },
+        "id" : "13",
+        "name" : "prompt-builder.py",
+        "properties" : {
+          "structurizr.dsl.identifier" : "promptBuilder"
+        },
+        "relationships" : [ {
+          "description" : "Leest metadata",
+          "destinationId" : "26",
+          "id" : "47",
+          "sourceId" : "13",
+          "tags" : "Relationship",
+          "technology" : "JSON"
+        }, {
+          "description" : "Leest charter",
+          "destinationId" : "2",
+          "id" : "48",
+          "sourceId" : "13",
+          "tags" : "Relationship",
+          "technology" : "File System"
+        }, {
+          "description" : "Schrijft prompt.md",
+          "destinationId" : "27",
+          "id" : "49",
+          "sourceId" : "13",
+          "tags" : "Relationship",
+          "technology" : "File System"
+        } ],
+        "tags" : "Element,Container,Builder",
+        "technology" : "Python Script"
+      }, {
+        "components" : [ {
+          "description" : "Genereert runner.py",
+          "documentation" : { },
+          "id" : "17",
+          "name" : "CLI Generator",
+          "properties" : {
+            "structurizr.dsl.identifier" : "cliGenerator"
+          },
+          "relationships" : [ {
+            "description" : "Bouwt CLI",
+            "destinationId" : "18",
+            "id" : "65",
+            "sourceId" : "17",
+            "tags" : "Relationship",
+            "technology" : "Python call"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Python Function"
+        }, {
+          "description" : "Bouwt CLI interface",
+          "documentation" : { },
+          "id" : "18",
+          "name" : "Argparse Builder",
+          "properties" : {
+            "structurizr.dsl.identifier" : "argparseBuilder"
+          },
+          "tags" : "Element,Component",
+          "technology" : "Python Function"
+        } ],
+        "description" : "Genereert Python CLI executables",
+        "documentation" : { },
+        "id" : "16",
+        "name" : "runner-builder.py",
+        "properties" : {
+          "structurizr.dsl.identifier" : "runnerBuilder"
+        },
+        "relationships" : [ {
+          "description" : "Leest metadata",
+          "destinationId" : "26",
+          "id" : "50",
+          "sourceId" : "16",
+          "tags" : "Relationship",
+          "technology" : "JSON"
+        }, {
+          "description" : "Schrijft runner.py",
+          "destinationId" : "27",
+          "id" : "51",
+          "sourceId" : "16",
+          "tags" : "Relationship",
+          "technology" : "File System"
+        } ],
+        "tags" : "Element,Container,Builder",
+        "technology" : "Python Script"
+      }, {
+        "components" : [ {
+          "description" : "Genereert orchestration.yaml",
+          "documentation" : { },
+          "id" : "20",
+          "name" : "YAML Generator",
+          "properties" : {
+            "structurizr.dsl.identifier" : "yamlGenerator"
+          },
+          "relationships" : [ {
+            "description" : "Definieert workflow",
+            "destinationId" : "21",
+            "id" : "66",
+            "sourceId" : "20",
+            "tags" : "Relationship",
+            "technology" : "Python call"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Python Function"
+        }, {
+          "description" : "Definieert workflow structuur",
+          "documentation" : { },
+          "id" : "21",
+          "name" : "Workflow Definer",
+          "properties" : {
+            "structurizr.dsl.identifier" : "workflowDefiner"
+          },
+          "tags" : "Element,Component",
+          "technology" : "Python Function"
+        } ],
+        "description" : "Genereert YAML workflow configs",
+        "documentation" : { },
+        "id" : "19",
+        "name" : "orchestration-builder.py",
+        "properties" : {
+          "structurizr.dsl.identifier" : "orchestrationBuilder"
+        },
+        "relationships" : [ {
+          "description" : "Leest metadata",
+          "destinationId" : "26",
+          "id" : "52",
+          "sourceId" : "19",
+          "tags" : "Relationship",
+          "technology" : "JSON"
+        }, {
+          "description" : "Schrijft orchestration.yaml",
+          "destinationId" : "27",
+          "id" : "53",
+          "sourceId" : "19",
+          "tags" : "Relationship",
+          "technology" : "File System"
+        } ],
+        "tags" : "Element,Container,Builder",
+        "technology" : "Python Script"
+      }, {
+        "components" : [ {
+          "description" : "Kloont agent-capabilities",
+          "documentation" : { },
+          "id" : "23",
+          "name" : "Repo Cloner",
+          "properties" : {
+            "structurizr.dsl.identifier" : "repoCloner"
+          },
+          "relationships" : [ {
+            "description" : "Kopieert files",
+            "destinationId" : "24",
+            "id" : "67",
+            "sourceId" : "23",
+            "tags" : "Relationship",
+            "technology" : "Python call"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Python Function"
+        }, {
+          "description" : "Kopieert componenten",
+          "documentation" : { },
+          "id" : "24",
+          "name" : "File Copier",
+          "properties" : {
+            "structurizr.dsl.identifier" : "fileCopier"
+          },
+          "relationships" : [ {
+            "description" : "Selecteert platform",
+            "destinationId" : "25",
+            "id" : "68",
+            "sourceId" : "24",
+            "tags" : "Relationship",
+            "technology" : "Python call"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Python Function"
+        }, {
+          "description" : "Selecteert platform pipelines",
+          "documentation" : { },
+          "id" : "25",
+          "name" : "Platform Selector",
+          "properties" : {
+            "structurizr.dsl.identifier" : "platformSelector"
+          },
+          "tags" : "Element,Component",
+          "technology" : "Python Function"
+        } ],
+        "description" : "Distribueert agents naar workspaces",
+        "documentation" : { },
+        "id" : "22",
+        "name" : "fetch-agents.py",
+        "properties" : {
+          "structurizr.dsl.identifier" : "fetchAgents"
+        },
+        "relationships" : [ {
+          "description" : "Leest componenten",
+          "destinationId" : "27",
+          "id" : "54",
+          "sourceId" : "22",
+          "tags" : "Relationship",
+          "technology" : "File System"
+        }, {
+          "description" : "Kopieert naar .github/ en agent-componenten/",
+          "destinationId" : "3",
+          "id" : "55",
+          "sourceId" : "22",
+          "tags" : "Relationship",
+          "technology" : "File System"
+        }, {
+          "description" : "Volgt principes",
+          "destinationId" : "34",
+          "id" : "57",
+          "sourceId" : "22",
+          "tags" : "Relationship",
+          "technology" : "Reference"
+        } ],
+        "tags" : "Element,Container,Distribution",
+        "technology" : "Python Script"
+      }, {
+        "description" : "JSON metadata met traceerbaarheid",
+        "documentation" : { },
+        "id" : "26",
+        "name" : "Buildplans",
+        "properties" : {
+          "structurizr.dsl.identifier" : "buildplans"
+        },
+        "tags" : "Element,Container,Data",
+        "technology" : "JSON Files"
+      }, {
+        "components" : [ {
+          "description" : "Minimale instructie files",
+          "documentation" : { },
+          "id" : "28",
+          "name" : "Prompts",
+          "properties" : {
+            "structurizr.dsl.identifier" : "prompts"
+          },
+          "tags" : "Element,Component",
+          "technology" : "Markdown"
+        }, {
+          "description" : "CLI executables",
+          "documentation" : { },
+          "id" : "29",
+          "name" : "Runners",
+          "properties" : {
+            "structurizr.dsl.identifier" : "runners"
+          },
+          "tags" : "Element,Component",
+          "technology" : "Python"
+        }, {
+          "description" : "Workflow definities",
+          "documentation" : { },
+          "id" : "30",
+          "name" : "Orchestrations",
+          "properties" : {
+            "structurizr.dsl.identifier" : "orchestrations"
+          },
+          "tags" : "Element,Component",
+          "technology" : "YAML"
+        }, {
+          "description" : "Samenvatting documenten",
+          "documentation" : { },
+          "id" : "31",
+          "name" : "Agent Definitions",
+          "properties" : {
+            "structurizr.dsl.identifier" : "agentDefs"
+          },
+          "tags" : "Element,Component",
+          "technology" : "Markdown"
+        }, {
+          "description" : "Platform-agnostisch",
+          "documentation" : { },
+          "id" : "32",
+          "name" : "Pipeline Definitions",
+          "properties" : {
+            "structurizr.dsl.identifier" : "pipelineDefs"
+          },
+          "tags" : "Element,Component",
+          "technology" : "YAML"
+        }, {
+          "description" : "Platform-specifiek",
+          "documentation" : { },
+          "id" : "33",
+          "name" : "Generated Pipelines",
+          "properties" : {
+            "structurizr.dsl.identifier" : "generatedPipelines"
+          },
+          "tags" : "Element,Component",
+          "technology" : "YAML"
+        } ],
+        "description" : "Gegenereerde agent artefacten",
+        "documentation" : { },
+        "id" : "27",
+        "name" : "Agent Componenten",
+        "properties" : {
+          "structurizr.dsl.identifier" : "components"
+        },
+        "tags" : "Element,Container,Data",
+        "technology" : "File System"
+      }, {
+        "description" : "Beleid en principes",
+        "documentation" : { },
+        "id" : "34",
+        "name" : "Governance",
+        "properties" : {
+          "structurizr.dsl.identifier" : "governance"
+        },
+        "tags" : "Element,Container,Documentation",
+        "technology" : "Markdown"
+      } ],
+      "description" : "Genereert en distribueert agent componenten",
+      "documentation" : { },
+      "id" : "4",
+      "name" : "Agent-Capabilities",
+      "properties" : {
+        "structurizr.dsl.identifier" : "agentCapabilities"
+      },
+      "relationships" : [ {
+        "description" : "Leest charter (auto git pull)",
+        "destinationId" : "2",
+        "id" : "40",
+        "linkedRelationshipId" : "39",
+        "sourceId" : "4",
+        "technology" : "Git + File System"
+      }, {
+        "description" : "Kopieert naar .github/ en agent-componenten/",
+        "destinationId" : "3",
+        "id" : "56",
+        "linkedRelationshipId" : "55",
+        "sourceId" : "4",
+        "technology" : "File System"
+      } ],
+      "tags" : "Element,Software System"
+    } ]
+  },
+  "name" : "Agent Generation Pipeline",
+  "properties" : {
+    "structurizr.inspection.info" : "0",
+    "structurizr.inspection.ignore" : "0",
+    "structurizr.inspection.error" : "17",
+    "structurizr.inspection.warning" : "0",
+    "structurizr.dsl" : "d29ya3NwYWNlICJBZ2VudCBHZW5lcmF0aW9uIFBpcGVsaW5lIiAiQzQgbW9kZWwgdmFuIGhldCBhZ2VudCBnZW5lcmF0aW9uIHByb2NlcyIgewoKICAgIG1vZGVsIHsKICAgICAgICAjIEV4dGVybmUgc3lzdGVtZW4KICAgICAgICBkZXZlbG9wZXIgPSBwZXJzb24gIkRldmVsb3BlciIgIlNjaHJpamZ0IGNoYXJ0ZXJzIGVuIHZvZXJ0IHNjcmlwdHMgdWl0IgogICAgICAgIHN0YW5kYXJkUmVwbyA9IHNvZnR3YXJlU3lzdGVtICJTdGFuZGFyZCBSZXBvc2l0b3J5IiAiQmV2YXQgYWdlbnQgY2hhcnRlcnMgYWxzIHNpbmdsZSBzb3VyY2Ugb2YgdHJ1dGgiIHsKICAgICAgICAgICAgdGFncyAiRXh0ZXJuYWwiCiAgICAgICAgfQogICAgICAgIHByb2plY3RXb3Jrc3BhY2UgPSBzb2Z0d2FyZVN5c3RlbSAiUHJvamVjdCBXb3Jrc3BhY2UiICJHZWJydWlrdCBnZWdlbmVyZWVyZGUgYWdlbnRzIHZvb3IgZGV2ZWxvcG1lbnQiIHsKICAgICAgICAgICAgdGFncyAiRXh0ZXJuYWwiCiAgICAgICAgfQoKICAgICAgICAjIEhvb2ZkIHN5c3RlZW06IEFnZW50LUNhcGFiaWxpdGllcwogICAgICAgIGFnZW50Q2FwYWJpbGl0aWVzID0gc29mdHdhcmVTeXN0ZW0gIkFnZW50LUNhcGFiaWxpdGllcyIgIkdlbmVyZWVydCBlbiBkaXN0cmlidWVlcnQgYWdlbnQgY29tcG9uZW50ZW4iIHsKICAgICAgICAgICAgCiAgICAgICAgICAgICMgQ29udGFpbmVyOiBNYWluIE9yY2hlc3RyYXRvcgogICAgICAgICAgICBtYWtlQWdlbnQgPSBjb250YWluZXIgIm1ha2UtYWdlbnQucHkiICJIb29mZG9yY2hlc3RyYXRvciB2b29yIGFnZW50IGdlbmVyYXRpb24iICJQeXRob24gU2NyaXB0IiB7CiAgICAgICAgICAgICAgICB0YWdzICJNYWluU2NyaXB0IgogICAgICAgICAgICAgICAgY2hhcnRlclJlYWRlciA9IGNvbXBvbmVudCAiQ2hhcnRlciBSZWFkZXIiICJMZWVzdCBjaGFydGVyIHVpdCBzdGFuZGFyZCByZXBvIiAiUHl0aG9uIEZ1bmN0aW9uIgogICAgICAgICAgICAgICAgcGhhc2VWYWxpZGF0b3IgPSBjb21wb25lbnQgIlBoYXNlIFZhbGlkYXRvciIgIlZhbGlkZWVydCBmYXNlIHVpdCBjaGFydGVyIiAiUHl0aG9uIEZ1bmN0aW9uIgogICAgICAgICAgICAgICAgYnVpbGRQbGFuV3JpdGVyID0gY29tcG9uZW50ICJCdWlsZFBsYW4gV3JpdGVyIiAiU2NocmlqZnQgSlNPTiBidWlsZHBsYW4iICJQeXRob24gRnVuY3Rpb24iCiAgICAgICAgICAgICAgICBidWlsZGVyT3JjaGVzdHJhdG9yID0gY29tcG9uZW50ICJCdWlsZGVyIE9yY2hlc3RyYXRvciIgIlJvZXB0IGJ1aWxkZXJzIGFhbiIgIlB5dGhvbiBGdW5jdGlvbiIKICAgICAgICAgICAgICAgIHBpcGVsaW5lR2VuZXJhdG9yID0gY29tcG9uZW50ICJQaXBlbGluZSBHZW5lcmF0b3IiICJCYXNlIGNsYXNzIHZvb3IgcGlwZWxpbmUgZ2VuZXJhdGlvbiIgIlB5dGhvbiBDbGFzcyIKICAgICAgICAgICAgICAgIGdpdGh1YkFjdGlvbnNHZW4gPSBjb21wb25lbnQgIkdpdEh1YiBBY3Rpb25zIEdlbmVyYXRvciIgIlRyYW5zbGF0ZXMgbmFhciBHSCBBY3Rpb25zIiAiUHl0aG9uIENsYXNzIgogICAgICAgICAgICAgICAgZ2l0bGFiQ0lHZW4gPSBjb21wb25lbnQgIkdpdExhYiBDSSBHZW5lcmF0b3IiICJUcmFuc2xhdGVzIG5hYXIgR2l0TGFiIENJIiAiUHl0aG9uIENsYXNzIgogICAgICAgICAgICB9CiAgICAgICAgICAgIAogICAgICAgICAgICAjIENvbnRhaW5lcjogUHJvbXB0IEJ1aWxkZXIKICAgICAgICAgICAgcHJvbXB0QnVpbGRlciA9IGNvbnRhaW5lciAicHJvbXB0LWJ1aWxkZXIucHkiICJHZW5lcmVlcnQgbWluaW1hbGUgcHJvbXB0IGZpbGVzIiAiUHl0aG9uIFNjcmlwdCIgewogICAgICAgICAgICAgICAgdGFncyAiQnVpbGRlciIKICAgICAgICAgICAgICAgIHByb21wdEdlbmVyYXRvciA9IGNvbXBvbmVudCAiUHJvbXB0IEdlbmVyYXRvciIgIkdlbmVyZWVydCBwcm9tcHQubWQiICJQeXRob24gRnVuY3Rpb24iCiAgICAgICAgICAgICAgICBjaGFydGVyTGlua2VyID0gY29tcG9uZW50ICJDaGFydGVyIExpbmtlciIgIkxpbmt0IG5hYXIgY2hhcnRlciBVUkwiICJQeXRob24gRnVuY3Rpb24iCiAgICAgICAgICAgIH0KICAgICAgICAgICAgCiAgICAgICAgICAgICMgQ29udGFpbmVyOiBSdW5uZXIgQnVpbGRlcgogICAgICAgICAgICBydW5uZXJCdWlsZGVyID0gY29udGFpbmVyICJydW5uZXItYnVpbGRlci5weSIgIkdlbmVyZWVydCBQeXRob24gQ0xJIGV4ZWN1dGFibGVzIiAiUHl0aG9uIFNjcmlwdCIgewogICAgICAgICAgICAgICAgdGFncyAiQnVpbGRlciIKICAgICAgICAgICAgICAgIGNsaUdlbmVyYXRvciA9IGNvbXBvbmVudCAiQ0xJIEdlbmVyYXRvciIgIkdlbmVyZWVydCBydW5uZXIucHkiICJQeXRob24gRnVuY3Rpb24iCiAgICAgICAgICAgICAgICBhcmdwYXJzZUJ1aWxkZXIgPSBjb21wb25lbnQgIkFyZ3BhcnNlIEJ1aWxkZXIiICJCb3V3dCBDTEkgaW50ZXJmYWNlIiAiUHl0aG9uIEZ1bmN0aW9uIgogICAgICAgICAgICB9CiAgICAgICAgICAgIAogICAgICAgICAgICAjIENvbnRhaW5lcjogT3JjaGVzdHJhdGlvbiBCdWlsZGVyCiAgICAgICAgICAgIG9yY2hlc3RyYXRpb25CdWlsZGVyID0gY29udGFpbmVyICJvcmNoZXN0cmF0aW9uLWJ1aWxkZXIucHkiICJHZW5lcmVlcnQgWUFNTCB3b3JrZmxvdyBjb25maWdzIiAiUHl0aG9uIFNjcmlwdCIgewogICAgICAgICAgICAgICAgdGFncyAiQnVpbGRlciIKICAgICAgICAgICAgICAgIHlhbWxHZW5lcmF0b3IgPSBjb21wb25lbnQgIllBTUwgR2VuZXJhdG9yIiAiR2VuZXJlZXJ0IG9yY2hlc3RyYXRpb24ueWFtbCIgIlB5dGhvbiBGdW5jdGlvbiIKICAgICAgICAgICAgICAgIHdvcmtmbG93RGVmaW5lciA9IGNvbXBvbmVudCAiV29ya2Zsb3cgRGVmaW5lciIgIkRlZmluaWVlcnQgd29ya2Zsb3cgc3RydWN0dXVyIiAiUHl0aG9uIEZ1bmN0aW9uIgogICAgICAgICAgICB9CiAgICAgICAgICAgIAogICAgICAgICAgICAjIENvbnRhaW5lcjogRmV0Y2ggQWdlbnRzCiAgICAgICAgICAgIGZldGNoQWdlbnRzID0gY29udGFpbmVyICJmZXRjaC1hZ2VudHMucHkiICJEaXN0cmlidWVlcnQgYWdlbnRzIG5hYXIgd29ya3NwYWNlcyIgIlB5dGhvbiBTY3JpcHQiIHsKICAgICAgICAgICAgICAgIHRhZ3MgIkRpc3RyaWJ1dGlvbiIKICAgICAgICAgICAgICAgIHJlcG9DbG9uZXIgPSBjb21wb25lbnQgIlJlcG8gQ2xvbmVyIiAiS2xvb250IGFnZW50LWNhcGFiaWxpdGllcyIgIlB5dGhvbiBGdW5jdGlvbiIKICAgICAgICAgICAgICAgIGZpbGVDb3BpZXIgPSBjb21wb25lbnQgIkZpbGUgQ29waWVyIiAiS29waWVlcnQgY29tcG9uZW50ZW4iICJQeXRob24gRnVuY3Rpb24iCiAgICAgICAgICAgICAgICBwbGF0Zm9ybVNlbGVjdG9yID0gY29tcG9uZW50ICJQbGF0Zm9ybSBTZWxlY3RvciIgIlNlbGVjdGVlcnQgcGxhdGZvcm0gcGlwZWxpbmVzIiAiUHl0aG9uIEZ1bmN0aW9uIgogICAgICAgICAgICB9CgogICAgICAgICAgICAjIENvbnRhaW5lcjogQnVpbGRwbGFucyBTdG9yYWdlCiAgICAgICAgICAgIGJ1aWxkcGxhbnMgPSBjb250YWluZXIgIkJ1aWxkcGxhbnMiICJKU09OIG1ldGFkYXRhIG1ldCB0cmFjZWVyYmFhcmhlaWQiICJKU09OIEZpbGVzIiB7CiAgICAgICAgICAgICAgICB0YWdzICJEYXRhIgogICAgICAgICAgICB9CgogICAgICAgICAgICAjIENvbnRhaW5lcjogQWdlbnQgQ29tcG9uZW50ZW4gU3RvcmFnZQogICAgICAgICAgICBjb21wb25lbnRzID0gY29udGFpbmVyICJBZ2VudCBDb21wb25lbnRlbiIgIkdlZ2VuZXJlZXJkZSBhZ2VudCBhcnRlZmFjdGVuIiAiRmlsZSBTeXN0ZW0iIHsKICAgICAgICAgICAgICAgIHRhZ3MgIkRhdGEiCiAgICAgICAgICAgICAgICBwcm9tcHRzID0gY29tcG9uZW50ICJQcm9tcHRzIiAiTWluaW1hbGUgaW5zdHJ1Y3RpZSBmaWxlcyIgIk1hcmtkb3duIgogICAgICAgICAgICAgICAgcnVubmVycyA9IGNvbXBvbmVudCAiUnVubmVycyIgIkNMSSBleGVjdXRhYmxlcyIgIlB5dGhvbiIKICAgICAgICAgICAgICAgIG9yY2hlc3RyYXRpb25zID0gY29tcG9uZW50ICJPcmNoZXN0cmF0aW9ucyIgIldvcmtmbG93IGRlZmluaXRpZXMiICJZQU1MIgogICAgICAgICAgICAgICAgYWdlbnREZWZzID0gY29tcG9uZW50ICJBZ2VudCBEZWZpbml0aW9ucyIgIlNhbWVudmF0dGluZyBkb2N1bWVudGVuIiAiTWFya2Rvd24iCiAgICAgICAgICAgICAgICBwaXBlbGluZURlZnMgPSBjb21wb25lbnQgIlBpcGVsaW5lIERlZmluaXRpb25zIiAiUGxhdGZvcm0tYWdub3N0aXNjaCIgIllBTUwiCiAgICAgICAgICAgICAgICBnZW5lcmF0ZWRQaXBlbGluZXMgPSBjb21wb25lbnQgIkdlbmVyYXRlZCBQaXBlbGluZXMiICJQbGF0Zm9ybS1zcGVjaWZpZWsiICJZQU1MIgogICAgICAgICAgICB9CgogICAgICAgICAgICAjIENvbnRhaW5lcjogR292ZXJuYW5jZQogICAgICAgICAgICBnb3Zlcm5hbmNlID0gY29udGFpbmVyICJHb3Zlcm5hbmNlIiAiQmVsZWlkIGVuIHByaW5jaXBlcyIgIk1hcmtkb3duIiB7CiAgICAgICAgICAgICAgICB0YWdzICJEb2N1bWVudGF0aW9uIgogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICAjIFJlbGF0aWVzIC0gRGV2ZWxvcGVyIGludGVyYWN0aW9ucwogICAgICAgIGRldmVsb3BlciAtPiBzdGFuZGFyZFJlcG8gIlNjaHJpamZ0IGNoYXJ0ZXIgaW4iICJHaXQiCiAgICAgICAgZGV2ZWxvcGVyIC0+IG1ha2VBZ2VudCAiVm9lcnQgdWl0IG1ldCAtLWFnZW50LW5hbWUiICJDTEkiCiAgICAgICAgZGV2ZWxvcGVyIC0+IGZldGNoQWdlbnRzICJWb2VydCB1aXQgaW4gcHJvamVjdCIgIkNMSSIKCiAgICAgICAgIyBSZWxhdGllcyAtIG1ha2UtYWdlbnQucHkgd29ya2Zsb3cgKGNvbnRhaW5lciBsZXZlbCkKICAgICAgICBtYWtlQWdlbnQgLT4gc3RhbmRhcmRSZXBvICJMZWVzdCBjaGFydGVyIChhdXRvIGdpdCBwdWxsKSIgIkdpdCArIEZpbGUgU3lzdGVtIgogICAgICAgIG1ha2VBZ2VudCAtPiBidWlsZHBsYW5zICJTY2hyaWpmdCBidWlsZHBsYW4iICJKU09OIgogICAgICAgIG1ha2VBZ2VudCAtPiBwcm9tcHRCdWlsZGVyICJSb2VwdCBhYW4iICJzdWJwcm9jZXNzIgogICAgICAgIG1ha2VBZ2VudCAtPiBydW5uZXJCdWlsZGVyICJSb2VwdCBhYW4iICJzdWJwcm9jZXNzIgogICAgICAgIG1ha2VBZ2VudCAtPiBvcmNoZXN0cmF0aW9uQnVpbGRlciAiUm9lcHQgYWFuIiAic3VicHJvY2VzcyIKICAgICAgICBtYWtlQWdlbnQgLT4gY29tcG9uZW50cyAiU2NocmlqZnQgcGlwZWxpbmVzICsgYWdlbnQubWQiICJGaWxlIFN5c3RlbSIKICAgICAgICBtYWtlQWdlbnQgLT4gZ292ZXJuYW5jZSAiVm9sZ3QgcHJpbmNpcGVzIiAiUmVmZXJlbmNlIgoKICAgICAgICAjIFJlbGF0aWVzIC0gQnVpbGRlcnMgKGNvbnRhaW5lciBsZXZlbCkKICAgICAgICBwcm9tcHRCdWlsZGVyIC0+IGJ1aWxkcGxhbnMgIkxlZXN0IG1ldGFkYXRhIiAiSlNPTiIKICAgICAgICBwcm9tcHRCdWlsZGVyIC0+IHN0YW5kYXJkUmVwbyAiTGVlc3QgY2hhcnRlciIgIkZpbGUgU3lzdGVtIgogICAgICAgIHByb21wdEJ1aWxkZXIgLT4gY29tcG9uZW50cyAiU2NocmlqZnQgcHJvbXB0Lm1kIiAiRmlsZSBTeXN0ZW0iCgogICAgICAgIHJ1bm5lckJ1aWxkZXIgLT4gYnVpbGRwbGFucyAiTGVlc3QgbWV0YWRhdGEiICJKU09OIgogICAgICAgIHJ1bm5lckJ1aWxkZXIgLT4gY29tcG9uZW50cyAiU2NocmlqZnQgcnVubmVyLnB5IiAiRmlsZSBTeXN0ZW0iCgogICAgICAgIG9yY2hlc3RyYXRpb25CdWlsZGVyIC0+IGJ1aWxkcGxhbnMgIkxlZXN0IG1ldGFkYXRhIiAiSlNPTiIKICAgICAgICBvcmNoZXN0cmF0aW9uQnVpbGRlciAtPiBjb21wb25lbnRzICJTY2hyaWpmdCBvcmNoZXN0cmF0aW9uLnlhbWwiICJGaWxlIFN5c3RlbSIKCiAgICAgICAgIyBSZWxhdGllcyAtIERpc3RyaWJ1dGlvbiAoY29udGFpbmVyIGxldmVsKQogICAgICAgIGZldGNoQWdlbnRzIC0+IGNvbXBvbmVudHMgIkxlZXN0IGNvbXBvbmVudGVuIiAiRmlsZSBTeXN0ZW0iCiAgICAgICAgZmV0Y2hBZ2VudHMgLT4gcHJvamVjdFdvcmtzcGFjZSAiS29waWVlcnQgbmFhciAuZ2l0aHViLyBlbiBhZ2VudC1jb21wb25lbnRlbi8iICJGaWxlIFN5c3RlbSIKICAgICAgICBmZXRjaEFnZW50cyAtPiBnb3Zlcm5hbmNlICJWb2xndCBwcmluY2lwZXMiICJSZWZlcmVuY2UiCgogICAgICAgICMgUmVsYXRpZXMgLSBtYWtlLWFnZW50LnB5IGludGVybmFscyAoY29tcG9uZW50IGxldmVsKQogICAgICAgIGNoYXJ0ZXJSZWFkZXIgLT4gcGhhc2VWYWxpZGF0b3IgIlZhbGlkZWVydCBmYXNlIiAiUHl0aG9uIGNhbGwiCiAgICAgICAgcGhhc2VWYWxpZGF0b3IgLT4gYnVpbGRQbGFuV3JpdGVyICJTY2hyaWpmdCBwbGFuIiAiUHl0aG9uIGNhbGwiCiAgICAgICAgYnVpbGRQbGFuV3JpdGVyIC0+IGJ1aWxkZXJPcmNoZXN0cmF0b3IgIlJvZXB0IGJ1aWxkZXJzIGFhbiIgIlB5dGhvbiBjYWxsIgogICAgICAgIGJ1aWxkZXJPcmNoZXN0cmF0b3IgLT4gcGlwZWxpbmVHZW5lcmF0b3IgIkdlbmVyZWVydCBwaXBlbGluZXMiICJQeXRob24gY2FsbCIKICAgICAgICBwaXBlbGluZUdlbmVyYXRvciAtPiBnaXRodWJBY3Rpb25zR2VuICJUcmFuc2xhdGVzIiAiSW5oZXJpdGFuY2UiCiAgICAgICAgcGlwZWxpbmVHZW5lcmF0b3IgLT4gZ2l0bGFiQ0lHZW4gIlRyYW5zbGF0ZXMiICJJbmhlcml0YW5jZSIKCiAgICAgICAgIyBSZWxhdGllcyAtIHByb21wdC1idWlsZGVyLnB5IGludGVybmFscyAoY29tcG9uZW50IGxldmVsKQogICAgICAgIHByb21wdEdlbmVyYXRvciAtPiBjaGFydGVyTGlua2VyICJMaW5rdCBjaGFydGVyIiAiUHl0aG9uIGNhbGwiCgogICAgICAgICMgUmVsYXRpZXMgLSBydW5uZXItYnVpbGRlci5weSBpbnRlcm5hbHMgKGNvbXBvbmVudCBsZXZlbCkKICAgICAgICBjbGlHZW5lcmF0b3IgLT4gYXJncGFyc2VCdWlsZGVyICJCb3V3dCBDTEkiICJQeXRob24gY2FsbCIKCiAgICAgICAgIyBSZWxhdGllcyAtIG9yY2hlc3RyYXRpb24tYnVpbGRlci5weSBpbnRlcm5hbHMgKGNvbXBvbmVudCBsZXZlbCkKICAgICAgICB5YW1sR2VuZXJhdG9yIC0+IHdvcmtmbG93RGVmaW5lciAiRGVmaW5pZWVydCB3b3JrZmxvdyIgIlB5dGhvbiBjYWxsIgoKICAgICAgICAjIFJlbGF0aWVzIC0gZmV0Y2gtYWdlbnRzLnB5IGludGVybmFscyAoY29tcG9uZW50IGxldmVsKQogICAgICAgIHJlcG9DbG9uZXIgLT4gZmlsZUNvcGllciAiS29waWVlcnQgZmlsZXMiICJQeXRob24gY2FsbCIKICAgICAgICBmaWxlQ29waWVyIC0+IHBsYXRmb3JtU2VsZWN0b3IgIlNlbGVjdGVlcnQgcGxhdGZvcm0iICJQeXRob24gY2FsbCIKCiAgICAgICAgIyBEZXBsb3ltZW50CiAgICAgICAgZGVwbG95bWVudEVudmlyb25tZW50ICJEZXZlbG9wZXIgTWFjaGluZSIgewogICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAiV2luZG93cyAxMSIgewogICAgICAgICAgICAgICAgZGVwbG95bWVudE5vZGUgIlB5dGhvbiAzLjExIiB7CiAgICAgICAgICAgICAgICAgICAgbWFrZUFnZW50SW5zdGFuY2UgPSBjb250YWluZXJJbnN0YW5jZSBtYWtlQWdlbnQKICAgICAgICAgICAgICAgICAgICBwcm9tcHRCdWlsZGVySW5zdGFuY2UgPSBjb250YWluZXJJbnN0YW5jZSBwcm9tcHRCdWlsZGVyCiAgICAgICAgICAgICAgICAgICAgcnVubmVyQnVpbGRlckluc3RhbmNlID0gY29udGFpbmVySW5zdGFuY2UgcnVubmVyQnVpbGRlcgogICAgICAgICAgICAgICAgICAgIG9yY2hlc3RyYXRpb25CdWlsZGVySW5zdGFuY2UgPSBjb250YWluZXJJbnN0YW5jZSBvcmNoZXN0cmF0aW9uQnVpbGRlcgogICAgICAgICAgICAgICAgICAgIGZldGNoQWdlbnRzSW5zdGFuY2UgPSBjb250YWluZXJJbnN0YW5jZSBmZXRjaEFnZW50cwogICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgZGVwbG95bWVudE5vZGUgIkZpbGUgU3lzdGVtIiB7CiAgICAgICAgICAgICAgICAgICAgYnVpbGRwbGFuc0luc3RhbmNlID0gY29udGFpbmVySW5zdGFuY2UgYnVpbGRwbGFucwogICAgICAgICAgICAgICAgICAgIGNvbXBvbmVudHNJbnN0YW5jZSA9IGNvbnRhaW5lckluc3RhbmNlIGNvbXBvbmVudHMKICAgICAgICAgICAgICAgICAgICBnb3Zlcm5hbmNlSW5zdGFuY2UgPSBjb250YWluZXJJbnN0YW5jZSBnb3Zlcm5hbmNlCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIH0KICAgICAgICAgICAgZGVwbG95bWVudE5vZGUgIkdpdCBSZXBvc2l0b3JpZXMiIHsKICAgICAgICAgICAgICAgIHN0YW5kYXJkUmVwb0luc3RhbmNlID0gc29mdHdhcmVTeXN0ZW1JbnN0YW5jZSBzdGFuZGFyZFJlcG8KICAgICAgICAgICAgICAgIHByb2plY3RXb3Jrc3BhY2VJbnN0YW5jZSA9IHNvZnR3YXJlU3lzdGVtSW5zdGFuY2UgcHJvamVjdFdvcmtzcGFjZQogICAgICAgICAgICB9CiAgICAgICAgfQogICAgfQoKICAgIHZpZXdzIHsKICAgICAgICBzeXN0ZW1Db250ZXh0IGFnZW50Q2FwYWJpbGl0aWVzICJTeXN0ZW1Db250ZXh0IiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgICAgICAjIGF1dG9sYXlvdXQgbHIKICAgICAgICAgICAgdGl0bGUgIkFnZW50LUNhcGFiaWxpdGllcyAtIFN5c3RlbSBDb250ZXh0IgogICAgICAgIH0KCiAgICAgICAgY29udGFpbmVyIGFnZW50Q2FwYWJpbGl0aWVzICJDb250YWluZXJzIiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgICAgICAjIGF1dG9sYXlvdXQgdGIKICAgICAgICAgICAgdGl0bGUgIkFnZW50IEdlbmVyYXRpb24gUGlwZWxpbmUgLSBDb250YWluZXIgRGlhZ3JhbSIKICAgICAgICAgICAgZGVzY3JpcHRpb24gIkxheWVyaW5nOiBEZXZlbG9wZXIg4oaSIE9yY2hlc3RyYXRvcnMg4oaSIEJ1aWxkZXJzIOKGkiBTdG9yYWdlIChTdWdpeWFtYSBmcmFtZXdvcmspIgogICAgICAgIH0KCiAgICAgICAgY29tcG9uZW50IG1ha2VBZ2VudCAiTWFrZUFnZW50Q29tcG9uZW50cyIgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICAgICAgIyBhdXRvbGF5b3V0IHRiCiAgICAgICAgICAgIHRpdGxlICJtYWtlLWFnZW50LnB5IC0gQ29tcG9uZW50IERpYWdyYW0iCiAgICAgICAgfQoKICAgICAgICBjb21wb25lbnQgcHJvbXB0QnVpbGRlciAiUHJvbXB0QnVpbGRlckNvbXBvbmVudHMiIHsKICAgICAgICAgICAgaW5jbHVkZSAqCiAgICAgICAgICAgICMgYXV0b2xheW91dCBscgogICAgICAgICAgICB0aXRsZSAicHJvbXB0LWJ1aWxkZXIucHkgLSBDb21wb25lbnQgRGlhZ3JhbSIKICAgICAgICB9CgogICAgICAgIGNvbXBvbmVudCBydW5uZXJCdWlsZGVyICJSdW5uZXJCdWlsZGVyQ29tcG9uZW50cyIgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICAgICAgIyBhdXRvbGF5b3V0IGxyCiAgICAgICAgICAgIHRpdGxlICJydW5uZXItYnVpbGRlci5weSAtIENvbXBvbmVudCBEaWFncmFtIgogICAgICAgIH0KCiAgICAgICAgY29tcG9uZW50IG9yY2hlc3RyYXRpb25CdWlsZGVyICJPcmNoZXN0cmF0aW9uQnVpbGRlckNvbXBvbmVudHMiIHsKICAgICAgICAgICAgaW5jbHVkZSAqCiAgICAgICAgICAgICMgYXV0b2xheW91dCBscgogICAgICAgICAgICB0aXRsZSAib3JjaGVzdHJhdGlvbi1idWlsZGVyLnB5IC0gQ29tcG9uZW50IERpYWdyYW0iCiAgICAgICAgfQoKICAgICAgICBjb21wb25lbnQgZmV0Y2hBZ2VudHMgIkZldGNoQWdlbnRzQ29tcG9uZW50cyIgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICAgICAgIyBhdXRvbGF5b3V0IGxyCiAgICAgICAgICAgIHRpdGxlICJmZXRjaC1hZ2VudHMucHkgLSBDb21wb25lbnQgRGlhZ3JhbSIKICAgICAgICB9CgogICAgICAgIGNvbXBvbmVudCBjb21wb25lbnRzICJTdG9yYWdlQ29tcG9uZW50cyIgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICAgICAgIyBhdXRvbGF5b3V0IHRiCiAgICAgICAgICAgIHRpdGxlICJBZ2VudCBDb21wb25lbnRlbiBTdG9yYWdlIC0gQ29tcG9uZW50IERpYWdyYW0iCiAgICAgICAgfQoKICAgICAgICBkeW5hbWljIGFnZW50Q2FwYWJpbGl0aWVzICJHZW5lcmF0aW9uRmxvdyIgIkFnZW50IGdlbmVyYXRpb24gd29ya2Zsb3ciIHsKICAgICAgICAgICAgZGV2ZWxvcGVyIC0+IG1ha2VBZ2VudCAiMS4gVm9lcnQgdWl0OiBtYWtlLWFnZW50LnB5IC0tYWdlbnQtbmFtZSBYIgogICAgICAgICAgICBtYWtlQWdlbnQgLT4gc3RhbmRhcmRSZXBvICIyLiBHaXQgcHVsbCArIGxlZXMgY2hhcnRlciIKICAgICAgICAgICAgbWFrZUFnZW50IC0+IGJ1aWxkcGxhbnMgIjMuIFNjaHJpamZ0IGJ1aWxkcGxhbiBtZXQgbWV0YWRhdGEiCiAgICAgICAgICAgIG1ha2VBZ2VudCAtPiBwcm9tcHRCdWlsZGVyICI0LiBSb2VwdCBwcm9tcHQtYnVpbGRlci5weSBhYW4iCiAgICAgICAgICAgIHByb21wdEJ1aWxkZXIgLT4gY29tcG9uZW50cyAiNS4gU2NocmlqZnQgcHJvbXB0Lm1kIgogICAgICAgICAgICBtYWtlQWdlbnQgLT4gcnVubmVyQnVpbGRlciAiNi4gUm9lcHQgcnVubmVyLWJ1aWxkZXIucHkgYWFuIgogICAgICAgICAgICBydW5uZXJCdWlsZGVyIC0+IGNvbXBvbmVudHMgIjcuIFNjaHJpamZ0IHJ1bm5lci5weSIKICAgICAgICAgICAgbWFrZUFnZW50IC0+IG9yY2hlc3RyYXRpb25CdWlsZGVyICI4LiBSb2VwdCBvcmNoZXN0cmF0aW9uLWJ1aWxkZXIucHkgYWFuIgogICAgICAgICAgICBvcmNoZXN0cmF0aW9uQnVpbGRlciAtPiBjb21wb25lbnRzICI5LiBTY2hyaWpmdCBvcmNoZXN0cmF0aW9uLnlhbWwiCiAgICAgICAgICAgIG1ha2VBZ2VudCAtPiBjb21wb25lbnRzICIxMC4gR2VuZXJlZXJ0IHBpcGVsaW5lcyArIGFnZW50Lm1kIgogICAgICAgICAgICB0aXRsZSAiQWdlbnQgR2VuZXJhdGlvbiBGbG93IC0gQ29udGFpbmVyIExldmVsIgogICAgICAgIH0KCiAgICAgICAgZHluYW1pYyBhZ2VudENhcGFiaWxpdGllcyAiRGlzdHJpYnV0aW9uRmxvdyIgIkFnZW50IGRpc3RyaWJ1dGlvbiB3b3JrZmxvdyIgewogICAgICAgICAgICBkZXZlbG9wZXIgLT4gZmV0Y2hBZ2VudHMgIjEuIFZvZXJ0IHVpdDogZmV0Y2gtYWdlbnRzLnB5IGluIHByb2plY3QiCiAgICAgICAgICAgIGZldGNoQWdlbnRzIC0+IGNvbXBvbmVudHMgIjIuIExlZXN0IHByb21wdHMsIHJ1bm5lcnMsIG9yY2hlc3RyYXRpb25zLCBwaXBlbGluZXMiCiAgICAgICAgICAgIGZldGNoQWdlbnRzIC0+IHByb2plY3RXb3Jrc3BhY2UgIjMuIEtvcGllZXJ0IG5hYXIgLmdpdGh1Yi8gZW4gYWdlbnQtY29tcG9uZW50ZW4vIgogICAgICAgICAgICB0aXRsZSAiQWdlbnQgRGlzdHJpYnV0aW9uIEZsb3cgLSBDb250YWluZXIgTGV2ZWwiCiAgICAgICAgfQoKICAgICAgICBkeW5hbWljIG1ha2VBZ2VudCAiTWFrZUFnZW50RmxvdyIgIkludGVybmUgd2Vya2luZyB2YW4gbWFrZS1hZ2VudC5weSIgewogICAgICAgICAgICBjaGFydGVyUmVhZGVyIC0+IHBoYXNlVmFsaWRhdG9yICIxLiBWYWxpZGVlcnQgZmFzZSIKICAgICAgICAgICAgcGhhc2VWYWxpZGF0b3IgLT4gYnVpbGRQbGFuV3JpdGVyICIyLiBTY2hyaWpmdCBidWlsZHBsYW4iCiAgICAgICAgICAgIGJ1aWxkUGxhbldyaXRlciAtPiBidWlsZGVyT3JjaGVzdHJhdG9yICIzLiBPcmNoZXN0cmVlcnQgYnVpbGRlcnMiCiAgICAgICAgICAgIGJ1aWxkZXJPcmNoZXN0cmF0b3IgLT4gcGlwZWxpbmVHZW5lcmF0b3IgIjQuIEdlbmVyZWVydCBwaXBlbGluZXMiCiAgICAgICAgICAgIHBpcGVsaW5lR2VuZXJhdG9yIC0+IGdpdGh1YkFjdGlvbnNHZW4gIjVhLiBHaXRIdWIgQWN0aW9ucyIKICAgICAgICAgICAgcGlwZWxpbmVHZW5lcmF0b3IgLT4gZ2l0bGFiQ0lHZW4gIjViLiBHaXRMYWIgQ0kiCiAgICAgICAgICAgIHRpdGxlICJtYWtlLWFnZW50LnB5IEludGVybmFscyAtIENvbXBvbmVudCBMZXZlbCIKICAgICAgICB9CgogICAgICAgIGRlcGxveW1lbnQgYWdlbnRDYXBhYmlsaXRpZXMgIkRldmVsb3BlciBNYWNoaW5lIiAiRGVwbG95bWVudCIgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICAgICAgIyBhdXRvbGF5b3V0IHRiCiAgICAgICAgfQoKICAgICAgICBzdHlsZXMgewogICAgICAgICAgICBlbGVtZW50ICJTb2Z0d2FyZSBTeXN0ZW0iIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzExNjhiZAogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkV4dGVybmFsIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICM5OTk5OTkKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJDb250YWluZXIiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzQzOGRkNQogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkNvbXBvbmVudCIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjODViYmYwCiAgICAgICAgICAgICAgICBjb2xvciAjMDAwMDAwCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiUGVyc29uIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBwZXJzb24KICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzA4NDI3YgogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIk1haW5TY3JpcHQiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgI2ZmNmI2YgogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkJ1aWxkZXIiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzRlY2RjNAogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkRpc3RyaWJ1dGlvbiIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjOTVlMWQzCiAgICAgICAgICAgICAgICBjb2xvciAjMDAwMDAwCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiRGF0YSIgewogICAgICAgICAgICAgICAgc2hhcGUgY3lsaW5kZXIKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgI2YzODE4MQogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkRvY3VtZW50YXRpb24iIHsKICAgICAgICAgICAgICAgIHNoYXBlIGZvbGRlcgogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjYThlNmNmCiAgICAgICAgICAgICAgICBjb2xvciAjMDAwMDAwCiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIHRoZW1lIGRlZmF1bHQKICAgIH0KfQ=="
+  },
+  "views" : {
+    "componentViews" : [ {
+      "containerId" : "5",
+      "elements" : [ {
+        "id" : "6",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "7",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "8",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "9",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "10",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "11",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "12",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "MakeAgentComponents",
+      "name" : "Component View: Agent-Capabilities - make-agent.py",
+      "order" : 3,
+      "relationships" : [ {
+        "id" : "58"
+      }, {
+        "id" : "59"
+      }, {
+        "id" : "60"
+      }, {
+        "id" : "61"
+      }, {
+        "id" : "62"
+      }, {
+        "id" : "63"
+      } ],
+      "title" : "make-agent.py - Component Diagram"
+    }, {
+      "containerId" : "13",
+      "elements" : [ {
+        "id" : "14",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "15",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "PromptBuilderComponents",
+      "name" : "Component View: Agent-Capabilities - prompt-builder.py",
+      "order" : 4,
+      "relationships" : [ {
+        "id" : "64"
+      } ],
+      "title" : "prompt-builder.py - Component Diagram"
+    }, {
+      "containerId" : "16",
+      "elements" : [ {
+        "id" : "17",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "18",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "RunnerBuilderComponents",
+      "name" : "Component View: Agent-Capabilities - runner-builder.py",
+      "order" : 5,
+      "relationships" : [ {
+        "id" : "65"
+      } ],
+      "title" : "runner-builder.py - Component Diagram"
+    }, {
+      "containerId" : "19",
+      "elements" : [ {
+        "id" : "20",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "21",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "OrchestrationBuilderComponents",
+      "name" : "Component View: Agent-Capabilities - orchestration-builder.py",
+      "order" : 6,
+      "relationships" : [ {
+        "id" : "66"
+      } ],
+      "title" : "orchestration-builder.py - Component Diagram"
+    }, {
+      "containerId" : "22",
+      "elements" : [ {
+        "id" : "23",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "24",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "25",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "FetchAgentsComponents",
+      "name" : "Component View: Agent-Capabilities - fetch-agents.py",
+      "order" : 7,
+      "relationships" : [ {
+        "id" : "67"
+      }, {
+        "id" : "68"
+      } ],
+      "title" : "fetch-agents.py - Component Diagram"
+    }, {
+      "containerId" : "27",
+      "elements" : [ {
+        "id" : "28",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "29",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "30",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "31",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "32",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "33",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "StorageComponents",
+      "name" : "Component View: Agent-Capabilities - Agent Componenten",
+      "order" : 8,
+      "title" : "Agent Componenten Storage - Component Diagram"
+    } ],
+    "configuration" : {
+      "branding" : { },
+      "lastSavedView" : "SystemContext",
+      "metadataSymbols" : "SquareBrackets",
+      "styles" : {
+        "elements" : [ {
+          "background" : "#4ecdc4",
+          "color" : "#ffffff",
+          "tag" : "Builder"
+        }, {
+          "background" : "#85bbf0",
+          "color" : "#000000",
+          "tag" : "Component"
+        }, {
+          "background" : "#438dd5",
+          "color" : "#ffffff",
+          "tag" : "Container"
+        }, {
+          "background" : "#f38181",
+          "color" : "#ffffff",
+          "shape" : "Cylinder",
+          "tag" : "Data"
+        }, {
+          "background" : "#95e1d3",
+          "color" : "#000000",
+          "tag" : "Distribution"
+        }, {
+          "background" : "#a8e6cf",
+          "color" : "#000000",
+          "shape" : "Folder",
+          "tag" : "Documentation"
+        }, {
+          "background" : "#999999",
+          "color" : "#ffffff",
+          "tag" : "External"
+        }, {
+          "background" : "#ff6b6b",
+          "color" : "#ffffff",
+          "tag" : "MainScript"
+        }, {
+          "background" : "#08427b",
+          "color" : "#ffffff",
+          "shape" : "Person",
+          "tag" : "Person"
+        }, {
+          "background" : "#1168bd",
+          "color" : "#ffffff",
+          "tag" : "Software System"
+        } ]
+      },
+      "terminology" : { },
+      "themes" : [ "https://static.structurizr.com/themes/default/theme.json" ]
+    },
+    "containerViews" : [ {
+      "description" : "Layering: Developer → Orchestrators → Builders → Storage (Sugiyama framework)",
+      "dimensions" : {
+        "height" : 2699,
+        "width" : 5375
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 3241,
+        "y" : 159
+      }, {
+        "id" : "2",
+        "x" : 3895,
+        "y" : 2059
+      }, {
+        "id" : "3",
+        "x" : 4574,
+        "y" : 1459
+      }, {
+        "id" : "5",
+        "x" : 1895,
+        "y" : 859
+      }, {
+        "id" : "13",
+        "x" : 2157,
+        "y" : 1459
+      }, {
+        "id" : "16",
+        "x" : 349,
+        "y" : 1459
+      }, {
+        "id" : "19",
+        "x" : 1099,
+        "y" : 1459
+      }, {
+        "id" : "22",
+        "x" : 3216,
+        "y" : 859
+      }, {
+        "id" : "26",
+        "x" : 612,
+        "y" : 2059
+      }, {
+        "id" : "27",
+        "x" : 1628,
+        "y" : 2059
+      }, {
+        "id" : "34",
+        "x" : 2907,
+        "y" : 1459
+      } ],
+      "externalSoftwareSystemBoundariesVisible" : false,
+      "key" : "Containers",
+      "name" : "Container View: Agent-Capabilities",
+      "order" : 2,
+      "relationships" : [ {
+        "id" : "35",
+        "vertices" : [ {
+          "x" : 5174,
+          "y" : 1459
+        }, {
+          "x" : 5174,
+          "y" : 1759
+        } ]
+      }, {
+        "id" : "36"
+      }, {
+        "id" : "38"
+      }, {
+        "id" : "39",
+        "vertices" : [ {
+          "x" : 3507,
+          "y" : 1459
+        } ]
+      }, {
+        "id" : "41",
+        "vertices" : [ {
+          "x" : 199,
+          "y" : 1459
+        }, {
+          "x" : 199,
+          "y" : 1759
+        } ]
+      }, {
+        "id" : "42"
+      }, {
+        "id" : "43",
+        "vertices" : [ {
+          "x" : 949,
+          "y" : 1459
+        } ]
+      }, {
+        "id" : "44"
+      }, {
+        "id" : "45",
+        "vertices" : [ {
+          "x" : 2007,
+          "y" : 1459
+        } ]
+      }, {
+        "id" : "46"
+      }, {
+        "id" : "47"
+      }, {
+        "id" : "48",
+        "vertices" : [ {
+          "x" : 2757,
+          "y" : 1759
+        }, {
+          "x" : 3845,
+          "y" : 2059
+        } ]
+      }, {
+        "id" : "49"
+      }, {
+        "id" : "50"
+      }, {
+        "id" : "51"
+      }, {
+        "id" : "52"
+      }, {
+        "id" : "53"
+      }, {
+        "id" : "54",
+        "vertices" : [ {
+          "x" : 3507,
+          "y" : 1459
+        }, {
+          "x" : 3507,
+          "y" : 1759
+        } ]
+      }, {
+        "id" : "55"
+      }, {
+        "id" : "57"
+      } ],
+      "softwareSystemId" : "4",
+      "title" : "Agent Generation Pipeline - Container Diagram"
+    } ],
+    "deploymentViews" : [ {
+      "elements" : [ {
+        "id" : "69",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "70",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "71",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "72",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "74",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "76",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "78",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "79",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "80",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "85",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "91",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "94",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "95",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "98",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "environment" : "Developer Machine",
+      "key" : "Deployment",
+      "name" : "Deployment View: Agent-Capabilities - Developer Machine",
+      "order" : 12,
+      "relationships" : [ {
+        "id" : "73"
+      }, {
+        "id" : "75"
+      }, {
+        "id" : "77"
+      }, {
+        "id" : "81"
+      }, {
+        "id" : "82"
+      }, {
+        "id" : "83"
+      }, {
+        "id" : "84"
+      }, {
+        "id" : "86"
+      }, {
+        "id" : "87"
+      }, {
+        "id" : "88"
+      }, {
+        "id" : "89"
+      }, {
+        "id" : "90"
+      }, {
+        "id" : "92"
+      }, {
+        "id" : "93"
+      }, {
+        "id" : "96"
+      }, {
+        "id" : "97"
+      }, {
+        "id" : "99"
+      } ],
+      "softwareSystemId" : "4"
+    } ],
+    "dynamicViews" : [ {
+      "description" : "Agent generation workflow",
+      "elementId" : "4",
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "2",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "5",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "13",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "16",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "19",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "26",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "27",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalBoundariesVisible" : false,
+      "key" : "GenerationFlow",
+      "name" : "Dynamic View: Agent-Capabilities",
+      "order" : 9,
+      "relationships" : [ {
+        "description" : "1. Voert uit: make-agent.py --agent-name X",
+        "id" : "36",
+        "order" : "1",
+        "response" : false
+      }, {
+        "description" : "2. Git pull + lees charter",
+        "id" : "39",
+        "order" : "2",
+        "response" : false
+      }, {
+        "description" : "3. Schrijft buildplan met metadata",
+        "id" : "41",
+        "order" : "3",
+        "response" : false
+      }, {
+        "description" : "4. Roept prompt-builder.py aan",
+        "id" : "42",
+        "order" : "4",
+        "response" : false
+      }, {
+        "description" : "5. Schrijft prompt.md",
+        "id" : "49",
+        "order" : "5",
+        "response" : false
+      }, {
+        "description" : "6. Roept runner-builder.py aan",
+        "id" : "43",
+        "order" : "6",
+        "response" : false
+      }, {
+        "description" : "7. Schrijft runner.py",
+        "id" : "51",
+        "order" : "7",
+        "response" : false
+      }, {
+        "description" : "8. Roept orchestration-builder.py aan",
+        "id" : "44",
+        "order" : "8",
+        "response" : false
+      }, {
+        "description" : "9. Schrijft orchestration.yaml",
+        "id" : "53",
+        "order" : "9",
+        "response" : false
+      }, {
+        "description" : "10. Genereert pipelines + agent.md",
+        "id" : "45",
+        "order" : "10",
+        "response" : false
+      } ],
+      "title" : "Agent Generation Flow - Container Level"
+    }, {
+      "description" : "Agent distribution workflow",
+      "elementId" : "4",
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "3",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "22",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "27",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalBoundariesVisible" : false,
+      "key" : "DistributionFlow",
+      "name" : "Dynamic View: Agent-Capabilities",
+      "order" : 10,
+      "relationships" : [ {
+        "description" : "1. Voert uit: fetch-agents.py in project",
+        "id" : "38",
+        "order" : "1",
+        "response" : false
+      }, {
+        "description" : "2. Leest prompts, runners, orchestrations, pipelines",
+        "id" : "54",
+        "order" : "2",
+        "response" : false
+      }, {
+        "description" : "3. Kopieert naar .github/ en agent-componenten/",
+        "id" : "55",
+        "order" : "3",
+        "response" : false
+      } ],
+      "title" : "Agent Distribution Flow - Container Level"
+    }, {
+      "description" : "Interne werking van make-agent.py",
+      "elementId" : "5",
+      "elements" : [ {
+        "id" : "6",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "7",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "8",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "9",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "10",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "11",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "12",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalBoundariesVisible" : false,
+      "key" : "MakeAgentFlow",
+      "name" : "Dynamic View: Agent-Capabilities - make-agent.py",
+      "order" : 11,
+      "relationships" : [ {
+        "description" : "1. Valideert fase",
+        "id" : "58",
+        "order" : "1",
+        "response" : false
+      }, {
+        "description" : "2. Schrijft buildplan",
+        "id" : "59",
+        "order" : "2",
+        "response" : false
+      }, {
+        "description" : "3. Orchestreert builders",
+        "id" : "60",
+        "order" : "3",
+        "response" : false
+      }, {
+        "description" : "4. Genereert pipelines",
+        "id" : "61",
+        "order" : "4",
+        "response" : false
+      }, {
+        "description" : "5a. GitHub Actions",
+        "id" : "62",
+        "order" : "5",
+        "response" : false
+      }, {
+        "description" : "5b. GitLab CI",
+        "id" : "63",
+        "order" : "6",
+        "response" : false
+      } ],
+      "title" : "make-agent.py Internals - Component Level"
+    } ],
+    "systemContextViews" : [ {
+      "dimensions" : {
+        "height" : 1748,
+        "width" : 2480
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 10,
+        "y" : 20
+      }, {
+        "id" : "2",
+        "x" : 890,
+        "y" : 75
+      }, {
+        "id" : "3",
+        "x" : 1475,
+        "y" : 35
+      }, {
+        "id" : "4",
+        "x" : 1015,
+        "y" : 724
+      } ],
+      "enterpriseBoundaryVisible" : true,
+      "key" : "SystemContext",
+      "name" : "System Context View: Agent-Capabilities",
+      "order" : 1,
+      "paperSize" : "A5_Landscape",
+      "relationships" : [ {
+        "id" : "35"
+      }, {
+        "id" : "37"
+      }, {
+        "id" : "40"
+      }, {
+        "id" : "56"
+      } ],
+      "softwareSystemId" : "4",
+      "title" : "Agent-Capabilities - System Context"
+    } ]
+  }
+}

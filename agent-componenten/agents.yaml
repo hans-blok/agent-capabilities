@@ -1,0 +1,92 @@
+﻿# This file configures the agent aliases that can be used in this repository.
+# Each key is an agent alias that can be invoked with @workspace /<alias>
+# The value is a short description of what the agent does.
+
+agents:
+  # Phase A: Trigger / Concept
+  a1.founding-hypothesis-owner:
+    description: "Phase A1: Vertaalt strategische richting naar testbare founding hypothesis."
+    phase: a1
+    
+  a2.business-case-analyst:
+    description: "Phase A2: Analyseert business case en ROI."
+    phase: a2
+
+  # Phase B: Architectuur
+  b1.cdm-architect:
+    description: "Phase B1: Genereert een conceptueel datamodel (CDM) met focus op traceerbaarheid."
+    phase: b1
+
+  # Phase C: Specificatie
+  c1.feature-analist:
+    description: "Phase C1: Transformeert high-level features naar testbare specificaties (user stories, BDD)."
+    phase: c1
+    
+  c2.logisch-data-modelleur:
+    description: "Phase C2: Genereert een logisch datamodel (3NF) op basis van conceptueel model en specificaties."
+    phase: c2
+    
+  c3.schema-custodian:
+    description: "Phase C3: Beheert en bewaakt datamodel-kwaliteit en consistentie."
+    phase: c3
+
+  # Phase D: Ontwerp
+  d1.service-architect:
+    description: "Phase D1: Identificeert en classificeert service-kandidaten."
+    phase: d1
+    
+  d2.technisch-data-modelleur:
+    description: "Phase D2: Vertaalt logisch datamodel naar platform-specifiek technisch datamodel (DDL)."
+    phase: d2
+
+  # Phase E: Implementatie
+  e1.ddl-dba:
+    description: "Phase E1: Database Administrator - implementeert DDL en beheert database."
+    phase: e1
+
+  # Utility Agents (U01-89: Standard utilities)
+  u01.moeder-workspace:
+    description: "Utility U01: Moeder agent voor workspace beheer en orchestratie."
+    phase: u01
+    
+  u03.c4-modelleur:
+    description: "Utility U03: Genereert C4 architectuurdiagrammen."
+    phase: u03
+    
+  u04.md-to-archi-xml:
+    description: "Utility U04: Converteert Markdown naar Archimate XML-formaat."
+    phase: u04
+    
+  u05.layout-optimizer:
+    description: "Utility U05: Optimaliseert layout van diagrammen (minimaliseer kruisingen, consistente leesrichting)."
+    phase: u05
+
+  # Meta Agents (U90-99: Ecosystem builders)
+  u90.make-agent:
+    description: "Meta U90: Genereert agent componenten uit charters."
+    phase: u90
+    
+  u91.prompt-builder:
+    description: "Meta U91: Bouwt agent prompts."
+    phase: u91
+    
+  u92.runner-builder:
+    description: "Meta U92: Bouwt agent runners (Python scripts)."
+    phase: u92
+    
+  u93.orchestration-builder:
+    description: "Meta U93: Bouwt orchestration configuraties (YAML)."
+    phase: u93
+    
+  u94.pipeline-bouwer:
+    description: "Meta U94: Bouwt CI/CD pipelines voor agents."
+    phase: u94
+    
+  u95.python-script-schrijver:
+    description: "Meta U95: Software architect voor ecosysteem infrastructure scripts."
+    phase: u95
+
+  # Special Agents (Phase 0)
+  '0.logos':
+    description: "Phase 0: Logos - filosofische grondslag en principes van het ecosysteem."
+    phase: '0'

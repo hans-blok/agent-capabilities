@@ -1,0 +1,27 @@
+{
+  "agentName": "business-case-analyst",
+  "phase": "a2",
+  "agentId": "std.a2.business-case-analyst",
+  "repoRoot": "C:\\gitrepo\\agent-capabilities",
+  "charterRoot": "https://github.com/hans-blok/standard.git",
+  "charterPath": "C:\\gitrepo\\standard\\artefacten\\3-charters-agents\\std.agent.charter.a2.business-case-analyst.md",
+  "charterUrl": "https://github.com/hans-blok/standard/blob/main/artefacten/3-charters-agents/std.agent.charter.a2.business-case-analyst.md",
+  "promptPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\prompts\\a.business-case-analyst.prompt.md",
+  "runnerPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\runners\\a.business-case-analyst.py",
+  "orchestrationPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\orchestrations\\a2.business-case-analyst.orchestration.yaml",
+  "agentDefinitionPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\agents\\a.business-case-analyst.agent.md",
+  "outputRoot": "<project-workspace>/artefacten",
+  "buildPlanPath": "C:\\gitrepo\\agent-capabilities\\agent-componenten\\buildplans\\a.business-case-analyst.json",
+  "qualityGates": [
+    "Nederlands B1",
+    "Geen technische implementatiedetails in prompt",
+    "Max 3 aannames (indien van toepassing)",
+    "Output is Markdown"
+  ],
+  "runtime": {
+    "llmProvider": "anthropic",
+    "model": "claude-sonnet",
+    "adapter": "Invoke-LLM (stub in runner)"
+  },
+  "generatedOn": "2026-01-08T21:49:49.297906"
+}

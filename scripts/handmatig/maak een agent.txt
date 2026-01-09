@@ -1,0 +1,17 @@
+## Bewaar hier al mijn statements (vervang ze niet)
+
+# Agent maken vanuit charter (in standard repository)
+python scripts/make-agent.py --agent-name technisch-data-modelleur
+python scripts/make-agent.py --agent-name logisch-data-modelleur
+python scripts/make-agent.py --agent-name schema-custodian
+python scripts/make-agent.py --agent-name founding-hypothesis-owner
+python scripts/make-agent.py --agent-name service-architect
+python scripts/make-agent.py --agent-name cdm-architect
+python scripts/make-agent.py --agent-name c4-modelleur
+python scripts/make-agent.py --agent-name layout-optimizer
+
+#
+# GEEN artefacten/: Deze workspace is alleen voor agent componenten!
+# Artefacten worden gemaakt in project workspaces waar sync-agents.py naar kopieert
+
+python scripts/optimizer-layout.py --input architectuur-agent-ecosysteem/.structurizr/workspace.dsl --format structurizr
