@@ -3,6 +3,77 @@
 # The value is a short description of what the agent does.
 
 agents:
-  0.agent-cap-moeder:
+  # Phase A: Trigger / Concept
+  a1.founding-hypothesis-owner:
+    description: "Phase A1: Vertaalt strategische richting naar testbare founding hypothesis."
+    
+  a2.business-case-analyst:
+    description: "Phase A2: Analyseert business case en ROI."
+
+  # Phase B: Architectuur
+  b1.cdm-architect:
+    description: "Phase B1: Genereert een conceptueel datamodel (CDM) met focus op traceerbaarheid."
+
+  # Phase C: Specificatie
+  c1.feature-analist:
+    description: "Phase C1: Transformeert high-level features naar testbare specificaties (user stories, BDD)."
+    
+  c2.logisch-data-modelleur:
+    description: "Phase C2: Genereert een logisch datamodel (3NF) op basis van conceptueel model en specificaties."
+    
+  c3.schema-custodian:
+    description: "Phase C3: Beheert en bewaakt datamodel-kwaliteit en consistentie."
+
+  # Phase D: Ontwerp
+  d1.service-architect:
+    description: "Phase D1: Identificeert en classificeert service-kandidaten."
+    
+  d2.technisch-data-modelleur:
+    description: "Phase D2: Vertaalt logisch datamodel naar platform-specifiek technisch datamodel (DDL)."
+
+  # Phase E: Implementatie
+  e1.ddl-dba:
+    description: "Phase E1: Database Administrator - implementeert DDL en beheert database."
+
+  # Utility Agents (U01-89: Standard utilities)
+  u01.moeder-workspace:
+    description: "Utility U01: Moeder agent voor workspace beheer en orchestratie."
+    
+  u03.c4-modelleur:
+    description: "Utility U03: Genereert C4 architectuurdiagrammen."
+    
+  u04.md-to-archi-xml:
+    description: "Utility U04: Converteert Markdown naar Archimate XML-formaat."
+    
+  u05.layout-optimizer:
+    description: "Utility U05: Optimaliseert layout van diagrammen (minimaliseer kruisingen, consistente leesrichting)."
+
+  # Meta Agents (U90-99: Ecosystem builders)
+  u90.make-agent:
+    description: "Meta U90: Genereert agent componenten uit charters."
+    
+  u91.prompt-builder:
+    description: "Meta U91: Bouwt agent prompts."
+    
+  u92.runner-builder:
+    description: "Meta U92: Bouwt agent runners (Python scripts)."
+    
+  u93.orchestration-builder:
+    description: "Meta U93: Bouwt orchestration configuraties (YAML)."
+    
+  u94.pipeline-bouwer:
+    description: "Meta U94: Bouwt CI/CD pipelines voor agents."
+    
+  u95.python-script-schrijver:
+    description: "Meta U95: Software architect voor ecosysteem infrastructure scripts."
+
+  # Special Agents (Phase 0)
+  '0.logos':
+    description: "Phase 0: Logos - filosofische grondslag en principes van het ecosysteem."
+    
+  # Workspace Meta Agents
+  moeder-agent-cap:
     description: "Moeder-agent voor het beheren van agent-capabilities workspace."
-  
+    
+  agent-charter-schrijver:
+    description: "Schrijft en onderhoudt agent charters volgens governance normen."
