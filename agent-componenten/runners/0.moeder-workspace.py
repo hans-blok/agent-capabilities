@@ -4,9 +4,9 @@ moeder-workspace.py
 
 Runner script voor moeder-workspace agent.
 
-Agent: std.0.moeder-workspace
+Agent: std.u01.moeder-workspace
 Fase: u
-Charter: C:\gitrepo\standard\artefacten\3-charters-agents\std.agent.charter.0.moeder-workspace.md
+Charter: C:\gitrepo\standard\artefacten\3-charters-agents\std.agent.charter.u01.moeder-workspace.md
 Gegenereerd: 2026-01-08
 """
 
@@ -25,7 +25,7 @@ class WorkspaceMoederAgent:
         """Initialize the agent."""
         self.args = args
         self.output_root = Path("<project-workspace>/artefacten")
-        self.charter_path = Path("C:\gitrepo\standard\artefacten\3-charters-agents\std.agent.charter.0.moeder-workspace.md")
+        self.charter_path = Path("C:\\gitrepo\\standard\\artefacten\\3-charters-agents\\std.agent.charter.u01.moeder-workspace.md")
     
     def log(self, message: str, msg_type: str = "INFO"):
         """Log a message."""
